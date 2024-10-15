@@ -1,0 +1,4 @@
+- Zapewnienie protokołu dostępu do łącza pozwalającego na poprawną transmisję danych
+- Formowanie i transmisja ramek
+- Zapewnienie adresacji (fizycznej, adresacji MAC)
+- Wykrywanie i ewentualne korygowanie błędów warstwy fizycznej
