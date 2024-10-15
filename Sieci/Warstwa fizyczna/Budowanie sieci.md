@@ -1,18 +1,18 @@
 # Okablowanie strukturalne
 
 Służy do budowy samej architektury sieci (jej struktury).
-Konstruowane jest zgodnie z normami TIA 568-C.0 i TIA 568-C.1 w oparciu o topologię gwiazdy i wykorzystuje 6 komponentów:
+Konstruowane jest zgodnie z normami **TIA 568-C.0** i **TIA 568-C.1** w oparciu o [[Sieci lokalne#Topologie#Gwiazdy|topologię gwiazdy]] i wykorzystuje 6 komponentów:
 - Entrance Facilities - miejsce pomiędzy infrastrukturą zewnętrzną (dostawcy) a wewnętrzną, zawiera więc punkt podziału (demarcation point); czasami jest w jednym pomieszczeniu z kolejnym komponentem
-- Equipment Room - główny punkt dystrybucyjny (MDF, Main Distribution Frame), centrum rozszerzonej gwiazdy, stąd wychodzą połączenia do pośrednich punktów dystrybucyjnych; czasami oprócz sprzętu sieciowego zawiera też serwerownię
+- Equipment Room - główny punkt dystrybucyjny (**MDF**, Main Distribution Frame), centrum rozszerzonej gwiazdy, stąd wychodzą połączenia do pośrednich punktów dystrybucyjnych; czasami oprócz sprzętu sieciowego zawiera też serwerownię
 - Backbone Cabling - okablowanie szkieletowe (pionowe), kable i światłowody łączące punkty dystrybucyjne sieci (elementy architektury); nazwa od tego, że często biegnie po pionie (między piętrami budynków)
 - Horizontal Cabling - okablowanie poziome, łączy punkty rozdzielcze z gniazdami końcowymi w obszarach roboczych
-- Telecommunications Room/Enclosure (WC, Wiring Closet) - pośrednie punkty dystrybucyjne (IDF, Intermediate Distribution Frame), miejsca przejścia okablowania pionowego w poziome, typowo 1 na piętro
-- Work Area - obszary robocze, zakończenia okablowania poziomego, z których można już korzystać z sieci, muszą być min. 2 gniazda (zwykle 8P8C)
+- Telecommunications Room/Enclosure (**WC**, Wiring Closet) - pośrednie punkty dystrybucyjne (IDF, Intermediate Distribution Frame), miejsca przejścia okablowania pionowego w poziome, typowo 1 na piętro
+- Work Area - obszary robocze, zakończenia okablowania poziomego, z których można już korzystać z sieci, muszą być min. 2 gniazda (zwykle **8P8C**)
 
 
 # Zalety i wady sieci budowanych w oparciu o kable koncentryczne
 - zalety:
-	- większa odległość komunikacji przed koniecznością wzmacniania sygnału od skrętki
+	- większa odległość komunikacji przed koniecznością wzmacniania sygnału od [[Media komunikacyjne#Skrętka|skrętki]]
 	- bardziej odporne na zakłócenia i czynniki zewnętrzne
 - wady:
 	- ograniczona maksymalna prędkość sieci (10 Mb/s)

@@ -6,13 +6,13 @@
 - czas wyrażany przez **RTT** (Round-Trip-Time), czas na drogę tam i z powrotem
 ## Tłumienność
 
-Tłumienność (*attenuation*):
+**Tłumienność** (ang. *attenuation*):
 - amplituda sygnału maleje w czasie transmisji
-- narzuca ograniczenia na długość medium (przed potrzebą regeneracji sygnału)
+- narzuca ograniczenia na długość [[Media komunikacyjne|medium]] (przed potrzebą regeneracji sygnału)
 - powody: 
 	- szumy termiczne
 	- nieidealna struktura materiału
-	- przeniki i przesłuchy (zakłócenia zewnętrzne i wewnętrzne, EMI i crosstalk)
+	- przeniki i przesłuchy (zakłócenia zewnętrzne i wewnętrzne, EMI i [[Media komunikacyjne#Skrętka|crosstalk]])
 	- pojemność i indukcyjność pasożytnicza (dla łączy miedzianych)
 - zależy m. in. od:
 	- rodzaj przewodnika
@@ -26,18 +26,18 @@ Tłumienność (*attenuation*):
 	- 10-krotny spadek mocy: 10 dB
 	- 100-krotny spadek mocy: 20 dB
 
-Wzmocnienie - przeciwieństwo tłumienności, w powyższych wzorach trzeba zrobić $\text{P2/P1}$ i $\text{V2/V1}$.
+**Wzmocnienie** - przeciwieństwo tłumienności, w powyższych wzorach trzeba zrobić $\text{P2/P1}$ i $\text{V2/V1}$.
 
 ## Zniekształcenia sygnału
 
 Zniekształcenia sygnału:
 - dzielą się na zewnętrzne (spoza kabla) i wewnętrzne (od innych elementów kabla)
 - zewnętrzne:
-	- EMI (ElectroMagnetic Interference) oraz RFI (Radio-Frequency Interference)
+	- **EMI** (ElectroMagnetic Interference) oraz **RFI** (Radio-Frequency Interference)
 	- powodowane przez indukcję elektromagnetyczną, promieniowanie elektromagnetyczne, fale radiowe
 	- pochodzą np. od innych sieci bezprzewodowych lub telefonicznych, pobliskich przewodów elektrycznych, innych kabli sieciowych
 - wewnętrzne:
-	- powodowane przez inne kable w skrętce (w pewnym sensie każda para kabli w skrętce powoduje zewnętrzne EMI dla pozostałych par kabli)
+	- powodowane przez inne kable w skrętce (w pewnym sensie każda para kabli w skrętce powoduje zewnętrzne **EMI** dla pozostałych par kabli)
 	- **NEXT** (Near End CrossTalk) - zakłócenie na innych parach mierzone po stronie nadajnika (bliski koniec kabla, stąd Near End); im wyższa wartość (w dB), tym lepiej - tym mniej crosstalku jest otrzymywane przez inne kable; kategorie skrętek mają określone wymagania co do minimalnej wartości **NEXT**
 	- **FEXT** (Far End CrossTalk) - jak wyżej, ale mierzone po drugiej stronie kabla (po stronie odbiornika), mniejsze znaczenie niż **NEXT**
 - przeciwdziałanie:

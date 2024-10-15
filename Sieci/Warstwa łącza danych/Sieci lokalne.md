@@ -1,21 +1,21 @@
 - Mała rozległość (do kilku kilometrów)
 - Wymagana duża przepustowość
 - Wykorzystywane topologie:
-	- szyna
-	- gwiazda, rozszerzona gwiazda
-	- pierścień
+	- [[#Magistrali|szyna]]
+	- [[#Gwiazdy|gwiazda]], [[#Rozszerzonej gwiazdy|rozszerzona gwiazda]]
+	- [[#Pierścienia|pierścień]]
 - Stosowane media:
-	- kable miedziane
-	- światłowody (wielomodowe)
-	- krótkozasięgowa łączność bezprzewodowa
+	- [[Media komunikacyjne#Kable|kable miedziane]]
+	- [[Media komunikacyjne#Światłowód|światłowody]] (wielomodowe)
+	- krótkozasięgowa łączność [[Media komunikacyjne#Media bezprzewodowe|bezprzewodowa]]
 # Standardy sieci lokalnych (LAN)
 
-Seria IEEE 802:
-- 802.3 - Ethernet
-- 802.4 - Token Bus
-- 802.5 - Token Ring
-- 802.11 - wireless LAN (WLAN)
-- 802.15 - PAN (Bluetooth)
+Seria [[Wprowadzenie#Ważniejsze organizacje|IEEE]] 802:
+- **802.3 - [[Ethernet]]**
+- **802.4 - Token Bus**
+- **802.5 - Token Ring**
+- **802.11 - wireless LAN (WLAN)**
+- **802.15 - PAN (Bluetooth)**
 
 # Topologie
 
@@ -32,8 +32,8 @@ Do **fizycznych topologii** sieci zaliczamy topologię:
 ![[Pasted image 20241015154252.png|center]]
 
 - wszystkie urządzenia podłącza się do wspólnego medium transmisyjnego
-- powszechnie używany był koncentryk
-- mała przepustowość (do 10Mb/s)
+- powszechnie używany był [[Media komunikacyjne#Kabel koncentryczny|koncentryk]]
+- mała [[Przesyłanie informacji#Throughput|przepustowość]] (do 10Mb/s)
 - duża podatność na awarię sieci (połączenie szeregowe)
 - niewielki koszt wdrożenia
 - sygnał odbierany przez wszystkich
@@ -51,7 +51,7 @@ Do **fizycznych topologii** sieci zaliczamy topologię:
 
 - podwojone okablowanie topologi pierścienia
 - Fiber Distributed Data Interface
-- używa 2 światłowodów
+- używa 2 [[Media komunikacyjne#Światłowód|światłowodów]]
 - transfer 100 Mb/s
 - podobny do zwykłego pierścienia
 - jeden pierścień jest pierwotny, drugi zapasowy (wtórny)

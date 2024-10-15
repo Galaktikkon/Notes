@@ -4,14 +4,14 @@
 	- ulica jednokierunkowa
 - ***half-duplex*** - transmisja możliwa jest w obie strony, ale w danym czasie tylko w jedną
 	- mijanka na remontowanym moście
-	- pierwszy Ethernet
+	- pierwszy [[Ethernet]]
 - ***duplex*** - **równoczesna** transmisja w obie strony
 	- ulica dwukierunkowa
-	- współczesny Ethernet
+	- współczesny [[Ethernet]]
 
 # Jednostki
 
-**Bod (baud)** - *signaling rate*, miara prędkości przesyłania zmian medium transmisyjnego z wykorzystaniem określonej modulacji lub kodowania. Każdy symbol (zmiana medium) reprezentuje 1 lub więcej bitów danych. **NIE** jest to prędkość transmisji danych!
+**Bod (baud)** - *signaling rate*, miara prędkości przesyłania zmian [[Media komunikacyjne|medium transmisyjnego]] z wykorzystaniem określonej modulacji lub [[Kodowanie Informacji]]. Każdy symbol (zmiana medium) reprezentuje 1 lub więcej bitów danych. **NIE** jest to prędkość transmisji danych!
 
 **Bit** - ilość informacji, którą uzyskujemy w wyniku otrzymania, że spośród dwóch jednakowo prawdopodobnych zdarzeń zaszło jedno.
 

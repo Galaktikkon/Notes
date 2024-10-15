@@ -1,4 +1,4 @@
 - Zapewnienie protokołu dostępu do łącza pozwalającego na poprawną transmisję danych
-- Formowanie i transmisja ramek
-- Zapewnienie adresacji (fizycznej, adresacji MAC)
-- Wykrywanie i ewentualne korygowanie błędów warstwy fizycznej
+- Formowanie i transmisja [[Ramka|ramek]]
+- Zapewnienie [[Adresacja w sieciach LAN|adresacji]] (fizycznej, adresacji MAC)
+- Wykrywanie i ewentualne korygowanie błędów [[Zadania warstwy fizycznej|warstwy fizycznej]]

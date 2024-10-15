@@ -8,7 +8,7 @@
 - szybkość sygnalizacji = szybkość transmisji
 - 2 bity informacji na sygnał
 - ważny poziom sygnału (0 lub 1)
-- używane w światłowodach
+- używane w [[Media komunikacyjne#Światłowód|światłowodach]]
 
 # Return To Zero (RZ)
 
@@ -26,10 +26,10 @@
 - 0 to napięcie, które było wcześniej (brak zmiany napięcia)
 - 1 to odwrócenie wcześniejszego napięcia (+V -> -V, -V -> +V)
 - kod różnicowy - informację niesie zmiana poziomu sygnału
-- nie potrzeba transmitować sygnału zegara, bo dzięki różnicy się synchronizuje (kod samosynchronizujący)
+- nie potrzeba transmitować sygnału zegara, bo dzięki różnicy się synchronizuje (kod [[Kodowanie Informacji#Samosynchronizacja|samosynchronizujący]])
 - zapewni DC balance - średnie napięcie równe 0
 - szybkość sygnalizacji = szybkość transmisji
-- dobre dla światłowodów (można użyć zegara o wysokiej częstotliwości, bo nie ma problemów z mocą), przy miedzianych gorzej
+- dobre dla [[Media komunikacyjne#Światłowód|światłowodów ]](można użyć zegara o wysokiej częstotliwości, bo nie ma problemów z mocą), przy miedzianych gorzej
 
 # Alternate Mark Inversion (AMI)
 
@@ -49,7 +49,7 @@
 - ważny poziom sygnału (0 lub 1)
 - zmiana w połowie bitu pozwala synchronizować komunikację, szczególnie dzięki nagłemu spadkowi między tymi samymi wartościami, co rozwiązuje problem ciągu 0 lub 1
 - zapewnia częstą zmianę napięcia, proporcjonalną do częstotliwości zegara, co uodparnia na błędy
-- wykorzystuje je Ethernet w modelu 10BASE-T (czyli 10 Mb/s)
+- wykorzystuje je [[Ethernet]] w modelu 10BASE-T (czyli 10 Mb/s)
 
 # Manchester różnicowy / Differential Manchester Encoding (DME)
 
@@ -62,7 +62,7 @@
 - jest bardzo odporny na błędy, bo gwarantuje zmianę napięcia w środku bitu, a wykrywanie samego faktu takiej zmiany napięcia jest mniej podatne na błędy niż porównywanie sygnału z jakąś wartością
 - odporny np. na zmianę polaryzacji przez zamianę przewodów (dzięki używaniu tylko faktu zmiany napięcia)
 - wada: double bandwidth, są 2 ticki zegara na bit
-- w porównaniu do Manchestera eliminuje konieczność dodawania preambuły do synchronizacji zegarów, więc np. Token Ring w przeciwieństwie do Ethernetu jej nie ma (bo korzysta z DME)
+- w porównaniu do Manchestera eliminuje konieczność dodawania preambuły do synchronizacji zegarów, więc np. Token Ring w przeciwieństwie do [[Ethernet|Ethernetu]] jej nie ma (bo korzysta z DME)
 - używają go np. Token Ring, modemy telefoniczne
 
 # Multi-Level Transition 3 (MLT-3)

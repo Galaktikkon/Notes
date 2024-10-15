@@ -7,7 +7,7 @@
 - zapewnia adresację urządzeń i ich grup
 - wykrywa i obsługuje błędy transmisji, np. oblicza i sprawdza sumy kontrolne, odrzuca błędne ramki
 - formuje ramki, np. wstawia preambułę, dopełnia ramki do minimalnej długości
-- wysyła i odbiera ramki
+- wysyła i odbiera [[Ramka|ramki]]
 # Zadania podwarstwy LLC (Logical Link Control)
 
 - enkapsuluje dane otrzymane od warstwy sieciowej ($\downarrow$)

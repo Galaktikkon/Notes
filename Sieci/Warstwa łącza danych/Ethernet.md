@@ -49,19 +49,19 @@ Bity poszczególnych bajtów są w Little Endian (tzn. najpierw są najmniej zna
 - w standardzie IEEE 802.3:
 	- długość pola danych, gdy < 1518
 	- typ, gdy > 1536 (0x0600)
-- gdy zawiera typ, to długość można znaleźć dzięki IFG (Interframe Gap), czyli ciszy między ramkami
+- gdy zawiera typ, to długość można znaleźć dzięki **[[Ramka#Interframe Gap (IFG)|IFG]]** (Interframe Gap), czyli ciszy między ramkami
 ## Dane
 
 ![[Pasted image 20241015210921.png|center]]
 
 - 46-1500 B
-- jeżeli < 46 B i poprzednie pole zawiera długość: reszta bitów to dopełnienie (padding)
+- jeżeli < 46 B i poprzednie pole zawiera długość: reszta bitów to dopełnienie (*padding*)
 - jeżeli < 46 B i poprzednie pole zawiera typ: pozostałe bity są dowolne, a warstwa wyższa musi wiedzieć, ile bajtów to właściwe dane
-- zawiera PDU podwarstwy LLC
+- zawiera [[Komunikacja w modelu warstwowym#Przesyłanie danych|PDU]] podwarstwy [[Podwarstwy#|LLC]]
 - budowa ustrukturyzowana standardem IEEE 802.2 (taka sama nie tylko w Ethernecie!):
 - budowa:
-	- DSAP (Destination Service Access Point) - 1 B, numer protokołu warstwy wyższej, gdzie mają trafić dane
-	- SSAP (Source Service Access Point) - 1 B, numer protokołu warstwy wyższej, z którego pochodzą dane
+	- **DSAP** (Destination Service Access Point) - 1 B, numer protokołu warstwy wyższej, gdzie mają trafić dane
+	- **SSAP** (Source Service Access Point) - 1 B, numer protokołu warstwy wyższej, z którego pochodzą dane
 	- Control - 1-2 B
 	- Dane - faktyczne dane z warstwy wyższej
 	- Pad - ewentualne wypełnienie dla minimalnej długości, zawarte w danych
@@ -69,6 +69,6 @@ Bity poszczególnych bajtów są w Little Endian (tzn. najpierw są najmniej zna
 ## Suma kontrolna
 
 - **FCS**, Frame Check Sequence - zawiera sumę kontrolną CRC, Cyclic Redundancy Check
-- obliczana przy nadawaniu ramki
+- obliczana przy nadawaniu [[Ramka|ramki]]
 - ponownie obliczana przy odbiorze ramki i porównywana z tą w ramce
 - niezgodności - ciche odrzucenie ramki jako niepoprawnej (brak informacji dla nadawcy, bo nie wiadomo, czy to nie właśnie adres nadawcy psuje

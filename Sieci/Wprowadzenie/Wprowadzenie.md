@@ -2,8 +2,8 @@
 # Potrzeba standaryzacji
 
 - DZIŚ: ogromne zapotrzebowanie na globalną komunikację między komputerami, wolno stojący komputer to już rzadkość
- - DAWNIEJ: **systemy zamknięte** - programy do obsługi sieci, często asemblerowe, pisane na lokalne potrzeby trudne do testowania i nieprzenośne
- - Rozwiązanie: opracowanie i przestrzeganie zespołu norm pozwalających na wzajemne porozumiewanie się komputerów
+- DAWNIEJ: **systemy zamknięte** - programy do obsługi sieci, często asemblerowe, pisane na lokalne potrzeby trudne do testowania i nieprzenośne
+- Rozwiązanie: opracowanie i przestrzeganie zespołu norm pozwalających na wzajemne porozumiewanie się komputerów
 - Koniec lat siedemdziesiątych: powstanie standardu ISO: **ISO** **Reference Model for Open Systems Interconnections** - ramy dla koordynacji nowych standardów
 - **Systemy otwarte**: pozwalające na współpracę sprzętu i oprogramowania różnych producentów, zbudowane zgodnie z pewną normą, zdolne do wymiany informacji z innymi systemami otwartymi (dzisiejszy standard)
 
@@ -11,9 +11,9 @@
 
 - **ISO** – International Standards Organization
 - **IEEE** – Institute of Electronics and Electrical Engineers
-	- forum standaryzacyjne. Grupa 802 zajmuje się standaryzacją sieci lokalnych, 2 najniższych warstw modelu **OSI/ISO**
+	- forum standaryzacyjne. Grupa 802 zajmuje się standaryzacją [[Sieci lokalne|sieci lokalnych]], 2 najniższych warstw modelu **[[Modele warstwowe#Warstwy modelu OSI/ISO|OSI/ISO]]**
 - **IETF** – Internet Engineering Task Force
-	- grupa opracowująca standardy na poziomie **TCP/IP** (standaryzacja protokołów)
+	- grupa opracowująca standardy na poziomie **[[Modele warstwowe#Warstwy modelu TCP/IP|TCP/IP]]** (standaryzacja [[Protokół Komunikacyjny|protokołów]])
 - **ITU-T** – International Telecommunication Union - Telecommunications Sector
 - **TIA/EIA** – Telecommunications Industry Associations/Electronics Industry Association
 	- organizacja zajmująca się określaniem norm dotyczących okablowania
@@ -21,7 +21,7 @@
 
 # Dokumenty RFC (Request for Comments)
 
-- Oficjalne dokumenty opisujące standardy sieciowe (dotyczące protokołów - wymiany informacji w sieciach)
+- Oficjalne dokumenty opisujące standardy sieciowe (dotyczące [[Protokół Komunikacyjny|protokołów]] - wymiany informacji w sieciach)
 	 - proces publikowania nadzorowany przez **IETF**
 	 - podstawowe dokumenty specjalistów
 	 - numerowane, np. RFC 1889
@@ -36,7 +36,7 @@
 	- łączą sieci lokalne, przykładem jest globalna sieć Internet
 - Sieci lokalne **LAN** (Local Area Network)
 	- biura, uczelnie, fabryki
-	- **Fast Ethernet** (100Base-T) - standard szybkiej sieci lokalnej o prędkości przesyłu danych 100 Mb/s (zwykły Ethernet ma 10 Mb/s). Najpopularniejsza wersja to 100Base-TX używająca dwóch par skrętek kategorii 5.
+	- **Fast Ethernet** (100Base-T) - standard szybkiej sieci lokalnej o prędkości przesyłu danych 100 Mb/s (zwykły [[Ethernet]] ma 10 Mb/s). Najpopularniejsza wersja to 100Base-TX używająca dwóch par [[Media komunikacyjne#Skrętka|skrętek]] kategorii 5.
 - Sieci miejskie **MAN** (Metropolitan Area Network)
 - Sieci personalne **PAN** (Personal Area Network)
 
@@ -46,10 +46,10 @@
 
 ## DTE, DCE
 
-- DTE - Data Terminal Equipment
+- **DTE** - Data Terminal Equipment
 	- urządzenia końcowe
 	- komputery, routery
-- DCE - Data Communication Equipment (też: Data Circuit Terminating Equipment)
+- **DCE** - Data Communication Equipment (też: Data Circuit Terminating Equipment)
 	- urządzenia pośredniczące w transmisji
 	- regeneratory sygnału, mostki, przełącznice, modemy, serwery komunikacyjne
 
@@ -61,15 +61,15 @@ Wyróżniamy dwa rodzaje komutacji:
 - Sieci z komutacją łączy (ang. *circuit switching*)
 	- tradycyjna telefonia, POTS (Plain Old Telephone Service)
 		- stare telefony, łączenie drutów między telefonami
-	- ISDN
+	- **ISDN**
 	- telefonie komórkowe 2G
 	- w zasadzie już zanikła
 - Sieci z komutacją pakietów (ang. *packet switching*)
-	- IP
+	- **IP**
 	- X.25, Frame Relay
 	- technologie komórkowe 2.5 G, 3G, 4G, 5G
 
 # Rodzaje połączeń w sieciach
 
 - poziome: użytkownicy-architektura, np. komputer-switch
-- pionowe: między elementami infrastruktury, np. switch-**switch**
+- pionowe: między elementami infrastruktury, np. switch-switch
