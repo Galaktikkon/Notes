@@ -1,4 +1,3 @@
-
 # Non Return To Zero (NRZ):
 
 ![[Pasted image 20241015133616.png|center]]

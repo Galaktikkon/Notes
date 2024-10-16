@@ -6,18 +6,44 @@
 	- zajmuje się formowaniem ramek, obsługuje określony protokół warstwy łącza danych
 	- posiada (najczęściej niezmienny) adres **MAC**
 - Połączone z urządzeniem sieciowym poprzez jego magistralę
-# Adresacja
+# Rodzaje transmisji:
 
-- Każde urządzenie NIC ma swój unikalny adres
-- Adresy są na stałe związane z interfejsem sieciowym
-- Adresacja płaska, bez hierarchii
-	- słaba skalowalność
-	- niemożliwy routing
-- Najczęściej długość 48 bitów, na ogół zapisywane w postaci 12:34:34:56:AA:DC
-- Rodzaje adresów 
-	- unicast: adres konkretnego hosta
-	- multicast: adres grupy hostów
-	- broadcast: adres wszystkich hostów
+- w żadnym przypadku nie ma gwarancji, że informacja trafi tylko do zaadresowanego urządzenia! Adres mówi tylko o tym, czy urządzenie powinno się zainteresować informacją
+- na współczesnym sprzęcie switche interpretują ramki, żeby powyższe nie zachodziło, ale sam Ethernet niczego nie gwarantuje
+## Broadcast
+
+- wysyłany do wszystkich urządzeń w danej sieci
+- otrzymają go wszystkie urządzenia, czy tego chcą, czy nie
+- granice: routery, ew. switche z VLANami
+- domena rozgłoszeniowa to wszędzie tam, gdzie sięga broadcast
+- adres MAC - FF:FF:FF:FF:FF:FF
+- używane np. do znalezienia posiadacza jakiegoś adresu IP
+## Multicast
+
+- wysyłany do grupy odbiorców
+- grupa jest traktowana jak jeden “specjalny” odbiorca
+- odbiorcy wyznaczani przez specjalny komunikat dołączenia do danej grupy multicastowej
+- najmłodszy bit najstarszego bajtu to 1 (prawy bit z bajtu najbardziej na lewo)
+- innymi słowy: najstarszy bajt jest nieparzysty
+- wybór powyższego: pozwala interfejsowi od razu przygotować się do obsługi takiej ramki
+## Unicast
+
+- do konkretnego urządzenia w sieci
+- wszystkie adresy, które nie są specjalne (2 powyższe przypadki)
+- nie ma gwarancji, że informacja trafi tylko do zaadresowanego urządzenia (patrz ostrzeżenie powyżej)
+
+## Tryb Promiscuous
+
+Tryb pracy interfejsu sieciowego (np. ethernetowej karty sieciowej, polegający na odbieraniu całego ruchu (wszystkie [[Ramka|ramki]]) docierającego do karty sieciowej, nie tylko skierowanego na [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adres MAC]] karty sieciowej. Aby przestawić kartę sieciową w tryb promiscuous w systemie Linux należy wydać w terminalu polecenie:
+
+```bash
+ifconfig <karta_sieciowa> promisc
+```
+
+### Analizator ramek ([sniffer](https://minecraft.fandom.com/wiki/Sniffer))
+
+To narzędzie służące do przechwytywania i analizowania ruchu sieciowego. Działa w połączeniu z kartą sieciową pracującą w trybie promiscuous. Popularne narzędzia tego typu to Wireshark. Sniffery pozwalają analizować szczegółowe informacje o ramkach, takie jak adresy MAC, IP, protokoły transportowe (TCP/UDP), a nawet zawartość przesyłanych danych. Są używane do diagnostyki sieci, wykrywania problemów i bezpieczeństwa.
+
 
 # Adres MAC (Media Access Control):
 
@@ -27,8 +53,8 @@
  - jednoznaczny, unikatowy identyfikator urządzenia na poziomie warstwy łącza
 - nie wystarcza on do kontrolowania dostępu do sieci
 - 3 starsze bajty (po lewej):
-	- Organizationally Unique Identifier, OUI
-	- producent dostaje taki od IEEE (jeden albo więcej)
+	- Organizationally Unique Identifier, **OUI**
+	- producent dostaje taki od **[[Wprowadzenie#Ważniejsze organizacje|IEEE]]** (jeden albo więcej)
 	- jeżeli drugi najmłodszy bit najstarszego bajtu (bit 2 w zapisie binarnym tego bajtu) jest ustawiony na 1, to adres MAC jest zarządzany lokalnie i odpowiada za niego w całości lokalny admin (ustala, jak chce; jak są kolizje - jego wina)
 -  3 młodsze bajty (po prawej):
 	- unikalne dla urządzenia (Network Interface Controller specific)

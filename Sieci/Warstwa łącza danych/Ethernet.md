@@ -72,3 +72,23 @@ Bity poszczególnych bajtów są w Little Endian (tzn. najpierw są najmniej zna
 - obliczana przy nadawaniu [[Ramka|ramki]]
 - ponownie obliczana przy odbiorze ramki i porównywana z tą w ramce
 - niezgodności - ciche odrzucenie ramki jako niepoprawnej (brak informacji dla nadawcy, bo nie wiadomo, czy to nie właśnie adres nadawcy psuje
+# Fast Ethernet
+
+- 100 Mb/s
+- 10x większa prędkość przesyłania danych $\rightarrow$ 10x krótszy czas wysyłania ramki $\rightarrow$  rozległość ramki podczas transmisji jest 10x mniejsza
+- max rozległość sieci 200 m
+- szczelina czasowa dalej 512 bitów
+
+# Gigabit Ethernet
+
+- 1 Gb/s
+- problemy:
+	- ograniczenie rozległości sieci do ok. 20 m nie jest ok
+	- zwiększenie minimalnego rozmiaru ramki byłoby niekompatybilne z wcześniejszymi Ethernetami
+- idea: dodanie carrier extension, czyli “wypełniacza”, który wydłuża czas zajmowany przez ramkę do 512 B (bajtów, nie bitów!), a zachowuje minimalną długość 64 B
+- powyższe zachowuje zgodność i jednocześnie pozwala wykrywać kolizje
+## Frame bursting
+
+- połączenie wielu krótkich ramek aż do osiągnięcia 8192 B = 8 KB
+(jeżeli suma wychodzi < 512 B, to się dopełnia krótkim carrier extension); jeżeli będzie
+kolizja, to sekwencję traktuje się jak jedną dużą ramkę
