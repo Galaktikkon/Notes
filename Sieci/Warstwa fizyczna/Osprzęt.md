@@ -26,7 +26,9 @@ Urządzenia aktywne **wymagają** prądu do działania.
 
 Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygnału (usunięcia zakłóceń itp.). Nie interpretują w żaden sposób danych (np. nie sprawdzają spójności), działają w [[Zadania warstwy fizycznej|1 warstwie modelu]] [[Modele warstwowe#Warstwy modelu OSI/ISO|OSI]]. Mostki czy switche zwykle mają wbudowany repeater dla automatycznej regeneracji sygnału.
 
-**Hub** - wieloportowy repeater.
+## Hub
+
+**Hub** - wieloportowy repeater, który nie "rozumie" adresów MAC, więc przesyła dane wszędzie, co powoduje duży ruch i możliwe kolizje w sieci.
 
 # Urządzenia nieaktywne
 

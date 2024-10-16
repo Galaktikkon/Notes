@@ -40,7 +40,7 @@ Tryb pracy interfejsu sieciowego (np. ethernetowej karty sieciowej, polegający 
 ifconfig <karta_sieciowa> promisc
 ```
 
-### Analizator ramek ([sniffer](https://minecraft.fandom.com/wiki/Sniffer))
+## Analizator ramek ([sniffer](https://minecraft.fandom.com/wiki/Sniffer))
 
 To narzędzie służące do przechwytywania i analizowania ruchu sieciowego. Działa w połączeniu z kartą sieciową pracującą w trybie promiscuous. Popularne narzędzia tego typu to Wireshark. Sniffery pozwalają analizować szczegółowe informacje o ramkach, takie jak adresy MAC, IP, protokoły transportowe (TCP/UDP), a nawet zawartość przesyłanych danych. Są używane do diagnostyki sieci, wykrywania problemów i bezpieczeństwa.
 
