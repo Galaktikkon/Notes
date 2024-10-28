@@ -90,7 +90,7 @@ Skrętka miedziana (ang. *twisted pair*):
 - metoda zapamiętania: 4-5 to zawsze niebieski pełny i przerywany, 7-8 to zawsze brązowy przerywany i pełny. Późniejsze pary są przerywany-pełny: w A najpierw jest zielony (pomarańczowy na pozostałych miejscach), w B najpierw pomarańczowy (zielony na pozostałych miejscach)
 - nieskrosowana/prosta (ang. *straight-through*):
 	- po obu stronach jest albo A, albo B (te same końcówki)
-	- dla łączenia różnych klas urządzeń, np. komputer-switch
+	- dla łączenia różnych klas urządzeń, np. komputer-[[Urządzenia warstwy łącza danych#Switch|switch]]
 - skrosowana/z przeplotem (ang. *crossover*):
 	- po jednej stronie A, po drugiej B
 	- zamienione pary RX (odbiór) i TX (nadawanie)

@@ -1,0 +1,1 @@
+**Regeneracja sygnału** - odtworzenie na wyjściu urządzenia regenerującego cech charakterystyki otrzymanego na wejściu sygnału. Pozwala to powiększyć rozległość sieci, bo radzi sobie z zanikaniem i zniekształcaniem sygnału. Powiększa to też domenę kolizyjną sieci.

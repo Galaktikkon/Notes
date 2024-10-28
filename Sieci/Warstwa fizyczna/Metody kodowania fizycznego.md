@@ -76,3 +76,9 @@
 - używany w sieciach 100Base-TX (Fast Ethernet) do uzyskania 100 Mb/s, dzięki temu połączeniu wystarczy 31,25 MHz zamiast 125 MHz (tak jest bez MLT-3)
 - problem: ciągi 0 lub 1 w wyniku (+ i -), trzeba synchronizować
 
+# Pulse Amplitude Modulation 5 (PAM5)
+- pięciowartościowy: -2V, -V, 0V, 1V, 2V (V - dowolne napięcie, całość może być np. od -1,0 V do +1,0 V)
+- 4 poziomy wykorzystuje do kodowania, a 0V do korekcji błędów
+- koduje 2 bity sygnału na jeden symbol
+- 125 mln sygnałów / s * 4 pary * 2 bity = 1 Gb/s
+- umożliwia prędkość 1 Gb/s i full duplex w standardzie 1000Base-T

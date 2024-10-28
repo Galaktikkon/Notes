@@ -71,5 +71,5 @@ Wyróżniamy dwa rodzaje komutacji:
 
 # Rodzaje połączeń w sieciach
 
-- poziome: użytkownicy-architektura, np. komputer-switch
+- poziome: użytkownicy-architektura, np. komputer-[[Urządzenia warstwy łącza danych#Switch|switch]]
 - pionowe: między elementami infrastruktury, np. switch-switch

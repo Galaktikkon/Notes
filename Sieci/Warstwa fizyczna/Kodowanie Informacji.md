@@ -4,7 +4,7 @@
 **Kodowanie fizyczne** - doprowadzenie informacji do postaci możliwej do przesłania w danym medium, np.:
 - [[Media komunikacyjne#Kable|kable miedziane]]: zmiana napięcia
 - [[Media komunikacyjne#Światłowód|światłowód]]: transmisja światła lub jej brak
-- bezprzewodowo lub analogowo (modem): modulacja fali nośnej
+- bezprzewodowo lub analogowo (modem): [[Sposoby modulacji fali nośnej|modulacja fali nośnej]]
 	- AM (amplitude modulation) - modulacja amplitudy
 	- FM (frequency modulation) - modulacja częstotliwości
 	- PM (phase modulation) - modulacja faz

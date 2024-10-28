@@ -1,0 +1,2 @@
+
+**Domena kolizyjna** - fragment sieci, w którym tylko jedno urządzenie naraz może transmitować (jak sekcja krytyczna, tylko w sieciach). Granicę wyznaczają bridge, switch, router albo repeater. Urządzenia z jednej domeny kolizyjnej rywalizują o dostęp do medium pozwalającego z niej transmitować dane (“wyjść” z niej)

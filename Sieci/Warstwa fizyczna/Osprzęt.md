@@ -9,10 +9,6 @@
 # Urządzenia Aktywne 
 
 Urządzenia aktywne **wymagają** prądu do działania.
-
-**Regeneracja sygnału** - odtworzenie na wyjściu urządzenia regenerującego cech charakterystyki otrzymanego na wejściu sygnału. Pozwala to powiększyć rozległość sieci, bo radzi sobie z zanikaniem i zniekształcaniem sygnału. Powiększa to też domenę kolizyjną sieci.
-
-**Domena kolizyjna** - fragment sieci, w którym tylko jedno urządzenie naraz może transmitować (jak sekcja krytyczna, tylko w sieciach). Granicę wyznaczają bridge, switch, router albo repeater. Urządzenia z jednej domeny kolizyjnej rywalizują o dostęp do medium pozwalającego z niej transmitować dane (“wyjść” z niej)
 ## Transceiver (transmitter-receiver):
 
 - sprzęt aktywny (wymaga prądu), układ nadawczo-odbiorczy
@@ -24,7 +20,7 @@ Urządzenia aktywne **wymagają** prądu do działania.
 
 ## Repeater (wtórnik) 
 
-Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygnału (usunięcia zakłóceń itp.). Nie interpretują w żaden sposób danych (np. nie sprawdzają spójności), działają w [[Zadania warstwy fizycznej|1 warstwie modelu]] [[Modele warstwowe#Warstwy modelu OSI/ISO|OSI]]. Mostki czy switche zwykle mają wbudowany repeater dla automatycznej regeneracji sygnału.
+Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygnału (usunięcia zakłóceń itp.). Nie interpretują w żaden sposób danych (np. nie sprawdzają spójności), działają w [[Zadania warstwy fizycznej|1 warstwie modelu]] [[Modele warstwowe#Warstwy modelu OSI/ISO|OSI]]. [[Urządzenia warstwy łącza danych#Bridge|Mostki]] czy [[Urządzenia warstwy łącza danych#Switch|switche]] zwykle mają wbudowany repeater dla automatycznej regeneracji sygnału.
 
 ## Hub
 
@@ -35,5 +31,5 @@ Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygn
 - kable
 - wtyczki
 - gniazdka
-- **krosownice** (ang. *patch-panel*) - zakończenie okablowania strukturalnego, z rzędami gniazdek 8P8C, ma z tyłu porty do reszty sieci, a z przodu porty do podłączania switchy, routerów etc.; używa się jej, żeby ograniczyć ilość pracy przy budowie sieci, bo z tyłu wpina się odpowiednie żyły z kabla, a potem pracuje tylko z przodem
+- **krosownice** (ang. *patch-panel*) - zakończenie okablowania strukturalnego, z rzędami gniazdek 8P8C, ma z tyłu porty do reszty sieci, a z przodu porty do podłączania [[Urządzenia warstwy łącza danych#Switch|switchy]], routerów etc.; używa się jej, żeby ograniczyć ilość pracy przy budowie sieci, bo z tyłu wpina się odpowiednie żyły z kabla, a potem pracuje tylko z przodem
 
