@@ -17,7 +17,7 @@
 - zmniejsza [[Przesyłanie informacji#Throughput|przepustowość]] sieci
 - blokuje komunikację na niektórych połączeniach, w ogóle ich nie używając (chyba, że staną się zapasowe; inaczej zmarnowaliśmy na nie pieniądze)
 - wymaga regularnego badania sieci i w razie potrzeby przebudowywania drzewa - znaczący koszt wydajnościowy i czasowy (rzędu kilkudziesięciu sekund przy podłączaniu nowego [[Urządzenia warstwy łącza danych|switcha/mostka]]!)
-- nakłada limit przełącznic - domyślnie w każdej gałęzi drzewa może być co najwyżej 7 switchy (dlaczego - patrz niżej)
+- nakłada limit przełącznic - domyślnie w każdej gałęzi drzewa może być co najwyżej 7 switchy
 
 # Ogólny pseudokod STA
 

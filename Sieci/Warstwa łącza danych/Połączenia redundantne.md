@@ -2,7 +2,7 @@
 # Problem
 
 - Standard [[Ethernet]] nie pozwala na istnienie naraz więcej niż jednej ścieżki od punktu A do punktu B
-- Dlaczego? Może wystąpić krążenie [[Ramka|ramek]]w sieci
+- Dlaczego? Może wystąpić krążenie [[Ramka|ramek]] w sieci
 
 ![[Pasted image 20241028024413.png|center]]
 

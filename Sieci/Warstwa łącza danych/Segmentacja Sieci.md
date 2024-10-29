@@ -1,3 +1,5 @@
+# Zabezpieczanie sieci
+
 - wyeliminowanie z sieci hubów i repeaterów
 - podział sieci na małe sieci wirtualne (VLAN), bo chociaż fizycznie są połączone, to na poziomie warstwy drugiej (logicznie) są wtedy odseparowane
 - użycie szyfrowania na wyższych warstwach sieci

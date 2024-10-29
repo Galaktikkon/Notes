@@ -24,7 +24,11 @@ Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygn
 
 ## Hub
 
-**Hub** - wieloportowy repeater, który nie "rozumie" adresów MAC, więc przesyła dane wszędzie, co powoduje duży ruch i możliwe kolizje w sieci.
+- wieloportowy repeater, który nie "rozumie" adresów MAC, więc przesyła dane wszędzie, co powoduje duży ruch i możliwe kolizje w sieci.
+- nieinteligentne urządzenie
+- powiela sygnał elektryczny z wejścia na wszystkie wyjścia
+- powiększa domenę kolizyjną
+- może przesyłać nawet szum, cokolwiek - bo jest nieinteligentne
 
 # Urządzenia nieaktywne
 
