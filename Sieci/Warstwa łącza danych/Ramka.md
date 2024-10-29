@@ -61,3 +61,19 @@ Uwzględniając opóźnienia elementów warstwy pierwszej, czas na wysłanie jam
 etc.:
 Realna maksymalna rozległość sieci: 2,8 km
 ```
+
+# Ramka BPDU (Bridge Protocol Data Unit)
+
+## Budowa ramki BPDU:
+
+| Root ID | Root Path Cost | Bridge ID | Sender Port ID  | Receiver Port ID |
+| ------- | -------------- | --------- | -------------- | ---------------- |
+
+- Root ID:
+○ 8 B
+○ 2 bajty - priorytet (arbitralnie narzucony); im niższy, tym ważniejszy jest switch
+○ 6 bajtów - adres MAC root’a
+● Root Path Cost:
+○ 4 B
+○ każde połączenie ma koszt - im lepsze połączenie, tym niższy
+○ zgodnie z tabelką:
