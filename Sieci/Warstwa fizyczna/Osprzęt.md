@@ -20,7 +20,7 @@ Urządzenia aktywne **wymagają** prądu do działania.
 
 ## Repeater (wtórnik) 
 
-Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygnału (usunięcia zakłóceń itp.). Nie interpretują w żaden sposób danych (np. nie sprawdzają spójności), działają w [[Zadania warstwy fizycznej|1 warstwie modelu]] [[Modele warstwowe#Warstwy modelu OSI/ISO|OSI]]. [[Urządzenia warstwy łącza danych#Bridge|Mostki]] czy [[Urządzenia warstwy łącza danych#Switch|switche]] zwykle mają wbudowany repeater dla automatycznej regeneracji sygnału.
+Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygnału (usunięcia zakłóceń itp.). Nie interpretują w żaden sposób danych (np. nie sprawdzają spójności), działają w [[Zadania warstwy fizycznej|1 warstwie modelu]] [[Modele warstwowe#Warstwy modelu OSI/ISO|OSI]]. [[Urządzenia warstwy łącza danych#Bridge|Mostki]] czy [[Urządzenia warstwy łącza danych#Switch|switche]] zwykle mają wbudowany repeater dla automatycznej [[Regeneracja sygnału|regeneracji sygnału]].
 
 ## Hub
 
