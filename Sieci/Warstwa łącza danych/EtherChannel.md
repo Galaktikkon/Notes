@@ -1,4 +1,0 @@
-- łączy 2 do 8 fizycznych łączy w jedno logiczne, co pozwala:
-	- zwiększyć przepustowość – sumuje przepustowości poszczególnych fizycznych połączeń. Na przykład, 4 połączenia o przepustowości 1 Gbps utworzą jedno połączenie o łącznej przepustowości 4 Gbps.
-	- zapewnić nadmiarowość – w przypadku awarii jednego z fizycznych łączy reszta nadal będzie działać, podtrzymując połączenie logiczne.
-- automatycznie wykrywa awarię połączeń i przełącza ruch na pozostałe aktywne połączenia, minimalizując wpływ na sieć.
