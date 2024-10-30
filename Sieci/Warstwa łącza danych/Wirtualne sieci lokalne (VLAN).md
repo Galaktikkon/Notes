@@ -9,6 +9,7 @@
 - pozwalają np. podzielić sieć na dwie sieci bez fizycznego przełączania kabli i dodawania urządzeń
 - reguła 80/20
 	- 80% ruchu chcemy przełączać, a 20% routować
+	- "switch when you can, route when you must"
 
 ## Podział sieci wirtualnych
 
