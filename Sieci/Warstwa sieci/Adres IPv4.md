@@ -7,16 +7,32 @@ Najpopularniejsza adresacja
 - podzielone na 4 oktety (4 * 8 b)
 - dzieli się na 2 części: sieci i hosta, każda zajmuje ileś oktetów
 - **klasa adresu** w **klasowym IPv4** wyznacza, ile oktetów dostaje adres sieci, a ile adres hosta; rozróżnia się ją po pierwszych bitach pierwszego oktetu
-
-| Klasa | Oznaczenie | Oktety (sieć-host) |
-| ----- | ---------- | ------------------ |
-| A     | 0          | 1-3                |
-| B     | 10         | 2-2                |
-| C     | 110        | 3-1                |
-| D     | 1110       | Multicast          |
-| E     | 1111       | Zarezerwowane      |
 - pozwala na mniej adresów niż MAC, więc stosuje się hierarchiczne rozwiązania
 - komputerów w sieci jest o 2 mniej, niż wynikałoby z liczby bitów na adres hosta! Trzeba te 2 zarezerwować dla adres sieci i broadcast
+## Klasy adresowe
+
+![[Pasted image 20241105231543.png|center]]
+
+- Klasa A
+	- 126 sieci, ponad 16mln komp.
+	- adres sieci zajmuje 1 oktet
+- Klasa B 
+	- 65tys sieci, 65tys komp
+	- adres sieci zajmuje 2 oktety
+- Klasa C
+	- ponad 16mln sieci, 254 komputery
+	- adres sieci zajmuje 3 oktety
+- Klasa D
+	- multicast
+- Klasa E
+	- zarezerwowana
+### Wyznaczanie numeru sieci i hosta
+
+1. Zamiana pierwszej liczby (bajtu) na reprezentację binarną.
+2. Sprawdzenie do której klasy należy numer sieci
+3. W oparciu o liczbę zajmowanych przez klasę bajtów wyznaczamy numer hosta
+
+![[Pasted image 20241105232448.png|center]]
 # Uzyskiwanie adresu
 
 - numer sieci
@@ -37,23 +53,22 @@ Najpopularniejsza adresacja
 - Zapis kropkowo-dziesiętny
 	- 6.132.2.1
 	- dziesiętnie, każdy bajt oddzielnie $\rightarrow$ każdy to liczba z zakresu 0-255
-# Klasy adresowe
+# Adresy specjalne
 
-![[Pasted image 20241105231543.png|center]]
+- 0.0.0.0 
+	- ten komputer w tej sieci. Podawany jako adres źródłowy w trakcie uruchamiania komputera gdy nie zna on jeszcze swojego adresu IP
+- 0.x.y.z
+	- komputer x.y.z w tej sieci. Podawany w trakcie uruchamiania jako adres źródłowy w komputerze posiadającym niekompletne informacje
+- 127.x.y.z
+	- adres `loopback`. Pakiet wysłany na taki adres nie może zostać wysłany poza komputer. Pozwala dwóm aplikacjom pracującym na tym samy komputerze komunikować się poprzez **TCP/IP**
+# Adresy typu broadcast
 
-- Klasa A
-	- 126 sieci, ponad 16mln komp.
-- Klasa B
-	- 65tys sieci, 65tys komp
-- Klasa C
-	- ponad 16mln sieci, 254 komputery
-- Klasa D
-	- multicast
-- Klasa E
-	- zarezerwowana
-## Wyznaczanie klasy adresu:
-
-1. Bierzemy pierwszy oktet (pierwsza liczba w $\text{X.Y.Z.Q}$ lub pierwsze 8 bitów binarnie)
-2. Zamieniamy na postać binarną
-3. Sprawdzamy pierwsze cyfry
+- Mogą być podane tylko jako adres docelowy.
+- Ograniczony broadcast
+	- 255.255.255.255
+	- Oznacza wszystkie komputery w sieci lokalnej. Nigdy nie są przekazywane przez routery.
+- Broadcast skierowany
+	- Adres, w którym część adresu komputera składa się z samych jedynek, zaś część sieci jest określona. Oznacza wszystkie komputery w danej sieci. 
+	- Np.: 130.1.255.255 
+		- wszystkie komputery w sieci 130.1.0.0
 

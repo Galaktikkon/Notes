@@ -15,7 +15,7 @@
 - wysyłany do wszystkich urządzeń w danej sieci
 - otrzymają go wszystkie urządzenia, czy tego chcą, czy nie
 - granice: routery, ew. switche z VLANami
-- domena rozgłoszeniowa to wszędzie tam, gdzie sięga broadcast
+- [[Segmentacja Sieci#Domena Rozgłoszeniowa|domena rozgłoszeniowa]] to wszędzie tam, gdzie sięga broadcast
 - adres MAC - FF:FF:FF:FF:FF:FF
 - używane np. do znalezienia posiadacza jakiegoś adresu IP
 ## Multicast
