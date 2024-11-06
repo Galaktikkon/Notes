@@ -152,3 +152,4 @@
 	- zwykle ignorowany
 - **9 - Strict Source Routing**
 	- ciąg adresów IP routerów, pakiet ma przejść po kolei przez te routery i tylko i wyłącznie przez te routery, w danej kolejności
+
