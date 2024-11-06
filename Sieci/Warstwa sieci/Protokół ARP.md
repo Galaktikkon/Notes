@@ -95,3 +95,61 @@ Pakiety wysyłane w przykładzie powyżej (Eth X i Eth Y to adresy MAC routera n
 	-  Eth Y | MAC B | 0806 | 0001 | 0800 | 6 | 4 | 2 | MAC B | 100.1.1.2 | Eth Y | 100.1.1.1
 - od routera do B, oryginalna ramka od A do B (ramka Ethernet z pakietem IP)
 	- MAC B | Eth Y | IP A | IP B | (dane)
+
+# Proxy ARP
+
+- wybór proxy device jako pośrednika w przekazywaniu informacji do innej sieci
+- proxy “podstawia” swój adres MAC za adres MAC celu (tzn. tego IP, do którego chce się wysłać pakiet), a potem sam przesyła pakiety dalej
+- działanie:
+	1. Komputer A wysyła zapytanie ARP przez router do komputera B (wierzy błędnie, że są w tej samej sieci, np. bo nie obsługuje podsieci albo ma tak skonfigurowaną maskę)
+	2. Router znajduje u siebie w tablicy ARP adres docelowy
+	3. Router zwraca komputerowi A swój własny adres MAC
+	4. Komputer A chcąc komunikować się z B komunikuje się de facto z routerem, który przekazuje dalej do B pakiety
+- ukrywa istnienie dwóch sieci, bo host myśli, że to proxy (z tej samej sieci, co on) jest finalnym celem
+## Zalety
+
+- ukrywa istnienie wielu sieci (oba hosty mogą korzystać z tego samego adresu sieci)
+- umożliwia komunikację źle skonfigurowanym hostom
+- umożliwia komunikację hostom nieobsługującym podsieci
+- można włączyć bez naruszania tablic routingu
+## Wady
+
+- skalowalność (wymaga ustawienia proxy’ego dla każdego urządzenia)
+- nie działa dla niektórych topologii (np. 2 routery łączące 2 fizyczne sieci)
+- brak mechanizmów niezawodności (brak planu B, jeżeli proxy padnie)
+- zwiększenie stopnia skomplikowania sieci
+- źle skonfigurowany router-proxy może zablokować ruch (bo gromadzi pakiety jako proxy, ale nie umie ich z jakiegoś powodu wysłać)
+- ukrywanie złej konfiguracji hostów
+- zwiększa ruch ARP
+- hosty muszą posiadać większe tablice ARP
+- bezpieczeństwo (np. można podszyć się pod cudzy adres)
+- nie działa w sieciach nieużywających ARP
+
+# Gratuitous ARP
+
+- wysyła się dodatkowe, specjalnie ramki ARP
+- ramka GARP:
+	- IP hosta wysyłającego ramkę to zarówno IP źródłowe, jak i docelowe
+	- używają zawsze adresu broadcastowego
+	- nikt nie powinien odpowiedzieć na taką ramkę, ale każdy ją otrzyma
+
+## Zastosowania
+
+- aktualizowanie tablic ARP innych hostów - przydatne np. przy backupowychserwerach, bo gdy główny padnie, to zapasowy (ten sam adres IP, co główny) wyśle wszystkim ramkę GARP ze swoim MACiem, żeby wszyscy dowiedzieli się o zmianie
+- powiadomienie innych hostów o pojawieniu się nowego - zawczasu wypełnia tablice ARP innych hostów IP i MACiem nowego hosta, co potencjalnie zmniejsza późniejszą liczbę wysyłanych pakietów ARP
+- powiadomienie wcześniej switcha o porcie danego hosta lub o zmianie jego adresu MAC
+- wykrywanie błędów w konfiguracji - bardzo częste ramki GARP od danego hosta mogą oznaczać, że np. ma problem z kablem i co chwilę odłącza się i podłącza z powrotem
+## Wady
+
+- dodatkowe pakiety wysyłane przy podłączeniu urządzenia powodują dużo ruchu w sieci, a mogą być niepotrzebne (np. nowy host komunikuje się tylko z 1 innym hostem),
+
+# ARP probe
+
+- problem: trzeba się upewnić, że ma się unikatowy adres IP, np. serwer DHCP nie dałbłędnie dwóch takich samych
+- idea: coś podobnego do gratuitous ARP (też są wysyłane “nadmiarowo”), ale do innego celu
+- różni się od GARP tym, że ma ustawione:
+	- MAC odbiorcy na 00:00:00:00:00:00
+	- IP nadawcy na 0.0.0.0
+- powyższe gwarantuje, że nic nie wykorzysta tego pakietu do update’owania tablic ARP (bo jeżeli jest konflikt adresów, to zdecydowanie nie chcemy, żeby odbiorcy się “uczyli” na tych danych), w przeciwieństwie do GARP, gdzie tego właśnie chcemy
+- jeżeli ktoś odpowie, to jest konflikt adresów IP i nie można z niego korzystać
+- jak nikt nie odpowie, to jest ok
