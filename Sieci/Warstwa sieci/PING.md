@@ -13,4 +13,4 @@
 	2. Komputer A wysyła ramkę do komputera B.
 	3. Komputer B tworzy ramkę ICMP Echo Reply:
 		-  0 | 0 | process ID | 0 | (dane)
-	4. Komputer B wysyła ramkę do komputera A.
+	4. Komputer B wysyła ramkę do komputera A (jak jest PING, to musi być PONG)
