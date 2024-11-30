@@ -17,7 +17,7 @@
 
 # Budowa pakietu/ramki ARP
 
-● przesyła się całą ramkę (np. Ethernet), w środku w polu danych siedzi ramka ARP:
+- przesyła się całą ramkę (np. Ethernet), w środku w polu danych siedzi ramka ARP:
 
 ![[Pasted image 20241106014402.png|center]]
 
