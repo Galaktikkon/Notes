@@ -29,3 +29,28 @@
 
 - w punkcie 7. używa się broadcastu (w przeciwieństwie do unicastu z punktu 6.), bo w punkcie 6. serwer mógł nie odpowiedzieć, bo padł, a do czasu T2 uruchomi się serwer zapasowy, który ma inny adres (więc na unicast do oryginalnego serwera by nie odpowiedział, a na broadcast odpowie)
 - host wyśle **RELEASE**, jeżeli w trakcie czasu dzierżawy będzie kończyć działanie
+
+![[Pasted image 20241207210959.png|center]]
+
+# DHCP a wiele sieci
+
+- problem: 
+	- powyższy mechanizm działa poprawnie, jeśli serwer DHCP i host są w jednej sieci, więc nie zadziała np. dla jednej firmowej sieci i kilku podsieci w niej, bo routery zatrzymają broadcast ograniczony 255.255.255.255
+- rozwiązania:
+	- osobny serwer DHCP dla każdej podsieci - koszty i trudność administracyjna, ale dla niewielu segmentów sieci dobre rozwiązanie, bo proste
+	- jedna maszyna obsługująca wszystkie sieci - programowy serwer ogarnia wszystkie sieci, ale to problem z bezpieczeństwem (bo wszyscy muszą mieć dostęp do tego serwera) i trzeba ciągnąć dodatkowe kable
+	- użycie mechanizmu **relay agent**
+
+# Relay agent
+
+- idea
+	-  w każdym końcowym segmencie sieci jest router relay agent, który pośredniczy między hostami z segmentu a serwerem DHCP; nie blokuje on komunikatów broadcastu ograniczonego DHCP, tylko realizuje relay - przesyła te komunikaty dalej, modyfikując niektóre pola
+- wiadomości między relay agentem a serwerem idą unicastem, natomiast w sieci z hostem i relay agentem unicastem za wyjątkiem pierwszego połączenia
+## Algorytm
+
+1. Host wysyła broadcastem ograniczonym komunikat **DHCPDISCOVER** za pomocą UDP, na port 67. Dociera więc też do routera, czyli relay agenta.
+2. Relay agent, czyli router w tej samej sieci, co host sprawdza adres bramy domyślnej w nagłówku DHCP. Jeżeli jest równy 0.0.0.0, to zamienia adres źródłowy na własny adres(tak, że bramą jest dla serwera ten router), adres odbiorcy na adres serwera i przesyła dalej.
+3. Komunikat idzie po routerach unicastem aż do serwera. Serwer sprawdza IP bramy, znajdując pulę adresów dla danej bramy. Jeżeli tylko ma pulę dla danej bramy i wolne adresy, to tworzy komunikat **DHCPOFFER** i wysyła unicastem do relay agenta.
+4. Pakiet idzie aż do oryginalnego relay agenta (routera, który pierwszy odebrał komunikat od hosta), który przesyła do unicastem do oryginalnego hosta, który sobie już to sam przetwarza.
+5. Punkty 1-5 powtarzają się dla kolejnych komunikatów DHCP.
+
