@@ -1,6 +1,6 @@
 
 - dostarczanie adresacji **logicznej**
-- znalezienie najlepszej drogi łączącej dwa hosty (mogą być w różnych sieciach z perspektywy warstwy łącza danych)
+- znalezienie najlepszej drogi łączącej dwa hosty (mogą być w różnych sieciach z perspektywy warstwy łącza danych) - tzw. *routing*
 - tworzenie i rozpakowywanie pakietów IP
 
 # Protokoły warstwy 3

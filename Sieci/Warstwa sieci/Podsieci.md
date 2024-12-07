@@ -58,3 +58,9 @@ Obrazkowo:
 	- **podsieć zero** - ma taki sam adres sieci i podsieci, co jest mylące
 	- **podsieć samych jedynek** - adres broadcast sieci i podsieci są takie same, co może w skrajnych przypadkach powodować cykle routowania
 - ze względu na powyższe problemy używanie tych podsieci jest niezalecane (kiedyś te adresy były nawet domyślnie wyłączone)
+
+# Sieci typu "stub"
+
+- końcowa sieć
+- ma tylko jedno wyjście na zewnątrz (ścieżka domyślna)
+- tylko 1 adres do nielokalnych hostów: 0.0.0.0/0

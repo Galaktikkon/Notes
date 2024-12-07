@@ -92,6 +92,7 @@
 - zapobiega krążeniu pakietów w sieci (cykle)
 - wartość zmniejszana o 1 po każdym przetworzeniu pakietu przez router
 - przy usunięciu nadawca dostaje komunikat z błędem **ICMP** Time Exceeded
+- wyznacza maksymalną liczbę routerów na ścieżce między 2 hostami: 255
 ## Protokół
 
 - 8 bitów
