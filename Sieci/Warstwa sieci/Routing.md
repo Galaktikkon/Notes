@@ -47,7 +47,10 @@ Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) mi�
 - idea: niektóre wpisy są redundantne i można je zredukować
 - trasy biegnące przez ten sam router można zgrupować, bo i tak ważny jest tylko next hop
 - dla każdego pakietu routery wybierają z tablicy routingu wpis o najdłuższej pasującej masce, więc wpisy można rozróżniać
+## Trasa domyślna
 
+- wpis 0.0.0.0/0
+- hosty wysyłają tam pakiety, jeżeli nie było “lepszego” wpisu (pasującego, z dłuższą maską)
 ## Przykład
 
 Mamy wpisy w tablicy routingu:
@@ -81,6 +84,7 @@ Na początek można pogrupować wpisy według next hopu, tzn. adresu, który jes
 Teraz każdą grupę można połączyć, biorąc kolejne zgodne liczby; kiedy w ramach jednej
 grupy zaczną się różnić, to do końca idą same zera. Można także skrócić maski podsieci do
 liczby zgodnych bitów.
+
 1. 
 	- 1.1.1.0/24 directly connected
 	Nie ma co upraszczać, zostaje bez zmian.
@@ -107,3 +111,50 @@ liczby zgodnych bitów.
 	
 	Zgrupowany adres: 10.0.0.0/13 via 1.1.1.2
 4. 
+	- 10.4.8.0/24 via 1.1.1.42
+	- 193.193.65.224/27 via 1.1.1.42
+	- 2.0.0.1/32 via 1.1.1.42
+	
+	Nie zgadza się nic, więc trzeba będzie zrobić bramę domyślną.
+	Zgrupowany adres to 0.0.0.0/0 via 1.1.1.42
+5. 
+	- 10.3.0.128/25 via 1.1.1.3
+	
+	Nie ma co upraszczać, zostaje bez zmian.
+
+Grupy po uproszczeniu to więc:
+
+- 1.1.1.0/24 directly connected
+- 1.0.0.0/13 via Serial0/0
+- 10.0.0.0/13 via 1.1.1.2
+- 0.0.0.0/0 via 1.1.1.42
+- 10.3.0.128/25 via 1.1.1.3
+
+Pojawia się pewien problem - grupowanie w ten sposób może sprawić, że wpisy będą
+zawierać w sobie wpisy, które wylądowały w innej grupie (a więc miały inny next hop,
+“via”).
+
+Wpis 10.4.8.0/24 via 1.1.1.42 wylądował pierwotnie w grupie 3 (dla routera 1.1.1.42),
+natomiast po zgrupowaniu zawiera go grupa 10.0.0.0/13 (bo zgadza się początek).
+
+Grupa 0.0.0.0/0 via 1.1.1.42 zawiera w sobie wszystkie pozostałe grupy.
+
+
+Rozwiązanie problemu dla wpisu 10.4.8.0/24 via 1.1.1.42 jest prostsze, ponieważ
+korzystamy z zasady, że bardziej szczegółowy wpis (z dłuższą maską) jest ważniejszy.
+Dlatego też wystarczy z powrotem wyodrębnić ten jeden adres i wszystko będzie działać,
+bo /24 będzie miało pierwszeństwo nad /13.
+
+Po tym kroku grupy to:
+- 1.1.1.0/24 directly connected
+- 1.0.0.0/13 via Serial0/0
+- 10.0.0.0/13 via 1.1.1.2
+- 10.4.8.0/24 via 1.1.1.42 <- wyodrębniony wpis
+- 0.0.0.0/0 via 1.1.1.42
+- 10.3.0.128/25 via 1.1.1.3
+
+Wpis 0.0.0.0/0 via 1.1.1.42 nie stanowi problemu ze względu na tę samą zasadę, z której
+skorzystaliśmy powyżej - ma maskę /0, a więc najmniej ważną, bo jest trasą domyślną.
+Ten router i wpis zostaną użyte tylko, jeżeli żaden inny wpis nie będzie pasował, więc
+chociaż teoretycznie zawiera pozostałe grupy, to w praktyce to bez znaczenia. Możemy
+więc pozostawić tablicę routingu tak, jak jest.
