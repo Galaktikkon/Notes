@@ -6,10 +6,10 @@
 - użycie “inteligentnego” sprzętu (np. zarządzalne switche), które wykrywają i reagują na próby podsłuchiwania lub blokują je (np. blokują komunikację dowolnych dwóch urządzeń niebędących częścią infrastruktury sieci)
 # Domena Kolizyjna
 
-- część sieci, gdzie transmitować może tylko jedno urządzenie naraz. Granicę wyznaczają [[Urządzenia warstwy łącza danych#Bridge|mostki]], [[Urządzenia warstwy łącza danych#Switch|switche]] i routery. 
+- część sieci, gdzie transmitować może tylko jedno urządzenie naraz. Granicę wyznaczają [[Urządzenia warstwy łącza danych#Bridge|mostki]], [[Urządzenia warstwy łącza danych#Switch|switche]] i [[Routing#Router|routery]]. 
 # Domena Rozgłoszeniowa
 
-- część sieci, gdzie docierają [[Adresacja w sieciach LAN#Broadcast|broadcasty]] lub [[Adresacja w sieciach LAN#Multicast|multicasty]]. Granicę wyznaczają routery i sieci wirtualne VLAN.
+- część sieci, gdzie docierają [[Adresacja w sieciach LAN#Broadcast|broadcasty]] lub [[Adresacja w sieciach LAN#Multicast|multicasty]]. Granicę wyznaczają [[Routing#Router|routery]] i sieci wirtualne VLAN.
 
 # Podział za pomocą warstw
 
@@ -30,7 +30,7 @@
 
 ## Za pomocą urządzenia warstwy trzeciej
 
-- router
+- [[Routing#Router|router]]
 - granica domen rozgłoszeniowych
 - granica domen kolizyjnych
 

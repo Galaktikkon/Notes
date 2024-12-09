@@ -48,10 +48,10 @@
 
 - **DTE** - Data Terminal Equipment
 	- urządzenia końcowe
-	- komputery, routery
+	- komputery, [[Routing#Router|routery]]
 - **DCE** - Data Communication Equipment (też: Data Circuit Terminating Equipment)
 	- urządzenia pośredniczące w transmisji
-	- regeneratory sygnału, mostki, przełącznice, modemy, serwery komunikacyjne
+	- [[Osprzęt#Repeater (wtórnik)|regeneratory sygnału]], [[Urządzenia warstwy łącza danych#Bridge|mostki]], [[Urządzenia warstwy łącza danych#Switch|przełącznice]], modemy, serwery komunikacyjne
 
 # Typy Sieci według rodzaju komutacji
 

@@ -5,7 +5,7 @@
 - **VLAN** (*Virtual Local Area Network*)
 - służą do logicznego grupowania urządzeń za pomocą [[Urządzenia warstwy łącza danych|urządzeń warstwy 2]]
 - pojęcie czysto logiczne, nie rusza fizycznej warstwy sieci
-- jest szybsze i łatwiejsze, niż wykorzystywanie routerów (urządzeń warstwy 3)
+- jest szybsze i łatwiejsze, niż wykorzystywanie [[Routing#Router|routerów]] (urządzeń warstwy 3)
 - pozwalają np. podzielić sieć na dwie sieci bez fizycznego przełączania kabli i dodawania urządzeń
 - reguła 80/20
 	- 80% ruchu chcemy przełączać, a 20% routować
@@ -48,7 +48,7 @@ Wyróżniamy dwa modele VLAN.
 ## Wady
 
 - koszt urządzeń do obsługi i konfiguracji VLANów (bardziej historyczne)
-- trudniejsze w konfiguracji (od wsadzania kabli do gniazdek, ale dalej łatwiej niż router)
+- trudniejsze w konfiguracji (od wsadzania kabli do gniazdek, ale dalej łatwiej niż [[Routing#Router|router]])
 - komunikacja między urządzeniami różnych VLANów jest trudna (zwykle wymaga routera lub switcha warstwy 3)
 - mało zaawansowana standaryzacja
 ## VLANy a domeny:
