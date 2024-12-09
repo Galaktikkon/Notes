@@ -35,5 +35,5 @@ Regenerator sygnału, transceiver używany do przywrócenia poprawnych cech sygn
 - kable
 - wtyczki
 - gniazdka
-- **krosownice** (ang. *patch-panel*) - zakończenie okablowania strukturalnego, z rzędami gniazdek 8P8C, ma z tyłu porty do reszty sieci, a z przodu porty do podłączania [[Urządzenia warstwy łącza danych#Switch|switchy]], routerów etc.; używa się jej, żeby ograniczyć ilość pracy przy budowie sieci, bo z tyłu wpina się odpowiednie żyły z kabla, a potem pracuje tylko z przodem
+- **krosownice** (ang. *patch-panel*) - zakończenie okablowania strukturalnego, z rzędami gniazdek 8P8C, ma z tyłu porty do reszty sieci, a z przodu porty do podłączania [[Urządzenia warstwy łącza danych#Switch|switchy]], [[Routing#Router|routerów ]]etc.; używa się jej, żeby ograniczyć ilość pracy przy budowie sieci, bo z tyłu wpina się odpowiednie żyły z kabla, a potem pracuje tylko z przodem
 

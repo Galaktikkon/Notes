@@ -1,10 +1,19 @@
 
+# Classless InterDomain Routing (CIDR)
+
+- klasy A, B, C, D, E już nie istnieją
+- [[Adres IPv4|adres IP]] zawsze wysyła się razem z [[Podsieci#Maska podsieci|maską podsieci]]
+- nie ma rozróżnienia na sieć i podsieć - są razem
+- adres dzieli się teraz na adres sieci (= zarazem podsieci) oraz [[Adres IPv4#Budowa adresu|adres hosta]]
+- krótsza maska = wyżej w hierarchii, więc regiony dostają krótkie maski, ISP dłuższe, a końcowi użytkownicy długie
+- dostaje się zawsze blok adresów, tzn. jakiś adres IP i liczbę bitów maski - to, jak to podzielimy dalej na kolejne podsieci, zależy tylko od nas
+
 # Variable Length Subnet Mask (VLSM)
 
-- technika, w której maska podsieci ma różną długość w zależności od wymagań podsieci (czyli de facto to, co już było w poprzednich opracowaniach)
+- technika, w której maska podsieci ma różną długość w zależności od wymagań [[Podsieci|podsieci]]
 - maska nie musi być pełnym bajtem (/0, /8, /16, /24 lub /32), tylko dowolna, np. /21
 - stosowane zwykle razem z CIDRem
-- używany do projektowania podsieci oraz agregacji wpisów w tablicach routingu
+- używany do projektowania podsieci oraz agregacji wpisów w [[Routing#Tablica routingu|tablicach routingu]]
 
 # Przykład użycia
 

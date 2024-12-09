@@ -9,7 +9,7 @@
 
 - podział dużych sieci [[Adres IPv4#Klasy adresowe|klasy A i B]] na mniejsze
 - podział [[Segmentacja Sieci#Domena Rozgłoszeniowa|domen rozgłoszeniowych]] na mniejsze (każda podsieć to osobna domena rozgłoszeniowa)
-- ukrycie szczegółów budowy sieci przed routerami zewnętrznymi
+- ukrycie szczegółów budowy sieci przed [[Routing#Router|routerami]] zewnętrznymi
 - możliwość połączenia różnych rodzajów sieci lokalnych
 - lepsze od wielu sieci klasy wyższej, bo zmniejsza to rozmiar tablic routowania
 # Maska podsieci
@@ -23,7 +23,7 @@
 - liczba 1 nie musi być wielokrotnością 8, np. może być 28 - wtedy na adresy hostów zostałyby tylko 4 bity
 - maskę zapisuje się albo jak adres IP, albo przez / po adresie IP z liczbą bitów maski
 - maska domyślna - jedynki na adresie sieci, zera na adresie hosta
-- maska 255.255.255.255 - każdy host jest we własnej podsieci, wymusza ciągłą komunikację przez routery (łącze point-to-point)
+- maska 255.255.255.255 - każdy host jest we własnej podsieci, wymusza ciągłą komunikację przez [[Routing#Router|routery]] (łącze point-to-point)
 ## Analiza adresu
 
 - Adres IP: $107.50.33.254$
@@ -47,7 +47,7 @@ Obrazkowo:
 - Broadcast skierowany do podsieci
 	- Oznacza wszystkie komputery w danej podsieci. Np.: 10.20.30.255/24 - wszystkie komputery w sieci 10 i podsieci 20.30
 - Broadcast skierowany do wszystkich komputerów we wszystkich podsieciach danej sieci
-	- 10.255.255.255/24 ó pakiet kierowany pod taki adres nie powinien być przekazywany przez routery
+	- 10.255.255.255/24 ó pakiet kierowany pod taki adres nie powinien być przekazywany przez [[Routing#Router|routery]]
 
 # Podsieci niezalecane
 

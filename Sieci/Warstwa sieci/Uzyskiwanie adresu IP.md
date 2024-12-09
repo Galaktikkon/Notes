@@ -1,5 +1,5 @@
 - dwie opcje
-	- statyczne - urządzenia mają ręcznie przypisane adresy IP
+	- statyczne - urządzenia mają ręcznie przypisane [[Adres IPv4|adresy IP]]
 	- dynamiczne - sieć sama zajmuje się przydzielaniem adresów IP nowym urządzeniom
 
 # Statyczne przydzielanie adresu IP
@@ -17,7 +17,7 @@
 
 # Dynamiczne przydzielanie adresu IP
 
-- sieć posiada protokół odpowiadający za przydzielanie adresów IP, np. DHCP
+- sieć posiada protokół odpowiadający za przydzielanie adresów IP, np. [[Protokół DHCP|DHCP]]
 ## Zalety
 
 - automatyczna konfiguracja nowych urządzeń

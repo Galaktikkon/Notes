@@ -1,8 +1,13 @@
 Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) między dwoma hostami.
 
+# Router
+
+![[62-629684_network-router-clip-art-cisco-router-symbol 1.jpg]]
+
+- urządzenie sieciowe pracujące w trzeciej warstwie. Służy do łączenia różnych sieci komputerowych (różnych w sensie informatycznym, czyli np. o różnych klasach, maskach itd.), pełni więc rolę węzła komunikacyjnego. Na podstawie informacji zawartych w pakietach TCP/IP jest w stanie przekazać pakiety z dołączonej do siebie sieci źródłowej do docelowej, rozróżniając ją spośród wielu dołączonych do siebie sieci. Proces kierowania ruchem nosi nazwę trasowania, routingu lub routowania.
 # Routing źródłowy
 
-- routing należący do nadawcy, wpisuje on adresy do nagłówka pakietu IP, realizuje strict/loose source routing
+- routing należący do nadawcy, wpisuje on adresy do nagłówka [[Protokół IP#Budowa Pakietu IP (Datagramu IP)|pakietu IP]], realizuje strict/loose source routing
 - pakiet zna drogę powrotną
 - routery nie muszą znać odległych sieci - mają tylko przekazywać dalej zgodnie ze wskazaniami pakietu
 ## Wady
@@ -16,7 +21,7 @@ Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) mi�
 
 - odwzorowanie postaci:
 	- (IP sieci docelowej) $\rightarrow$ (IP następnego skoku lub “sieć bezpośrednia”)
-- adresy IP = IP + maska
+- adresy IP = IP + [[Podsieci#Maska podsieci|maska]]
 - IP następnego skoku = brama (next hop IP)
 - tablica, dzięki której router wie, gdzie kierować pakiety zaadresowane do danej sieci
 - pamięta tylko informację o następnym routerze na trasie do sieci (next hop IP) lub informację o tym, że sieć jest już przyległa do danego routera (nie zna całej ścieżki)

@@ -4,7 +4,7 @@
 - bezpołączeniowy - nie zestawia połączenia przed rozpoczęciem przesyłania pakietów, tylko przesyła każdy pakiet oddzielnie
 - brak potwierdzenia dostarczenia - nie ma gwarancji, że wiadomość w ogóle dotarła
 - brak timeout’u, retransmisji - związane z powyższym
-- brak kontroli poprawności danych - nie ma sumy kontrolnej
+- brak kontroli poprawności danych - nie ma [[Ethernet#Suma kontrolna|sumy kontrolnej]]
 - brak kontroli przepływu
 - ograniczenie długości wiadomości
 - nie gwarantuje braku powtórzeń - te same pakiety mogą przyjść wielokrotnie
@@ -32,7 +32,7 @@
 - fragmenty posiadają pole **identyfikatora**, więc wiadomo, do którego pakietu należą
 - wypełnianie bufora:
 	- na podstawie **przesunięcia** (patrz budowa datagramu IP niżej) wiadomo, jak daleko od początku wstawić dany fragment do bufora
-	- po odebraniu fragmentu uruchamia się zegar na czas `max(init_value, TTL)` (TTL - Time To Live, czas życia zegara); jeżeli następny fragment nie dojdzie w tym czasie, to odrzuca się cały pakiet (czyści bufor)
+	- po odebraniu fragmentu uruchamia się zegar na czas `max(init_value, TTL)` ([[#Time To Live (TTL)|TTL - Time To Live]], czas życia zegara); jeżeli następny fragment nie dojdzie w tym czasie, to odrzuca się cały pakiet (czyści bufor)
 	- ostatni fragment posiada 0 na bicie **MF (More Fragments)**, więc wiadomo, że to koniec pakietu (przy czym nie musi przyjść ostatni - po prostu jest ostatni w sensie ułożenia fragmentów w pamięci)
 
 # Budowa Pakietu IP (Datagramu IP)
@@ -92,7 +92,7 @@
 - zapobiega krążeniu pakietów w sieci (cykle)
 - wartość zmniejszana o 1 po każdym przetworzeniu pakietu przez router
 - przy usunięciu nadawca dostaje komunikat z błędem **ICMP** Time Exceeded
-- wyznacza maksymalną liczbę routerów na ścieżce między 2 hostami: 255
+- wyznacza maksymalną liczbę [[Routing#Router|routerów]] na ścieżce między 2 hostami: 255
 ## Protokół
 
 - 8 bitów

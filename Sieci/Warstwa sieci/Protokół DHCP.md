@@ -1,7 +1,7 @@
 
 - Dynamic Host Configuration Protocol
-- serwer DHCP dostaje pulę adresów do przydzielania, nowy host bierze dane od serwera na określony czas (czas dzierżawy) i kiedy przestaje być aktywny, to adres wraca do puli
-- pozwala automatycznie skonfigurować adres IP, maskę podsieci, adres bramy sieciowej i inne
+- serwer DHCP dostaje pulę [[Adres IPv4|adresów]] do przydzielania, nowy host bierze dane od serwera na określony czas (czas dzierżawy) i kiedy przestaje być aktywny, to adres wraca do puli
+- pozwala automatycznie skonfigurować [[Adres IPv4|Adres IP]], [[Podsieci#Maska podsieci|maskę podsieci]], adres [[Protokół ARP#Brama (ang. *gateway*)|bramy sieciowej]] i inne
 - wykorzystuje protokół UDP
 - klient używa portu 68, serwer DHCP portu 67
 

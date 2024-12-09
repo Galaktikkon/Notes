@@ -1,5 +1,5 @@
 - protokół sterujący w warstwie sieciowej
-- wspomaga protokoły IP, UDP i TCP
+- wspomaga protokoły [[Protokół IP|IP]], UDP i TCP
 - przesyła informacje:
 	- o błędach transmisji, np. host nieosiągalny
 	- sterujące ruchem, np. przekierowania
@@ -8,7 +8,7 @@
 	- ping - badanie dostępności hosta
 	- traceroute - badanie trasy pakietu
 	- sterowanie routingiem IP
-	- wykrywanie MTU ścieżki
+	- wykrywanie [[Protokół IP#Fragmentacja pakietów IP|MTU ścieżki]]
 	- proste sterowanie przepływem
 - przesyła komunikaty ICMP, enkapsulowane w pakietach IP (są w warstwie 4!)
 # Budowa
@@ -20,12 +20,12 @@
 ![[Pasted image 20241119233152.png|center]]
 
 - poza tym, co w tabelce ważny jest jeszcze komunikat typu 11 z kodem 0 “Czas
-przekroczony”, gdzie TTL wiadomości spadł do 0 (patrz niżej, program ping)
+przekroczony”, gdzie [[Protokół IP#Time To Live (TTL)|TTL]] wiadomości spadł do 0 (patrz niżej, program ping)
 
 
 # ICMP Redirect
 
-- problem: host może mieć niewydajną konfigurację przesyłania danych do jakiejś sieci, tzn. używa niepotrzebnie jakiegoś routera, który i tak wtedy zawsze przekazuje ruch jakiemuś innemu routerowi w tej samej sieci
+- problem: host może mieć niewydajną konfigurację przesyłania danych do jakiejś sieci, tzn. używa niepotrzebnie jakiegoś [[Routing#Router|routera]], który i tak wtedy zawsze przekazuje ruch jakiemuś innemu routerowi w tej samej sieci
 - idea: router wysyła hostowi informację “niewydajnie przekierowujesz ruch, lepiej będzie, jak dla pakietów do sieci X użyjesz routera Y”
 - routery po wykryciu niewydajnego przekierowywania pakietu w ramach tej samej sieci, co host, informują go komunikatem ICMP Redirect o tym, że dla pakietów do sieci X lepiej korzystać z innego routera
 - zmniejsza ilość ruchu w sieci i zmniejsza obciążenie routerów
@@ -47,13 +47,13 @@ przekroczony”, gdzie TTL wiadomości spadł do 0 (patrz niżej, program ping)
 - Packet InterNet Groper (PING)
 - możliwości:
 	- sprawdzanie, czy host jest osiągalny
-	- sprawdzanie czasu podróży pakietu (Round-Trip Time, RTT)
+	- sprawdzanie czasu podróży pakietu ([[Problemy w transmisji danych#Prędkość i czas propagacji|Round-Trip Time, RTT]])
 	- sprawdzanie liczby zgubionych i zdublowanych pakietów
 - pozwala sprawdzić, czy host jest osiągalny
 - korzysta z komunikatów ICMP typów 0 i 8 (odpowiedź echo i zapytanie echo)
 - dodatkowe dane: identyfikator i numer sekwencyjny
 - działanie:
-	1. Komputer A tworzy ramkę **ICMP Echo Request**: 
+	1. Komputer A tworzy [[Ramka|ramkę]] **ICMP Echo Request**: 
 		- 8 | 0 | process ID | 0 | (dane)
 	2. Komputer A wysyła ramkę do komputera B.
 	3. Komputer B tworzy ramkę **ICMP Echo Reply**:
@@ -65,7 +65,7 @@ przekroczony”, gdzie TTL wiadomości spadł do 0 (patrz niżej, program ping)
 - pozwala na śledzenie trasy datagramów IP między dwoma hostami
 - umożliwia śledzenie z wykorzystaniem loose lub strict source routing
 - wygodniejszy, niż śledzenie trasy zapisując ją w nagłówku IP
-- wykorzystuje pole TTL (Time To Live) protokołu IP oraz komunikaty ICMP: “Czas przekroczony” oraz “Port nieosiągalny”
+- wykorzystuje pole [[Protokół IP#Time To Live (TTL)|TTL (Time To Live)]] protokołu IP oraz komunikaty ICMP: “Czas przekroczony” oraz “Port nieosiągalny”
 - wysyła dane do portu o numerze > 30000
 - przykład działania:![[Pasted image 20241119233504.png|center]]
 1. Host wysyła pakiet z TTL=1. Router A zmniejsza wartość do 0 i odrzuca pakiet, odsyłając komunikat ICMP “Czas przekroczony”. Komputer dostaje adres IP pierwszego routera (bo to on jest nadawcą komunikatu).

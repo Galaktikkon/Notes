@@ -7,8 +7,8 @@ Najpopularniejsza adresacja
 - podzielone na 4 oktety (4 * 8 b)
 - dzieli się na 2 części: sieci i hosta, każda zajmuje ileś oktetów
 - **klasa adresu** w **klasowym IPv4** wyznacza, ile oktetów dostaje adres sieci, a ile adres hosta; rozróżnia się ją po pierwszych bitach pierwszego oktetu
-- pozwala na mniej adresów niż MAC, więc stosuje się hierarchiczne rozwiązania
-- komputerów w sieci jest o 2 mniej, niż wynikałoby z liczby bitów na adres hosta! Trzeba te 2 zarezerwować dla adres sieci i broadcast
+- pozwala na mniej adresów niż [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|MAC]], więc stosuje się hierarchiczne rozwiązania
+- komputerów w sieci jest o 2 mniej, niż wynikałoby z liczby bitów na adres hosta! Trzeba te 2 zarezerwować dla adres sieci i [[Adresacja w sieciach LAN#Broadcast|broadcast]]
 ## Klasy adresowe
 
 ![[Pasted image 20241105231543.png|center]]

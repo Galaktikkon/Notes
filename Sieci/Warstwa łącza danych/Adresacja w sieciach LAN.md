@@ -9,12 +9,12 @@
 # Rodzaje transmisji:
 
 - w żadnym przypadku nie ma gwarancji, że informacja trafi tylko do zaadresowanego urządzenia! Adres mówi tylko o tym, czy urządzenie powinno się zainteresować informacją
-- na współczesnym sprzęcie [[Urządzenia warstwy łącza danych#Switch|switche]] interpretują [[Ramka|ramki]], żeby powyższe nie zachodziło, ale sam [[Ethernet]]niczego nie gwarantuje
+- na współczesnym sprzęcie [[Urządzenia warstwy łącza danych#Switch|switche]] interpretują [[Ramka|ramki]], żeby powyższe nie zachodziło, ale sam [[Ethernet]] niczego nie gwarantuje
 ## Broadcast
 
 - wysyłany do wszystkich urządzeń w danej sieci
 - otrzymają go wszystkie urządzenia, czy tego chcą, czy nie
-- granice: routery, ew. switche z VLANami
+- granice: [[Routing#Router|routery,]] ew. [[Urządzenia warstwy łącza danych#Switch|switche]] z [[Wirtualne sieci lokalne (VLAN)|VLANami]]
 - [[Segmentacja Sieci#Domena Rozgłoszeniowa|domena rozgłoszeniowa]] to wszędzie tam, gdzie sięga broadcast
 - adres MAC - FF:FF:FF:FF:FF:FF
 - używane np. do znalezienia posiadacza jakiegoś adresu IP
@@ -25,7 +25,7 @@
 - odbiorcy wyznaczani przez specjalny komunikat dołączenia do danej grupy multicastowej
 - najmłodszy bit najstarszego bajtu to 1 (prawy bit z bajtu najbardziej na lewo)
 - innymi słowy: najstarszy bajt jest nieparzysty
-- wybór powyższego: pozwala interfejsowi od razu przygotować się do obsługi takiej ramki
+- wybór powyższego: pozwala interfejsowi od razu przygotować się do obsługi takiej [[Ramka|ramki]]
 ## Unicast
 
 - do konkretnego urządzenia w sieci
@@ -34,7 +34,7 @@
 
 ## Tryb Promiscuous
 
-Tryb pracy interfejsu sieciowego (np. ethernetowej karty sieciowej, polegający na odbieraniu całego ruchu (wszystkie [[Ramka|ramki]]) docierającego do karty sieciowej, nie tylko skierowanego na [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adres MAC]] karty sieciowej. Aby przestawić kartę sieciową w tryb promiscuous w systemie Linux należy wydać w terminalu polecenie:
+Tryb pracy interfejsu sieciowego (np. [[Adresacja w sieciach LAN#Network Interface Card (NIC)|ethernetowej karty sieciowej]], polegający na odbieraniu całego ruchu (wszystkie [[Ramka|ramki]]) docierającego do karty sieciowej, nie tylko skierowanego na [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adres MAC]] karty sieciowej. Aby przestawić kartę sieciową w tryb promiscuous w systemie Linux należy wydać w terminalu polecenie:
 
 ```bash
 ifconfig <karta_sieciowa> promisc
@@ -42,7 +42,7 @@ ifconfig <karta_sieciowa> promisc
 
 ## Analizator ramek ([sniffer](https://minecraft.fandom.com/wiki/Sniffer))
 
-To narzędzie służące do przechwytywania i analizowania ruchu sieciowego. Działa w połączeniu z kartą sieciową pracującą w trybie promiscuous. Popularne narzędzia tego typu to Wireshark. Sniffery pozwalają analizować szczegółowe informacje o ramkach, takie jak adresy MAC, IP, protokoły transportowe (**TCP/UDP**), a nawet zawartość przesyłanych danych. Są używane do diagnostyki sieci, wykrywania problemów i bezpieczeństwa.
+To narzędzie służące do przechwytywania i analizowania ruchu sieciowego. Działa w połączeniu z kartą sieciową pracującą w [[#Tryb Promiscuous|trybie promiscuous]]. Popularne narzędzia tego typu to Wireshark. Sniffery pozwalają analizować szczegółowe informacje o ramkach, takie jak [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adresy MAC]], [[Adres IPv4|IP]], protokoły transportowe (**TCP/UDP**), a nawet zawartość przesyłanych danych. Są używane do diagnostyki sieci, wykrywania problemów i bezpieczeństwa.
 
 
 # Adres MAC (Media Access Control):
