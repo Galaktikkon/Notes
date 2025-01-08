@@ -31,6 +31,9 @@
 - do konkretnego urządzenia w sieci
 - wszystkie adresy, które nie są specjalne (2 powyższe przypadki)
 - nie ma gwarancji, że informacja trafi tylko do zaadresowanego urządzenia (patrz ostrzeżenie powyżej)
+## Anycast
+
+- rodzaj wysyłania pakietu typu “traf gdziekolwiek”. W praktyce trafia do najbliższego topologicznie hosta.
 
 ## Tryb Promiscuous
 
