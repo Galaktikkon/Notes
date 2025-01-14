@@ -65,7 +65,6 @@ Bity poszczególnych bajtów są w Little Endian (tzn. najpierw są najmniej zna
 	- Control - 1-2 B
 	- Dane - faktyczne dane z warstwy wyższej
 	- Pad - ewentualne wypełnienie dla minimalnej długości, zawarte w danych
-
 ## Suma kontrolna
 
 - **FCS**, Frame Check Sequence - zawiera sumę kontrolną CRC, Cyclic Redundancy Check
@@ -78,17 +77,45 @@ Bity poszczególnych bajtów są w Little Endian (tzn. najpierw są najmniej zna
 - 10x większa prędkość przesyłania danych $\rightarrow$ 10x krótszy czas wysyłania ramki $\rightarrow$  rozległość ramki podczas transmisji jest 10x mniejsza
 - max rozległość sieci 200 m
 - szczelina czasowa dalej 512 bitów
-
 # Gigabit Ethernet
 
 - 1 Gb/s
 - problemy:
 	- ograniczenie rozległości sieci do ok. 20 m nie jest ok
 	- zwiększenie minimalnego rozmiaru ramki byłoby niekompatybilne z wcześniejszymi Ethernetami
-- idea: dodanie carrier extension, czyli “wypełniacza”, który wydłuża czas zajmowany przez ramkę do 512 B (bajtów, nie bitów!), a zachowuje minimalną długość 64 B
+- idea: dodanie **carrier extension**, czyli “wypełniacza”, który wydłuża czas zajmowany przez ramkę do 512 B (bajtów, nie bitów!), a zachowuje minimalną długość 64 B
 - powyższe zachowuje zgodność i jednocześnie pozwala wykrywać kolizje
 ## Frame bursting
 
-- połączenie wielu krótkich ramek aż do osiągnięcia 8192 B = 8 KB
+- połączenie wielu krótkich [[Ramka|ramek ]]aż do osiągnięcia 8192 B = 8 KB
 (jeżeli suma wychodzi < 512 B, to się dopełnia krótkim carrier extension); jeżeli będzie
 kolizja, to sekwencję traktuje się jak jedną dużą ramkę
+##  Inne standardy Gigabit Ethernetu
+
+- 1000Base-CX ([[Media komunikacyjne#Skrętka|skrętka STP]])
+- 1000Base-SX ([[Media komunikacyjne#Modowość|wielomodowy światłowód]] 850 nm)
+- 1000Base-LX (wielomodowy światłowód 1300 nm)
+- kodowania [[Metody kodowania logicznego#8B/10B|8B/10B]] + [[Metody kodowania fizycznego#Non Return To Zero (NRZ)|NRZ]]
+# Ten Gigabit Ethernet
+
+- tylko [[Przesyłanie informacji#Tryby Transmisji Danych|full duplex]]
+- [[CSMA|CSMA/CD]] się nie używa (bo nie ma kolizji)
+- albo światłowody, albo super skrętki (kat. 6 lub wyższa)
+## Inne standardy 10 Gigabit Ethernetu
+
+- [[Media komunikacyjne#Światłowód|światłowód]]
+- 10GBase-X (8B/10B)
+- 10GBase-R (64B/66B)
+- 10GBase-SR ([[Media komunikacyjne#Modowość|wielomodowy światłowód]] do 300 m)
+- 10GBase-LR (wielomodowy światłowód do 10 km)
+- 10GBase-ER (jednomodowy światłowód do 40 km)
+# Rodzaje sieci Ethernet
+
+![[Pasted image 20241028004906.png|center]]
+# Rozgłoszeniowość w sieciach Ethernet
+
+- logiczne zachowanie sieci jest niezależne od fizycznej [[Sieci lokalne#Topologie|topologii]]
+- logicznie - zawsze [[Sieci lokalne#Magistrali|magistrala]]
+- z powyższego wynika, że domyślnie przesyłane dane są wysyłane wszędzie (do wszystkich stacji) - to one decydują, czy się tym zainteresować, czy nie
+- [[Urządzenia warstwy łącza danych#Switch|switch]] potrafi trochę pomóc, ale nie w 100%
+

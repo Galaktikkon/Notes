@@ -1,4 +1,4 @@
-# Podział
+# Podział protokółów dostępu do medium
 
 | **Niedeterministyczny**             | **Deterministyczny**                   |
 | ----------------------------------- | -------------------------------------- |
@@ -8,4 +8,3 @@
 | problem z wielodostępem do medium   | problem z zarządzaniem kolejnością     |
 | dobry do zastosowań biurowych       | dobry do zastosowań przemysłowych      |
 | np. [[Ethernet]]                    | np. Token Ring, Token Bus, FDDI        |
-

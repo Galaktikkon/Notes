@@ -59,7 +59,7 @@ Do **fizycznych topologii** sieci zaliczamy topologię:
 ### Gwiazdy 
 
 ![[Pasted image 20241015154239.png|center]]
-- układ sieci, gdzie mamy centralne urządzenie (punkt dystrybucyjny, np. switch, hub), z którego wyprowadza się połączenia do innych urządzeń, np. komputerów.
+- układ sieci, gdzie mamy centralne urządzenie (punkt dystrybucyjny, np. [[Urządzenia warstwy łącza danych#Switch|switch]], hub), z którego wyprowadza się połączenia do innych urządzeń, np. komputerów.
 ####  Rozszerzonej gwiazdy
 - topologia gwiazdy, gdzie z centrum mamy połączenie do mniejszych gwiazd, zamiast bezpośrednio do komputerów
 

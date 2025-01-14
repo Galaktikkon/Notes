@@ -61,3 +61,40 @@ Uwzględniając opóźnienia elementów warstwy pierwszej, czas na wysłanie jam
 etc.:
 Realna maksymalna rozległość sieci: 2,8 km
 ```
+
+# Ramka BPDU (Bridge Protocol Data Unit)
+
+## Budowa ramki BPDU:
+
+| Root ID | Root Path Cost | Bridge ID | Sender Port ID | (+Receiver Port ID) |
+| ------- | -------------- | --------- | -------------- | ------------------- |
+
+- Root ID:
+	- 8 B
+		- 2 bajty - priorytet (arbitralnie narzucony); im niższy, tym ważniejszy jest switch
+		- 6 bajtów - [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adres MAC]] root’a
+- Root Path Cost:
+	- 4 B
+	- każde połączenie ma koszt - im lepsze połączenie, tym niższy
+	- zgodnie z tabelką:
+
+| Połączenie | Koszt |
+| ---------- | ----- |
+| 4 Mb/s     | 250   |
+| 10 Mb/s    | 100   |
+| 100 Mb/s   | 19    |
+| 1 Gb/s     | 4     |
+| 2 Gb/s     | 3     |
+| 10 Gb/s    | 2     |
+- Bridge ID (BID):
+	- 8 B
+		- dane [[Urządzenia warstwy łącza danych#Switch|switcha]]-nadawcy
+		- 2 bajty - priorytet, 6 bajtów - adres MAC
+- Sender Port ID:
+	- 2 B
+	- priorytet i numer portu-nadawcy
+- Receiver Port ID:
+	- 2 B
+	- nie jest częścią ramki BPDU!
+	- dodawane na potrzeby algorytmu STA przez odbiorcę
+	- priorytet i numer portu-odbiorcy

@@ -32,3 +32,11 @@ Przepustowość (ang. *throughput*) - aktualne możliwości sieci w zakresie prz
 - wydajności sprzętu - zarówno komputerów końcowych jak i elementów pośredniczących
 - obciążenia sieci - jak bardzo aktywni są jej użytkownicy
 - typu danych - przede wszystkim narzutu na pola kontrolne
+
+# Baseband 
+
+- rodzaj komunikacji, w którym całego pasma ([[#Bandwidth|bandwidth]]) używa jeden sygnał (kanał). Wykorzystywany jest wąski zakres częstotliwości. Normalnie jest [[#Tryby Transmisji Danych|half-duplexowy]], ale komunikujące się urządzenia dostają szczeliny czasowe (TDM, Time-Division Multiplexing), żeby mieć full duplex. Tego używa [[Ethernet]].
+
+# Broadband 
+
+- rodzaj komunikacji, w którym używa się szerokiego spektrum częstotliwości, gdzie multiplexing osiąga się przez przydzielenie różnym urządzeniom różnych częstotliwości (FDM, Frequency-Domain Multiplexing).

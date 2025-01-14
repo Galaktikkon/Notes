@@ -1,10 +1,10 @@
 
 # Kodowanie fizyczne
 
-**Kodowanie fizyczne** - doprowadzenie informacji do postaci możliwej do przesłania w danym medium, np.:
+**[[Metody kodowania fizycznego|Kodowanie fizyczne]]** - doprowadzenie informacji do postaci możliwej do przesłania w danym medium, np.:
 - [[Media komunikacyjne#Kable|kable miedziane]]: zmiana napięcia
 - [[Media komunikacyjne#Światłowód|światłowód]]: transmisja światła lub jej brak
-- bezprzewodowo lub analogowo (modem): modulacja fali nośnej
+- bezprzewodowo lub analogowo (modem): [[Sposoby modulacji fali nośnej|modulacja fali nośnej]]
 	- AM (amplitude modulation) - modulacja amplitudy
 	- FM (frequency modulation) - modulacja częstotliwości
 	- PM (phase modulation) - modulacja faz
@@ -13,7 +13,7 @@
 **[[Metody kodowania logicznego|Kodowanie logiczne]]** - doprowadzenie informacji do postaci odpowiedniej do przesłania w konkretnych warunkach, zapisywane jako $x\text{B}/y\text{Q}$, czyli:
 - $x$ bitów
 - reprezentowane jako $y$ sygnałów
-- o wartościowości Q (określona wartość ilości poziomów sygnału)
+- o wartościowości $Q$ (określona wartość ilości poziomów sygnału)
 	- $\text{B}$ - binarne wartości, $\text{T}$ - trójwartościowość
 - przykładowo: 8B/6T
 ## Kodowanie blokowe
