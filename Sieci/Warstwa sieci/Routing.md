@@ -174,6 +174,38 @@ więc pozostawić tablicę routingu tak, jak jest.
 	- niezawodność łączy
 	- koszt łączy
 - charakterystyczna dla protokołu
+
+## Podział metryk
+
+![[Pasted image 20250120215910.png|center]]
+### Metryki elementarne
+
+- opóźnienie:
+	- $D$ - delay
+	- jednostka: dziesiątki $μs$
+	- suma opóźnień między routerem a adresem docelowym
+- przepustowość:
+	- $B$ - [[|bandwidth]]
+	- jednostka: liczba sekund potrzebna na przesłanie 10 miliardów bitów, tzn.:$$\frac{10^7}{(\text{przepustowość w kb}/s)}$$
+	- najmniejsza z przepustowości między routerem a adresem docelowym
+	- w przypadku uzyskania ułamków metryka jest zaokrąglana w górę do najbliższej liczby całkowitej
+- niezawodność:
+	- $R$ - reliability
+	- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
+	- mierzy się przez 5 minut
+	- stopień pewności, że pakiet dotrze do celu
+	- % pakietów odrzuconych przez router przez przepełnienie bufora
+- obciążenie:
+	- $L$ - load
+	- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
+	- mierzy się przez 5 minut
+	- stopień największego obciążenia łącza na ścieżce
+	- % zapełnienia bufora routera
+- routery:
+	- $H$ - hops
+	- liczba routerów na ścieżce
+- MTU ścieżki
+
 ## Zbieżność metryki
 
 - gwarancja, że po pewnym czasie t (czasie zbieżności) wszystkie routery będą “widziały” taką samą sieć. Ważne np. przy zmianie [[Sieci lokalne#Topologie|topologii]].
