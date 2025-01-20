@@ -5,15 +5,15 @@
 - każdy router ma własne współczynniki metryki $K_1 - K_5$
 - dobrą praktyką jest ustawienie takich samych współczynników na wszystkich routerach w domenie routingu
 - nieskończoność to $D = \text{MAX}$
-- wykorzystuje dla zapobiegania pętlom:
+- aby zapobiec pętlom wykorzystuje:
 	- [[Protokół RIP#Dzielony horyzont (split horizon)|dzielony horyzont]]
 	- [[Protokół RIP#Zatruwanie (poison reverse)|zatruwanie ścieżki]]
 	- [[Protokół RIP#Wstrzymywanie (holddown)|wstrzymywanie]]
 - zegary:
-	- update timer - jak często rozsyłane są wiadomości (domyślnie 90 s)
-	- invalid timer - po tym czasie uznaje się ścieżkę za nieważną (3 * update timer)
-	- hold-time - czas wstrzymywania (domyślnie 280 s)
-	- flush timer - czas przed usunięciem ścieżki z tablicy routingu (630 s)
+	- update timer - jak często rozsyłane są wiadomości (domyślnie $90 s$)
+	- invalid timer - po tym czasie uznaje się ścieżkę za nieważną ($3 \cdot \text{update timer}$)
+	- hold-time - czas wstrzymywania (domyślnie $280 s$)
+	- flush timer - czas przed usunięciem ścieżki z tablicy routingu ($630 s$)
 - wady:
 	- synchronizacja
 	- nieefektywne algorytmy zapobiegania pętlom
@@ -28,7 +28,7 @@
 $$
 M = \left( K_1 \cdot B + K_2 \cdot \frac{B}{256-L}+K_3 \cdot D\right) \cdot \frac{K_5}{R+K_4}
 $$
-- współczynniki K1-K5 to wagi metryki, mogą być ustawiane przez administratora
+- współczynniki $K_1-K_5$ to wagi metryki, mogą być ustawiane przez administratora
 - domyślnie:
 	- $K_1 = K_3 = 1$
 	- $K_2 = K_4 = K_5 = 0$

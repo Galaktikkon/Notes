@@ -1,24 +1,19 @@
 Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) między dwoma hostami.
-
 # Router
 
 ![[62-629684_network-router-clip-art-cisco-router-symbol 1.jpg]]
 
 - urządzenie sieciowe pracujące w trzeciej warstwie. Służy do łączenia różnych sieci komputerowych (różnych w sensie informatycznym, czyli np. o różnych klasach, maskach itd.), pełni więc rolę węzła komunikacyjnego. Na podstawie informacji zawartych w pakietach TCP/IP jest w stanie przekazać pakiety z dołączonej do siebie sieci źródłowej do docelowej, rozróżniając ją spośród wielu dołączonych do siebie sieci. Proces kierowania ruchem nosi nazwę trasowania, routingu lub routowania.
 # Routing źródłowy
-
 - routing należący do nadawcy, wpisuje on adresy do nagłówka [[Protokół IP#Budowa Pakietu IP (Datagramu IP)|pakietu IP]], realizuje strict/loose source routing
 - pakiet zna drogę powrotną
 - routery nie muszą znać odległych sieci - mają tylko przekazywać dalej zgodnie ze wskazaniami pakietu
 ## Wady
-
 - niewygodny
 - ograniczony zasięg (bo pole “opcje” ma ograniczoną wielkość), ścieżki maksymalnie po 9 routerów
 - rzadko wykorzystywany
 - często blokowany przez administratorów (bo stanowi zagrożenie dla bezpieczeństwa sieci)
-
 # Tablica routingu
-
 - odwzorowanie postaci:
 	- (IP sieci docelowej) $\rightarrow$ (IP następnego skoku lub “sieć bezpośrednia”)
 - adresy IP = IP + [[Podsieci#Maska podsieci|maska]]
@@ -32,7 +27,6 @@ Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) mi�
 - maska 255.255.255.255 to "najlepsza" maska
 - **brama domyślna** - maska 0.0.0.0, “najgorsza” maska, zostanie użyta, jeżeli nie znajdzie się żadne lepsze dopasowanie i jest w tablicy
 - wpisy można **[[Routing#Agregacja wpisów|agregować]]**, łącząc wiele podobnych w jeden (np. jeśli wiele wpisów ma ten sam adres następnego skoku) i zaoszczędzić miejsce w tablicy routingu (pozwala na to zasada najdłuższego dopasowania)
-
 # Routing statyczny
 
 - wpisy w tablicy routingu są zarządzane ręcznie przez administratora
@@ -205,7 +199,6 @@ więc pozostawić tablicę routingu tak, jak jest.
 
 - proaktywne - szukają drogi do celu jeszcze zanim będzie potrzebna
 - reaktywne - szukają drogi do celu dopiero w chwili, kiedy będzie potrzebna
-
 ## Protokoły wewnętrzne vs zewnętrzne
 
 ### Wewnętrzne
@@ -221,13 +214,23 @@ więc pozostawić tablicę routingu tak, jak jest.
 - skomplikowane, wymagają przesyłu dużej ilości dodatkowych informacji
 - np. EGP (Exterior Gateway Protocol), BGP (Border Gateway Protocol)
 ## Cechy protokołów routingu dynamicznego
-
 - skalowalność
 - [[Metryka|metryka]]
 - czas osiągania stanu ustalonego
 - bezpieczeństwo
 - ilość wymaganego dodatkowego ruchu
 - klasowość
+
+## Protokoły stanu łącza (link state):
+- router wysyła wszystkim routerom informacje o stanie swoich łączy (a więc zna swoich sąsiadów, bo są na końcach tych łączy)
+- router ma dynamicznie uaktualnianą “mapę sieci”, czyli LSD (Link State Database)
+- szybko reagują na zmianę topologii
+- wykorzystują małe pakiety informacyjne (w porównaniu do protokołów dystans-wektor), więc mniej obciążają sieć
+- bardziej wydajne i skalowalne od protokołów dystans-wektor
+- szybko zbieżne
+- brak pętli, brak zliczania do nieskończoności
+- możliwość stosowania wielu metryk
+- stosunkowo skomplikowane
 ## Protokoły dystans-wektor
 
 - routery wysyłają sąsiadom informacje o wszystkich znanych sobie sieciach
@@ -235,9 +238,7 @@ więc pozostawić tablicę routingu tak, jak jest.
 - wektor - jak można się do niej dostać (do jakiego routera się kierować)
 - wektor to prawie zawsze “wyślij do mnie, ja wiem, gdzie dalej to wysłać”, rzadko inny router (np. gdy router docelowy obsługuje tylko jakiś inny protokół)
 - algorytm oparty na algorytmie Bellmana-Forda
-
 ## Algorytm protokołów dystans-wektor
-
 - oparty analogicznie do algorytmu Bellmana-Forda na relaksacji, czyli zmniejszaniu odległości między wierzchołkami w kolejnych krokach
 - właściwości:
 	- rozproszony - każdy router wysyła swoje informacje tylko do bezpośrednich sąsiadów
@@ -264,7 +265,6 @@ $$
 	1. Inicjalizacja: routery mają puste tablice routingu, odległość do każdego odbiorcy jest przyjmowana jako nieskończoność
 	2. Routery otrzymują informacje od swoich sąsiadów
 	3. Porównują odległość do określonego odbiorcy z dotychczas znaną; jeżeli jest mniejsza, to aktualizują odległość oraz router, od którego otrzymano lepszą ścieżkę
-
 ### Przykład:
 
 ![[Pasted image 20250120201148.png|center]]
