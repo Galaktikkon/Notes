@@ -163,55 +163,6 @@ Ten router i wpis zostaną użyte tylko, jeżeli żaden inny wpis nie będzie pa
 chociaż teoretycznie zawiera pozostałe grupy, to w praktyce to bez znaczenia. Możemy
 więc pozostawić tablicę routingu tak, jak jest.
 
-# Metryka
-
-- funkcja licząca odległość dwóch punktów (np. hostów) od siebie
-- wartość metryki jest używana przy wybieraniu trasy pakietu
-- może uwzględniać:
-	- liczbę hopów (routerów po drodze)
-	- [[Przesyłanie informacji#Throughput|przepustowość]] łączy
-	- obciążenie łączy
-	- niezawodność łączy
-	- koszt łączy
-- charakterystyczna dla protokołu
-
-## Podział metryk
-
-![[Pasted image 20250120215910.png|center]]
-### Metryki elementarne
-
-- opóźnienie:
-	- $D$ - delay
-	- jednostka: dziesiątki $μs$
-	- suma opóźnień między routerem a adresem docelowym
-- przepustowość:
-	- $B$ - [[|bandwidth]]
-	- jednostka: liczba sekund potrzebna na przesłanie 10 miliardów bitów, tzn.:$$\frac{10^7}{(\text{przepustowość w kb}/s)}$$
-	- najmniejsza z przepustowości między routerem a adresem docelowym
-	- w przypadku uzyskania ułamków metryka jest zaokrąglana w górę do najbliższej liczby całkowitej
-- niezawodność:
-	- $R$ - reliability
-	- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
-	- mierzy się przez 5 minut
-	- stopień pewności, że pakiet dotrze do celu
-	- % pakietów odrzuconych przez router przez przepełnienie bufora
-- obciążenie:
-	- $L$ - load
-	- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
-	- mierzy się przez 5 minut
-	- stopień największego obciążenia łącza na ścieżce
-	- % zapełnienia bufora routera
-- routery:
-	- $H$ - hops
-	- liczba routerów na ścieżce
-- MTU ścieżki
-
-## Zbieżność metryki
-
-- gwarancja, że po pewnym czasie t (czasie zbieżności) wszystkie routery będą “widziały” taką samą sieć. Ważne np. przy zmianie [[Sieci lokalne#Topologie|topologii]].
-- Protokół jest szybciej zbieżny od innego, jeżeli jego czas zbieżności jest krótszy. Szybciej zbieżny = lepiej. 
-- Stan ustalony - stan sieci, w którym wszystkie [[Routing#Router|routery]] mają taki sam obraz sieci
-
 # System autonomiczny
 
 - Fragment sieci nadzorowany przez spójną władzę administracyjną.
@@ -272,7 +223,7 @@ więc pozostawić tablicę routingu tak, jak jest.
 ## Cechy protokołów routingu dynamicznego
 
 - skalowalność
-- [[Routing#Metryka|metryka]]
+- [[Metryka|metryka]]
 - czas osiągania stanu ustalonego
 - bezpieczeństwo
 - ilość wymaganego dodatkowego ruchu

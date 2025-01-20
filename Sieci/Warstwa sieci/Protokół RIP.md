@@ -57,42 +57,41 @@ Poprzednie 2 akapity będą powtarzać się w nieskończoność, stąd nazwa “
 nieskończoności”.
 ## Przeciwdziałanie zliczaniu do nieskończoności
 
-- górne ograniczenie na odległość
-	- narzuca się maksymalną liczbę hopów, np. 15 dla RIPa
-	- kiedy router dostanie wiadomość z odległością 15, to odrzuca
-	- wada - wykrycie anomalii zajmuje pesymistycznie aż 16 * 30 s = 8 minut!
-- dzielony horyzont (split horizon):
-	- nie wysyła się informacji o dostępności danej sieci w kierunku tego routera, przez który prowadzi najlepsza trasa do tej sieci (czyli nie odsyłamy informacji do tego, od kogo ją dostaliśmy)
-	- zmniejsza prawdopodobieństwo zliczania do nieskończoności, ale go nie eliminuje
-- zatruwanie (poison reverse):
-	- modyfikacja dzielonego horyzontu, gdzie zamiast nie informować z powrotem, odsyłamy taką informację, ale z odległością ustawioną na nieskończoność, przykładowo:
+- Poniżej typowe mechanizmy wykorzystywane w tym celu:
+### Górne ograniczenie na odległość
+
+- narzuca się maksymalną liczbę hopów, np. 15 dla RIPa
+- kiedy router dostanie wiadomość z odległością 15, to odrzuca
+- wada - wykrycie anomalii zajmuje pesymistycznie aż 16 * 30 s = 8 minut!
+### Dzielony horyzont (split horizon):
+
+- nie wysyła się informacji o dostępności danej sieci w kierunku tego routera, przez który prowadzi najlepsza trasa do tej sieci (czyli nie odsyłamy informacji do tego, od kogo ją dostaliśmy)
+- zmniejsza prawdopodobieństwo zliczania do nieskończoności, ale go nie eliminuje
+### Zatruwanie (poison reverse)
+
+- modyfikacja dzielonego horyzontu, gdzie zamiast nie informować z powrotem, odsyłamy taką informację, ale z odległością ustawioną na nieskończoność, przykładowo:
 
 ![[Pasted image 20250120202133.png|center]]
 
-Mamy taką sieć i odległości, a zatem router Z wysyła pakiety do X przez router Y.
-Zwiększmy koszt ścieżki między Z a Y:
+- Mamy taką sieć i odległości, a zatem router Z wysyła pakiety do X przez router Y. Zwiększmy koszt ścieżki między Z a Y:
 
 ![[Pasted image 20250120202147.png|center]]
 
-Nastąpiłoby tutaj zliczanie do nieskończoności, bo Y nie widzi, że jest częścią ścieżki
-między Z a X.
+- Nastąpiłoby tutaj zliczanie do nieskończoności, bo Y nie widzi, że jest częścią ścieżki między Z a X.
+- Teraz następuje zatruwanie, gdy Z wysyła wiadomość do swoich sąsiadów. Y widzi, że koszt do Z wzrósł do 1000 (połączenie zostało zatrute), więc za chwilę dostanie wiadomość od X o lepszej drodze do Z i jej użyje.
+### Wstrzymywanie (holddown)
 
-Teraz następuje zatruwanie, gdy Z wysyła wiadomość do swoich sąsiadów. Y widzi, że
-koszt do Z wzrósł do 1000 (połączenie zostało zatrute), więc za chwilę dostanie wiadomość
-od X o lepszej drodze do Z i jej użyje.
+- kiedy router dostanie informacje, że jakaś znana wcześniej sieć jest niedostępna, włącza licznik (zwykle na 60 sekund)
+- jeśli dostanie wiadomość **od tego samego routera**, że sieć jest dostępna, to wyłącza licznik
+- jeśli dostanie wiadomość **od innego routera z lepszą trasą**, to wyłącza licznik
+- jeśli dostanie wiadomość **od innego routera z gorsza trasą**, to ignoruje ją
+- po upłynięciu licznika wpis dla danej sieci jest usuwany
+### Odświeżanie wymuszone
 
-- wstrzymywanie (holddown):
-	- kiedy router dostanie informacje, że jakaś znana wcześniej sieć jest niedostępna, włącza licznik (zwykle na 60 sekund)
-	- jeśli dostanie wiadomość **od tego samego routera**, że sieć jest dostępna, to wyłącza licznik
-	- jeśli dostanie wiadomość **od innego routera z lepszą trasą**, to wyłącza licznik
-	- jeśli dostanie wiadomość **od innego routera z gorsza trasą**, to ignoruje ją
-	- po upłynięciu licznika wpis dla danej sieci jest usuwany
-- odświeżanie wymuszone:
-	- de facto nie przeciwdziała zliczaniu do nieskończoności, ale przyspiesza zbieżność
-	- pakiet RIP jest wysyłany natychmiast po zmianie, a nie w ramach zwyczajnych wiadomości co 30 sekund
-	- “natychmiast” to często kilka sekund, żeby nie zalać sieci takimi komunikatami
-	- wysyła się tylko informację o zmianach
-
+- de facto nie przeciwdziała zliczaniu do nieskończoności, ale przyspiesza zbieżność
+- pakiet RIP jest wysyłany natychmiast po zmianie, a nie w ramach zwyczajnych wiadomości co 30 sekund
+- “natychmiast” to często kilka sekund, żeby nie zalać sieci takimi komunikatami
+- wysyła się tylko informację o zmianach
 # RIPv2
 
 
