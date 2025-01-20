@@ -1,5 +1,5 @@
 - protokół sterujący w warstwie sieciowej
-- wspomaga protokoły [[Protokół IP|IP]], UDP i TCP
+- wspomaga protokoły [[Protokół IP|IP]], [[UDP]] i [[TCP]]
 - przesyła informacje:
 	- o błędach transmisji, np. host nieosiągalny
 	- sterujące ruchem, np. przekierowania

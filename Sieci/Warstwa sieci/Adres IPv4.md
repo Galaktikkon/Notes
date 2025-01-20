@@ -9,7 +9,7 @@ Najpopularniejsza adresacja
 - **klasa adresu** w **klasowym IPv4** wyznacza, ile oktetów dostaje adres sieci, a ile adres hosta; rozróżnia się ją po pierwszych bitach pierwszego oktetu
 - pozwala na mniej adresów niż [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|MAC]], więc stosuje się hierarchiczne rozwiązania
 - komputerów w sieci jest o 2 mniej, niż wynikałoby z liczby bitów na adres hosta! Trzeba te 2 zarezerwować dla adres sieci i [[Adresacja w sieciach LAN#Broadcast|broadcast]]
-## Klasy adresowe
+## Klasy adresowe (adresacja klasowa - *Classful Addressing*)
 
 ![[Pasted image 20241105231543.png|center]]
 
@@ -60,7 +60,7 @@ Najpopularniejsza adresacja
 - 0.x.y.z
 	- komputer x.y.z w tej sieci. Podawany w trakcie uruchamiania jako adres źródłowy w komputerze posiadającym niekompletne informacje
 - 127.x.y.z
-	- adres `loopback`. Pakiet wysłany na taki adres nie może zostać wysłany poza komputer. Pozwala dwóm aplikacjom pracującym na tym samy komputerze komunikować się poprzez **TCP/IP**
+	- adres `loopback`. Pakiet wysłany na taki adres nie może zostać wysłany poza komputer. Pozwala dwóm aplikacjom pracującym na tym samym komputerze komunikować się poprzez **TCP/IP**
 # Adresy typu broadcast
 
 - Mogą być podane tylko jako adres docelowy.

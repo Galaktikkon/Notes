@@ -35,7 +35,7 @@
 # DHCP a wiele sieci
 
 - problem: 
-	- powyższy mechanizm działa poprawnie, jeśli serwer DHCP i host są w jednej sieci, więc nie zadziała np. dla jednej firmowej sieci i kilku podsieci w niej, bo routery zatrzymają broadcast ograniczony 255.255.255.255
+	- powyższy mechanizm działa poprawnie, jeśli serwer DHCP i host są w jednej sieci, więc nie zadziała np. dla jednej firmowej sieci i kilku podsieci w niej, bo routery zatrzymają [[Adres IPv4#Adresy typu broadcast|broadcast ograniczony]] 255.255.255.255
 - rozwiązania:
 	- osobny serwer DHCP dla każdej podsieci - koszty i trudność administracyjna, ale dla niewielu segmentów sieci dobre rozwiązanie, bo proste
 	- jedna maszyna obsługująca wszystkie sieci - programowy serwer ogarnia wszystkie sieci, ale to problem z bezpieczeństwem (bo wszyscy muszą mieć dostęp do tego serwera) i trzeba ciągnąć dodatkowe kable

@@ -1,4 +1,12 @@
 
+Adresacja bezklasowa (wprowadzona wraz z CIDR - Classless Inter-Domain Routing) **uniezależnia się od sztywnych klas adresowych**, co pozwala na większą elastyczność w zarządzaniu przestrzenią adresową.
+
+# Zalety adresacji bezklasowej:
+
+- **Efektywne wykorzystanie przestrzeni adresowej**: Można przydzielać dokładnie tyle adresów, ile jest potrzebne.
+- **Skalowalność**: Łatwiejsze zarządzanie sieciami w miarę ich rozwoju.
+- **Agregacja tras**: Uproszczenie tablic routingu.
+
 # Classless InterDomain Routing (CIDR)
 
 - klasy A, B, C, D, E już nie istnieją
