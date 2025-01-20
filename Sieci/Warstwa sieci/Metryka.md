@@ -14,31 +14,38 @@
 ![[Pasted image 20250120215910.png|center]]
 ### Metryki elementarne
 
-- opóźnienie:
-	- $D$ - delay
-	- jednostka: dziesiątki $μs$
-	- suma opóźnień między [[Routing#Router|routerem]] a adresem docelowym
-- przepustowość:
-	- $B$ - [[Przesyłanie informacji#Bandwidth|bandwidth]]
-	- jednostka: liczba sekund potrzebna na przesłanie 10 miliardów bitów, tzn.:$$\frac{10^7}{(\text{przepustowość w kb}/s)}$$
-	- najmniejsza z przepustowości między routerem a adresem docelowym
-	- w przypadku uzyskania ułamków metryka jest zaokrąglana w górę do najbliższej liczby całkowitej
-- niezawodność:
-	- $R$ - reliability
-	- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
-	- mierzy się przez 5 minut
-	- stopień pewności, że pakiet dotrze do celu
-	- % pakietów odrzuconych przez router przez przepełnienie bufora
-- obciążenie:
-	- $L$ - load
-	- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
-	- mierzy się przez 5 minut
-	- stopień największego obciążenia łącza na ścieżce
-	- % zapełnienia bufora routera
-- routery:
-	- $H$ - hops
-	- liczba routerów na ścieżce
-- MTU ścieżki
+Wyróżniamy:
+
+#### Opóźnienie
+
+- $D$ - delay
+- jednostka: dziesiątki $μs$
+- suma opóźnień między [[Routing#Router|routerem]] a adresem docelowym
+#### Przepustowość
+
+- $B$ - [[Przesyłanie informacji#Bandwidth|bandwidth]]
+- jednostka: liczba sekund potrzebna na przesłanie 10 miliardów bitów, tzn.:$$\frac{10^7}{(\text{przepustowość w kb}/s)}$$
+- najmniejsza z przepustowości między routerem a adresem docelowym
+- w przypadku uzyskania ułamków metryka jest zaokrąglana w górę do najbliższej liczby całkowitej
+#### Niezawodność
+
+- $R$ - reliability
+- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
+- mierzy się przez 5 minut
+- stopień pewności, że pakiet dotrze do celu
+- % pakietów odrzuconych przez router przez przepełnienie bufora
+#### Obciążenie
+
+- $L$ - load
+- jednostka: procent zapisany na 8 bitach (1 - 0%, 255 - 100%)
+- mierzy się przez 5 minut
+- stopień największego obciążenia łącza na ścieżce
+- % zapełnienia bufora routera
+#### Routery
+
+- $H$ - hops
+- liczba routerów na ścieżce
+#### [[Protokół IP#Fragmentacja pakietów IP|MTU ścieżki]]
 
 ## Zbieżność metryki
 

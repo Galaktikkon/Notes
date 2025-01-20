@@ -24,7 +24,7 @@ $\text{R} = \text{R}_{\text{S}} \cdot m$
 
 # Bandwidth
 
-Szerokość pasma (ang. *bandwidth*) - maksymalna **teoretyczna** przepustowość sieci w $[\frac{b}{s}]$.
+Szerokość pasma (ang. *bandwidth*) - maksymalna **teoretyczna** [[Przesyłanie informacji#Throughput|przepustowość]] sieci w $[\frac{b}{s}]$.
 
 # Throughput
 
