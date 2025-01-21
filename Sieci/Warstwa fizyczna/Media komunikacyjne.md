@@ -1,6 +1,4 @@
-
 # Podział mediów transmisyjnych:
-
 Media transmisyjne dzielimy na:
 - przewodowe:
 	- kable miedziane:
@@ -12,21 +10,15 @@ Media transmisyjne dzielimy na:
 - [[#Media bezprzewodowe|bezprzewodowe:]]
 	- radiowe (np. Wi-Fi, Bluetooth)
 	- line-of-sight (np. podczerwień IrDA)
-
 # Kable
-
 **Zależność:** długość $\cdot$ [[Przesyłanie informacji#Throughput|przepustowość]] = $const$ (dla [[#Skrętka|skrętek]] i [[#Światłowód|światłowodów]])
 - jeżeli dwukrotnie zmniejszymy tor transmisji danych, to *teoretycznie* pozwala nam to zwiększyć przepustowość dwukrotnie
-
 ## Oznaczenia kabli:
-
 - np. 100Base-TX, 10GBase-T
 - liczba - prędkość transmisji w Mbps lub Gbps (jeżeli jest G)
 - Base - baseband signaling
 - T, TX, FX, T4 - oznaczenie medium i sposobu jego użycia, np. F to [[#Światłowód|światłowód]]
-
 ## Kabel koncentryczny
-
 Kable koncentryczne (koncentryki):
 - 2 współosiowe kable rozdzielone izolatorem
 - budowa (idąc od środka):
@@ -58,7 +50,6 @@ Kable koncentryczne (koncentryki):
 	- stacje podłączane co najmniej co 0,5 m za pomocą trójnika, poza tym dowolnie
 	- max 30 stacji
 ## Skrętka
-
 Skrętka miedziana (ang. *twisted pair*):
 - 8 kabli miedzianych skręconych w przewodzie w 4 pary
 - każda para (2 kable) transmituje ten sam sygnał - dla samoredukcji zakłóceń (*cancellation*)
@@ -82,9 +73,7 @@ Skrętka miedziana (ang. *twisted pair*):
 	- można łączyć powyższe, żeby ekranować i pary, i całość (S/FTP lub FTP/ScTP)
 	- droższa, rzadziej wykorzystywana
 - ekran trzeba uziemić, tak samo jak przy koncentryku
-
 ### Zakończenia skrętek
-
 -  standardowa wtyczka 8P8C (czasami nazywa RJ-45, wtedy ma “klucz” z boku), ma 8 pinów i 8 styków, oznaczana też T-568A i T-568B
 - Kolejność kabli we wtyczce![[Pasted image 20241015003158.png|center]]
 - metoda zapamiętania: 4-5 to zawsze niebieski pełny i przerywany, 7-8 to zawsze brązowy przerywany i pełny. Późniejsze pary są przerywany-pełny: w A najpierw jest zielony (pomarańczowy na pozostałych miejscach), w B najpierw pomarańczowy (zielony na pozostałych miejscach)
@@ -96,9 +85,7 @@ Skrętka miedziana (ang. *twisted pair*):
 	- zamienione pary RX (odbiór) i TX (nadawanie)
 	- dla łączenia urządzeń tej samej klasy, np. switch-switch, komputer-router
 - Auto MDI-X - funkcja, dzięki której wszystko jedno, jaki kabel podłączymy, urządzenia ogarną (wymagane dla Gigabit Ethernetu)
-
 ## Światłowód
-
 Światłowód (ang. *optical fiber*):
 - szklany przewód (*core*, włókno krzemowe), w którym odbija się wiązka światła; otoczony nieprzezroczystym płaszczem (*cladding*), dzięki czemu następuje całkowite wewnętrzne odbicie (nic nie ucieka na zewnątrz)
 - światło jest wprowadzane pod kątem większym od kąta Brewstera, a w światłowodach wielomodowych też pod jak największym, na który pozwala kąt akceptacji (patrz niżej)
@@ -106,31 +93,25 @@ Skrętka miedziana (ang. *twisted pair*):
 - nadajnik: dioda laserowa lub **LED**
 - odbiornik: fotodioda
 - wymiary podaje się w formacie: *core diameter*/*cladding diameter* $[μm / μm]$
-
 ### Kąt akceptacji
-
 - maksymalny kąt (w stosunku do osi rdzenia włókna), pod którym można wprowadzić światło do światłowodu tak, żeby było [[Problemy w transmisji danych#Prędkość i czas propagacji|propagowane]] (żeby zaszło zjawisko całkowitego wewnętrznego odbicia); większy = lepiej, bo można wprowadzić większą część światła i ulepszyć wielomodowość
 - **aparatura numeryczna** - sinus kąta stożka akceptacji
 ### Okna transmisji
-
 - 4 optymalne zakresy długości fal, dla których [[Problemy w transmisji danych#Tłumienność|tłumienność]] włókna światłowodowego jest mała; są po kolei - im wyższe okno, tym większa długość fal, mniejsza tłumienność i wyższy zasięg przed potrzebą regeneracji, ale też większa trudność techniczna (i koszt)![[Pasted image 20241015004855.png|center]]
 	- **1. okno**: 850 nm (głównie dla światłowodów wielomodowych, **OM1**, **OM2**).
 	- **2. okno**: 1310 nm (używane w sieciach jednomodowych, **OS1**).
 	- **3. okno**: 1550 nm (używane w **WDM**, najmniejsze tłumienie).
 	- **4. okno**: 1625 nm (stosowane w transmisjach długodystansowych).
 ### Zalety
-
 - szybkość transmisji (> 100 Mb/s)
 - odporny na zakłócenia elektromagnetyczne
 - nie emituje zakłóceń elektromagnetycznych
 - niska [[Problemy w transmisji danych#Tłumienność|tłumienność ]](ok. 0,5-1,5 dB/km)
 ### Wady
-
 - drogie
 - ograniczona możliwość zginania i łączenia (na zgięciach i łączeniach tracona jest energia)
 - trudność instalacji
 ### Modowość
-
 - jednomodowy:
 	- **SMF**, Single-Mode Fiber
 	- zasięg: do 70 km
@@ -149,21 +130,16 @@ Skrętka miedziana (ang. *twisted pair*):
 	- ulepszany przez gęste zwielokrotnienie falowe, **DWDM**
 	- głównie stosowane w sieciach **[[Sieci lokalne|LAN]]**
 ### WDM
-
 - **WDM** (Wavelength Division Multiplexing) - wysyłanie w światłowodzie wielomodowym kilku wiązek światła o różnej długości fali (różnych “kolorach”, częstotliwości), co pozwala przesłać więcej danych naraz, niezależnie od siebie
 	- **CWDM (Coarse WDM)**: Używa mniejszej liczby kanałów (max 16-18) o szerokiej separacji fali (np. 20 nm).
 	- **DWDM (Dense WDM)**: Używa wielu kanałów (ponad 40, 80)na bardzo bliskich długościach fal (ok. 0,8 nm), co pozwala na przesyłanie ogromnych ilości danych.
 ### Podsłuchiwanie światłowodu
-
 - zrywa się izolację zewnętrzną i zgina tak, żeby nie zachodziło całkowite wewnętrzne odbicie, promienie “wylatują” wtedy częściowo na zewnątrz i można je odsłuchać; łatwo wykryć, bo zmieniają się parametry transmisji
 ### EDFA (Erbium-Doped Fiber Amplifier)
-
 - EDFA to wzmacniacz optyczny, który wzmacnia sygnały światłowodowe bez konieczności przekształcania ich na sygnały elektryczne. Używany w sieciach optycznych na długich dystansach, zwiększa zasięg transmisji przy minimalnych stratach.
 ### Ciemne włókno (Dark Fiber)
-
 - Światłowód, który został zainstalowany, ale nie jest jeszcze aktywnie wykorzystywany do transmisji danych. Można go wydzierżawić do własnych celów - np. na potrzebę stworzenia lokalnej sieci światłowodowej.
 # Media bezprzewodowe
-
 - line-of-sight:
 - np. podczerwień
 - nadajnik i odbiornik muszą być w jednej linii bez przeszkód po drodze

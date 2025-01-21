@@ -1,5 +1,4 @@
 # Okablowanie strukturalne
-
 Służy do budowy samej architektury sieci (jej struktury).
 Konstruowane jest zgodnie z normami **TIA 568-C.0** i **TIA 568-C.1** w oparciu o [[Sieci lokalne#Topologie#Gwiazdy|topologię gwiazdy]] i wykorzystuje 6 komponentów:
 - Entrance Facilities - miejsce pomiędzy infrastrukturą zewnętrzną (dostawcy) a wewnętrzną, zawiera więc punkt podziału (demarcation point); czasami jest w jednym pomieszczeniu z kolejnym komponentem
@@ -8,8 +7,6 @@ Konstruowane jest zgodnie z normami **TIA 568-C.0** i **TIA 568-C.1** w oparciu 
 - Horizontal Cabling - okablowanie poziome, łączy punkty rozdzielcze z gniazdami końcowymi w obszarach roboczych
 - Telecommunications Room/Enclosure (**WC**, Wiring Closet) - pośrednie punkty dystrybucyjne (IDF, Intermediate Distribution Frame), miejsca przejścia okablowania pionowego w poziome, typowo 1 na piętro
 - Work Area - obszary robocze, zakończenia okablowania poziomego, z których można już korzystać z sieci, muszą być min. 2 gniazda (zwykle **8P8C**)
-
-
 # Zalety i wady sieci budowanych w oparciu o kable koncentryczne
 - zalety:
 	- większa odległość komunikacji przed koniecznością wzmacniania sygnału od [[Media komunikacyjne#Skrętka|skrętki]]
@@ -20,7 +17,6 @@ Konstruowane jest zgodnie z normami **TIA 568-C.0** i **TIA 568-C.1** w oparciu 
 	- trudna diagnostyka awarii
 	- słaba skalowalność, ograniczona liczba stacji
 	- nie nadaje się do bezpośredniego podłączania nowoczesnych urządzeń, np. laptopów (nie mają gniazd do takich kabli)
-
 # Zalety i wady sieci budowanych w oparciu o okablowanie strukturalne
 - zalety:
 	- ustandaryzowany sposób budowania sieci i okablowania

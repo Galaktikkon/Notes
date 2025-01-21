@@ -1,11 +1,9 @@
 ## Prędkość i czas propagacji
-
 - prędkość propagacji - wielkość skończona
 - max ok. 2/3 c (200 tys. m/s)
 - czas propagacji - im większa odległość, tym większy, np. Europa - USA
 - czas wyrażany przez **RTT** (Round-Trip-Time), czas na drogę tam i z powrotem
 ## Tłumienność
-
 **Tłumienność** (ang. *attenuation*):
 - amplituda sygnału maleje w czasie transmisji
 - narzuca ograniczenia na długość [[Media komunikacyjne|medium]] (przed potrzebą regeneracji sygnału)
@@ -29,7 +27,6 @@
 **Wzmocnienie** - przeciwieństwo tłumienności, w powyższych wzorach trzeba zrobić $\text{P2/P1}$ i $\text{V2/V1}$.
 
 ## Zniekształcenia sygnału
-
 Zniekształcenia sygnału:
 - dzielą się na zewnętrzne (spoza kabla) i wewnętrzne (od innych elementów kabla)
 - zewnętrzne:
@@ -44,9 +41,7 @@ Zniekształcenia sygnału:
 	- ekranowanie medium - zwiększa koszt
 	- wzajemne znoszenie zakłóceń
 	- właściwy sposób prowadzenia okablowania
-
 ## Stopa błędu
-
 - wskaźnik prawdopodobieństwa wystąpienia przekłamania bitu informacji
 - Bit Error Rate (BER) - współczynnik ilości bitów błędnie otrzymanych do ogólnej liczby otrzymanych bitów
 - przewodowo - nawet tylko $10^{-13}$

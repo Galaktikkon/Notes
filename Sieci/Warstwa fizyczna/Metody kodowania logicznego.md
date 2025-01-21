@@ -1,4 +1,3 @@
-
 # 4B/5B
 - nazywane kodowaniem blokowym
 - dzieli bity na 4-bitowe bloki i zamienia je na 5-bitowe pakiety, dodając piąty bit
@@ -16,7 +15,6 @@
 - łatwa synchronizacja dzięki częstym zmianom sygnału oraz średniemu napięciu na linii (jeżeli 0 to -1V, a 1 to +1V, to powinno być średnio 0V)
 - łatwe wykrywanie błędów - łatwo wykryć sekwencję więcej niż 3 zer lub jedynek
 - przykład: zegary 30 MHz na kabel w sieci 100VG-AnyLAN dają 30 Mbit/s na parę, więc 120 Mbit/s w skrętce, 5 bitów kodujemy za pomocą 6, więc realnie mamy  $\frac{5}{6} \cdot 120$ = 100 Mbit/s
-
 # 8B/10B:
 - 8 bitów kodowane za pomocą 10
 - zapewnia DC balance
@@ -29,7 +27,6 @@
 - definiuje się 12 **symboli danych (data symbols)**, służących do zakodowania np. początku ramki, końca ramki, +przecinek, -przecinek (patrz kropki w zapisie D.x.y)
 - dla zachowania DC balance i max 5 zer/jedynek po kolei nie wykorzystuje wszystkich symboli
 - 1 Gb/s przekłada się na 1,25 GHz
-
 # 8B/6T
 - 8 bitów wysyłamy za pomocą 6 sygnałów 3-poziomowych -V, 0 i +V
 - powyższe pozwala, żeby prędkość transmisji stanowiła 3/4 data rate
