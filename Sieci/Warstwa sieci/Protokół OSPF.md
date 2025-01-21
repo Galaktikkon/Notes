@@ -1,3 +1,6 @@
+ - [film](https://www.youtube.com/watch?v=kfvJ8QVJscc&t) o protokole OSPF wprowadzający w tematykę
+ - [film](https://www.youtube.com/watch?v=yWNgrG5tlyI) o protokole OSPF  budujący intuicję
+
  # Cechy protokołu OSPF (Open Shortest Path First)
 - protokół [[Routing#Protokoły stanu łącza (link state)|link state]]
 - [[#Zalewanie z potwierdzeniami|zalewanie z potwierdzeniami]]
@@ -6,6 +9,7 @@
 - wszystkie rekordy są zabezpieczone sumą kontrolną
 - możliwość autoryzacji komunikatów (np. hasłem)
 ## Zalewanie z potwierdzeniami
+
 - gdy zostanie wykryta zmiana w topologii sieci, to wszystkie routery są powiadamiane i oczekuje się na potwierdzenie otrzymania tego powiadomienia.
 # Założenia projektowe OSPF
 - **separacja routerów od innych komputerów**
@@ -27,20 +31,48 @@
 	- stopień pewności dotarcia pakietu do celu
 	- maksymalna przepustowość ścieżki
 	- minimalne opóźnienie
+# Idea OSPF
+
+- wykryj sąsiadów i nawiąż z nimi relację
+	- protokół Hello
+- wymień się z każdym informacjami na temat sieci
+	- protokół Exchange
+	- w wyniku czego każdy ma komplet danych o sieci
+- niech każdy odpali algorytm Dijkstry, żeby obliczyć najlepsze ścieżki
+- w przypadku zmiany topologi powiadom wszystkich sąsiadów (zalej ich)
+	- protokół Flooding
+# Protokoły wewnętrzne OSPF
+
+- protokół Hello:
+	- sprawdza, czy łącze funkcjonuje
+	- wybiera reprezentanta z routerów w jednej sieci
+- protokół Exchange:
+	- synchronizacja map sieci
+	- asymetryczny (master-slave)
+		- na bazie RID, master inicjuje proces wymiany informacji
+		- RID to numer routera, może być nadawany w różny sposób
+- protokół Flooding:
+	- powiadamianie o zmianach w topologii sieci
 # Designated router
-- problem: liczba wpisów w tablicach połączeń może rosnąć nawet kwadratowo w stosunku do liczby routerów
-- idea: wyznaczyć specjalne designated routery i ich sąsiedzi będą widzieć tylko designated router jako sąsiada, więc będzie np. tylko 1 wpis zamiast 5
+
+- problem: 
+	- liczba wpisów w tablicach połączeń może rosnąć nawet kwadratowo w stosunku do liczby routerów
+- idea: 
+	- wyznaczyć specjalne designated routery i ich sąsiedzi będą widzieć tylko designated router jako sąsiada, więc będzie np. tylko 1 wpis zamiast 5
 - designated router widzi wszystkie sąsiednie routery jako sąsiadów
-- wybór następuje przy wymianie pakietów Hello (patrz niżej)
+- wybór następuje przy wymianie pakietów Hello
 - wybiera się też backup designated router
 - metryka:
 	- od designated do normalnego - 0
 	- od normalnego do designated - wynika z sieci
-# Wykrywanie sąsiadów:
+- jest to też sposób na zmniejszenie floodingu, informacje o zmianie topologii roześle dalej tylko designated router
+# Wykrywanie sąsiadów
+
 - każdy router wysyła ze wszystkich swoich interfejsów do swoich sąsiadów komunikaty Hello
 - po otrzymaniu informacji odsyła się z powrotem potwierdzenie
 - dzięki powyższemu routery mają pełne informacje o stanach łączy
 # Pakiety Link State Advertisement (LSA)
+
 - każdy router wysyła takie do swoich sąsiadów
 - są to tablice topologii każdego routera, wysyłane do sąsiadów, a potem z ich pomocą do reszty routerów w systemie autonomicznym
 - pozwalają routerom zbudować LSD (Link State Database), bo informują o stanie sieci (w tym możliwe, że odległych jej fragmentów względem danego routera)
@@ -52,6 +84,7 @@
 - odebranie starego pakietu:
 	- router odrzuca pakiet
 # Tablica Link State Database (LSD)
+
 - zawiera mapę sieci
 - każdy router ma taką, z ich pomocą tworzy się tablice routingu
 - budowana z użyciem LSA - zawiera te informacje, co LSA + wiadomość, skąd przyszedł pakiet
@@ -60,10 +93,12 @@
 - dla każdego routera (czyli źródła) jest tyle wpisów, ile ma on kabli do innych routerów
 - każdy wpis to pojedynczy krok, tzn. zawsze wpis dotyczy sąsiednich routerów (bo ma się z tego potem zbudować tablicę routingu)
 # Tworzenie tablicy routingu w OSPF
+
 - wykorzystuje algorytm Dijkstry (algorytm znajdowania najkrótszych ścieżek z wyróżnionym początkowym wierzchołkiem grafu)
 - wykorzystuje informacje z LSD
 - każdy router puszcza sobie algorytm Dijkstry z początkiem w sobie samym i w ten sposób znajduje najlepsze (najkrótsze) ścieżki do pozostałych routerów
 ## Algorytm Dijkstry w OSPF
+
 - oznaczenia:
 	- E - zbiór “gotowych” routerów (znamy najkrótszą ścieżkę)
 	- R - zbiór pozostałych routerów (jeszcze nic o nich nie wiemy)
@@ -168,15 +203,7 @@ router, to kończymy budowę drzewa.
 
 ![[Pasted image 20250121032857.png|center]]
 
-# Protokoły wewnętrzne OSPF
-- protokół Hello:
-	- sprawdza, czy łącze funkcjonuje
-	- wybiera reprezentanta z routerów w jednej sieci
-- protokół Exchange:
-	- synchronizacja map sieci
-	- asymetryczny (master-slave)
-- protokół Flooding:
-	- powiadamianie o zmianach w topologii sieci
+
 
 # Problem synchronizacji tablic topologii
 - opisy topologii w każdym routerze musi być identyczny
