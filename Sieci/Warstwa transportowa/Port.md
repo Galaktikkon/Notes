@@ -30,11 +30,11 @@
 - proces = port
 - może być albo (adres + port) lokalny, albo (adres + port) obcy
 
-## Sockety TCP
+## Sockety TCP (połączeniowe)
 
 ![[Pasted image 20250108014527.png|center]]
 
-## Sockety UDP
+## Sockety UDP (bezpołączeniowe)
 
 ![[Pasted image 20250108014553.png|center]]
 

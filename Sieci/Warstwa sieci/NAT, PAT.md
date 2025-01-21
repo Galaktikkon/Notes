@@ -109,13 +109,13 @@ zewnętrznym x.foo.com. Najpierw potrzebuje jego adresu IP, więc robi DNS Query
 ![[Pasted image 20250121043150.png|center]]
 
 1. Host pyta swój lokalny serwer DNS o adres:
-	- oba są w sieci wewnętrznej, więc komunikują się z użyciem swoich adresów IL
+	- oba są w sieci wewnętrznej, więc komunikują się z użyciem swoich adresów [[#Inside Local (IL)|IL]]
 	- 10.1.1.1 IL -> 10.1.1.10 IL
 2. Serwer DNS nie zna adresu IP, więc pyta swój nadrzędny serwer ns.foo.com:
 	- serwer z wewnątrz komunikuje się z zewnętrznym, ale tłumaczenie już znamy
-	- 10.1.1.10 IL -> 192.168.1.254 OL
+	- 10.1.1.10 IL -> 192.168.1.254 [[#Outside Local (OL)|OL]]
 3. Router przesyła dalej zapytanie:
-	- od nadawcy (adres IG) trzeba wysłać do odbiorcy (adres OG)
+	- od nadawcy (adres [[#Inside Global (IG)|IG]]) trzeba wysłać do odbiorcy (adres [[#Outside Global (OG)|OG]])
 	- 140.16.1.254 IG -> 10.1.1.10 OG
 4. Serwer DNS ns.foo.com zna adres IP hosta x.foo.com i może odpowiedzieć:
 	- dokładnie to, co powyżej, tylko w drugą stronę
