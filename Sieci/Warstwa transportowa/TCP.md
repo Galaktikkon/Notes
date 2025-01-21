@@ -27,7 +27,17 @@
 	- używa się bloków bajtów (bo do wysyłanych segmentów pakuje się ciąg bajtów)
 	- numer sekwencyjny = numer sekwencyjny pierwszego bajtu w segmencie
 	- pierwotny numer sekwencyjny dla sesji jest ustalany na początku połączenia w wiadomościach SYN (synchronizacja numerów sekwencyjnych)
+## Numery sekwencyjne w praktyce
 
+- generalnie idea jest taka sama, jak opisana wcześniej, ale w praktyce pojawiają się pewne problemy, przez które nie można zawsze zaczynać numerów od 1 (wtedy w ogóle nie trzeba by ich synchronizować)
+- problem:
+	- weźmy połączenie urządzeń A i B, gdzie A wysyła komunikaty do B
+	- A wysyła pierwsze 30 bajtów (od 1 do 30) do B
+	- komunikat gdzieś się gubi, mija sporo czasu, połączenie TCP zostaje zerwane (np. użytkownik A stracił cierpliwość)
+	- C nawiązuje nowe połączenie z B, niedługo zacznie wysyłać
+	- zagubiony pakiet A->B w tej chwili dociera, B widzi, że zaczyna się od 1, więc myśli, że to pierwszy pakiet od C
+- powyższe to tylko przykładowa sytuacja, może być wiele różnych błędów w praktyce
+- rozwiązanie: losowy **initial sequence number (ISN)**, integer 32-bitowy
 # Numery potwierdzenia
 
 - problem: kiedy pakujemy dane ze strumienia do segmentu TCP, to chcemy potem potwierdzenia, że konkretny segment dotarł
@@ -150,8 +160,8 @@ ostatniego miejsca, gdzie było potwierdzenie (żeby była ciągłość).
 	- dzięki takim blokom może być wiele połączeń klientów z jednym serwerem, bo każde połączenie ma własne TCB
 - tworzone na samym początku transmisji
 - przechowuje:
-	- sockety lokalny i obcy, a więc dwie pary (adres IP, port)
-	- aktualną wielkość okna
+	- [[Port#Socket (półasocjacja)|sockety]] lokalny i obcy, a więc dwie pary (adres IP, [[Port|port]])
+	- aktualną wielkość [[#Okno (window)|okna]]
 	- pierwszy niepotwierdzony bajt (początek “sent, but not yet acknowledged”)
 	- próg powolnego startu (slow start threshold, ssthresh)
 	- maksymalną wielkość segmentu (maximum segment size, MSS)
@@ -164,16 +174,16 @@ ostatniego miejsca, gdzie było potwierdzenie (żeby była ciągłość).
 
 ## Używane flagi z nagłówka TCP
 
-- SYN - synchronize, inicjalizuje i ustawia połączenie, np. synchronizuje numery sekwencji
-- FIN - finish, kończy połączenie
-- ACK - acknowledgement, potwierdza SYN, FIN lub cokolwiek innego
+- **SYN** - synchronize, inicjalizuje i ustawia połączenie, np. synchronizuje numery sekwencji
+- **FIN** - finish, kończy połączenie
+- **ACK** - acknowledgement, potwierdza SYN, FIN lub cokolwiek innego
 ## Stany i przejścia
 
 ### CLOSED
 
 - połączenia nie ma (jeszcze lub zostało zamknięte), przejścia:
-	- passive Open: po stronie serwera, otwiera port TCP i inicjalizuje TCB (nie wie jeszcze, kto się z nim połączy, więc w części na socket klienta ma 0 i czeka na połączenie, wtedy robi bind); przechodzi do stanu LISTENING
-	- active Open: po stronie klienta, otwiera port TCP, inicjalizuje TCB oraz inicjalizuje połączenie - wysyła SYN do serwera, żeby rozpocząć three-way handshake (patrz niżej)
+	- passive Open: po stronie serwera, otwiera [[Port|port]] TCP i inicjalizuje [[#Transmission Control Block (TCB)|TCB]] (nie wie jeszcze, kto się z nim połączy, więc w części na socket klienta ma 0 i czeka na połączenie, wtedy robi bind); przechodzi do stanu LISTENING
+	- active Open: po stronie klienta, otwiera port TCP, inicjalizuje TCB oraz inicjalizuje połączenie - wysyła SYN do serwera, żeby rozpocząć [[#Three-way handshake|three-way handshake]]
 ### LISTEN
 
 - serwer nasłuchuje inicjalizacji przez klientów (wiadomości SYN):
@@ -217,6 +227,12 @@ ostatniego miejsca, gdzie było potwierdzenie (żeby była ciągłość).
 
 - na wszelki wypadek jeszcze chwilę czekamy, żeby np. nowe połączenie nie namieszało nam czegoś ze starym:
 	- uruchamiany timer i czekamy - czeka się jakiś czas, jak zegar minie, to kończymy i przechodzimy do CLOSED
+- przyczyny istnienia:
+	- zapewnia, że ACK dotrze do drugiego urządzenia, a nawet w razie potrzeby zdąży się to zretransmitować i dotrzeć
+	- segmenty z różnych połączeń nie pomieszają się (to taki bufor czasowy)
+- standardowo wynosi $2 \cdot \text{maximum segment lifetime (MSL)}$ = 4 minuty
+- $\text{MSL}$ = 120 sekund (2 minuty)
+- często obniża się MSL, bo jest strasznie długie jak na dzisiejsze standardy
 
 ## Three-way handshake
 
@@ -237,3 +253,97 @@ ostatniego miejsca, gdzie było potwierdzenie (żeby była ciągłość).
 	- SYN odbiorca -> nadawca
 	- ACK nadawca -> odbiorca
 - optymalizacja: wysłać środkowe ACK i SYN jako połączoną wiadomość, SYN+ACK, co daje 3 komunikaty - stąd nazwa, three-way handshake
+
+### Przykład
+
+Załóżmy, że klient i serwer chcą nawiązać połączenie:
+
+| Krok                | Flagi   | Numer sekwencyjny (Seq) | Numer potwierdzenia (Ack) |
+| ------------------- | ------- | ----------------------- | ------------------------- |
+| **Klient → Serwer** | SYN     | Seq = 1000              | Ack = —                   |
+| **Serwer → Klient** | SYN-ACK | Seq = 5000              | Ack = 1001                |
+| **Klient → Serwer** | ACK     | Seq = 1001              | Ack = 5001                |
+
+1. Klient zaczyna od ISN = 1000
+2. Serwer odpowiada swoim ISN = 5000 i potwierdza ISN klienta.
+3. Klient potwierdza ISN serwera, a połączenie zostaje nawiązane.
+
+### Jednoczesne otwarcie
+
+![[Pasted image 20250122002855.png|center]]
+
+- sytuacja, kiedy dwóch klientów jednocześnie próbuje nawiązać ze sobą połączenie
+- dość rzadka sytuacja, m. in. wymaga, żeby jeden z klientów używał dobrze znanego portu (numer < 1024)
+- nie zachodzi three-way handshake, bardziej coś jak dwa jednoczesne two-way handshake
+- każda strona wysyła SYN, otrzymuje SYN od drugiej strony, wysyła ACK drugiej stronie i oczekuje na własny ACK
+- głównym warunkiem, żeby zaszła taka sytuacja jest to, żeby jedna strona wysyłała SYN i dostała SYN od drugiej strony jeszcze przed otrzymaniem ACK
+
+### Inne parametry
+
+- TCP może ustawiać całkiem sporo parametrów przy okazji three-way handshake poza synchronizacją numerów sekwencyjnych
+- używają pola Options o zmiennej długości w nagłówku TCP
+- przenoszone we wiadomościach SYN (więc 2 razy przy inicjalizacji)
+- przykładowo:
+	- **MSS (maximum segment size)** - odbiorca zapisuje sobie ten rozmiar w swoim [[#Transmission Control Block (TCB)|TCB]] i nigdy nie wyśle drugiej stronie segmentów większych niż ta wartość; jest to asymetryczne - klient i serwer mogą mieć różne MSS, bo np. klient przyjmuje tylko małe segmenty, a serwer nawet bardzo duże
+	- **współczynnik skalowania okna** - pozwala na rozmiary okna większe niż pozwalałoby na to normalnie 16-bitowe pole “rozmiar okna” w nagłówku TCP; rozmiar okna jest mnożony przez to pole
+	- **selective acknowledgement permitted** - czy można używać selective acknowledgement, tzn. retransmitować tylko zgubione pakiety (nieciągłość w potwierdzonych pakietach)
+	- **alternatywa metoda liczenia sumy kontrolnej** - można ustawić customowy sposób liczenia sumy kontrolnej
+
+# Połączenia półotwarte, resetowanie połączenia
+
+- problem: 
+	- całkiem prawdopodobna jest sytuacja, kiedy jedno urządzenie podczas sesji TCP jest [[#ESTABLISHED|ESTABLISHED]] cały czas (np. serwer, który pracuje cały czas), a drugie chwilowo stanie się [[#CLOSED|CLOSED]] (np. bluescreen w Windowsie u klienta, ale klient po chwili znowu się połączy)
+- połączenie półotwarte (half-open) / półzamknięte (half-close) - taki stan połączenia TCP, gdzie strony się rozsynchronizowały, np. przez zcrashowanie się jednej ze stron; jedna ze stron zamknęła swój socket bez powiadamiania drugiej strony, przez co z jednej strony połączenie jest otwarte (ta strona, która jest nieświadoma), a z drugiej zamknięte
+- do obsługi takich sytuacji używa się funkcji resetu, czyli wiadomości z ustawioną flagą RST
+- wiadomość resetująca generowana jest przy napotkaniu nietypowej sytuacji, przykładowo:
+	- otrzymanie segmentu TCP od urządzenia, z którym odbiorca nie ma połączenia (innego niż SYN do nawiązania połączenia)
+	- otrzymanie wiadomości z błędnym numerem sekwencyjnym lub numerem potwierdzenia
+		- wskazuje na to, że wiadomość może np. należeć do poprzednio istniejącego połączenia
+	- otrzymanie wiadomości SYN na port, gdzie nie ma stanu [[#LISTEN|LISTEN]]
+- urządzenie, które wykryje problem wysyła RST do urządzenia, od którego przyszła problematyczna wiadomość
+- reakcja na otrzymanie resetu:
+	- najpierw zawsze sprawdza się numer sekwencji (czy jest prawidłowy), np. żeby zapobiec atakowi i wymuszeniu resetu
+	- ogólnie reakcja zależy od tego, w jakim stanie jest odbiorca
+		- [[#LISTEN|LISTEN]] - odbiorca ignoruje reset
+		- [[#SYN-RECEIVED|SYN-RECEIVED]], a wcześniej był w stanie LISTEN - wraca do stanu LISTEN (dość normalna sytuacja resetu serwera)
+		- dowolna inna sytuacja - porzucenie połączenia, powrót do stanu [[#CLOSED|CLOSED]], przekazanie informacji o tym warstwie wyższej (żeby np. od razu znowu nawiązać połączenie)
+# Keepalive
+
+- wysyłanie okresowo wiadomości **keepalive** (tylko nagłówek, zero danych), na które powinno normalnie przyjść ACK
+- **nie jest obowiązkowy**, nie jest częścią standardu
+- elementy:
+	- keepalive timer - odpala ten licznik, jak dojdzie do 0, to wysyła wiadomość keepalive; jest puszczany od nowa, jak przyjdzie ACK
+	- keepalive interval - jeżeli ACK keepalive’a nie przyjdzie w tym czasie, to znowu wysyła keepalive (timer dalej jest 0)
+	- keepalive retry - liczba retransmisji keepalive’a; jeżeli się zużyją, to zakładamy, że druga strona przestała istnieć
+- zalety:
+	- pozwala szybko wykryć problemy z połączeniem
+	- oszczędność np. przy serwerach - pozwala eliminować bierne połączenia (bo np. klient się zcrashował i socket “wisi” na serwerze)
+- wady:
+	- potencjalnie niepotrzebne - nawet, jeżeli nie ma komunikacji przez długi czas i jest to przez błąd, to zostałoby to wykryte, kiedy komunikacja w końcu nastąpi (i naprawione przez reset)
+	- generuje dodatkowy ruch na łączu
+	- trzeba dodatkowo zrobić mechanizm obsługi takich segmentów
+	- teoretycznie może wyłączyć dobre połączenie - może się zdarzyć tak, że normalnie wszystko z łączem jest ok, tylko urządzenia milczą, a akurat zepsuje się przy wiadomości keepalive i zostanie to uznane za ogólny problem z połączeniem (chociaż to mało prawdopodobna sytuacja)
+# Zamykanie połączenia
+
+- problem: 
+	- oba urządzenia ciągle nadają i odbierają strumień bajtów, więc nie można tak po prostu zamknąć połączenia; trzeba przekazać drugiej stronie “koniec jest bliski”, żeby przestać nadawać, dokończyć odbieranie i zakończyć połączenie, bo każda strona zamyka swój koniec niezależnie
+- rozwiązanie: 
+	- dużo stanów i skomplikowany proces (patrz diagram), bardziej niż przy nawiązywaniu połączenia
+- możliwe sytuacje:
+	- jedna strona chce zamknąć połączenie - trzeba poinformować drugą stronę i najpierw ta druga strona kończy połączenie i o tym informuje, a dopiero potem samemu można zakończyć
+	- jednoczesne zakończenie - coś jak jednoczesne włączanie, ale w drugą stronę
+## Normalne zamykanie
+- mamy 2 strony: nadawcę (on chce zakończyć połączenie) i odbiorcę (to jest ta bierna strona, która się dowiaduje o chęci zakończenia)
+- przykładowo dla klienta-nadawcy i serwera-odbiorcy:
+
+![[Pasted image 20250122004503.png|center]]
+
+- 2 two-way handshake po kolei
+- algorytm:
+	1. FIN od klienta do serwera - klient chce zamknąć u siebie aplikację, wysyła informację serwerowi o chęci zakończenia; klient czeka w stanie FIN-WAIT-1
+	2. ACK od serwera do klienta - serwer zaczyna zamykać aplikację, potwierdza klientowi; klient po otrzymaniu czeka w stanie FIN-WAIT-2
+	3. Serwer czeka w stanie CLOSE-WAIT, aż aplikacja raczy się zamknąć; w tym czasie serwer może jeszcze coś wysyłać do klienta i on to otrzyma, ale klient nic sam nie wyśle
+	4. FIN od serwera do klienta - kiedy serwer w końcu zamknie aplikację, to wysyła klientowi wiadomość FIN i czeka w stanie LAST-ACK
+	5. ACK od klienta do serwera - to jest właśnie ten ostatni ACK z nazwy stanu serwera; serwer w końcu może zamknąć połączenie, klient też
+	6. TIME-WAIT - klient czeka jeszcze trochę czasu, a potem przechodzi w CLOSED
+
