@@ -1,7 +1,7 @@
 Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) między dwoma hostami.
 # Router
 
-![[62-629684_network-router-clip-art-cisco-router-symbol 1.jpg]]
+![[clipart629684.png|center]]
 
 - urządzenie sieciowe pracujące w trzeciej warstwie. Służy do łączenia różnych sieci komputerowych (różnych w sensie informatycznym, czyli np. o różnych klasach, maskach itd.), pełni więc rolę węzła komunikacyjnego. Na podstawie informacji zawartych w pakietach TCP/IP jest w stanie przekazać pakiety z dołączonej do siebie sieci źródłowej do docelowej, rozróżniając ją spośród wielu dołączonych do siebie sieci. Proces kierowania ruchem nosi nazwę trasowania, routingu lub routowania.
 # Routing źródłowy
@@ -28,25 +28,20 @@ Jest to jedno z głównych zadań warstwy 3 - znalezienie drogi (najlepszej) mi�
 - **brama domyślna** - maska 0.0.0.0, “najgorsza” maska, zostanie użyta, jeżeli nie znajdzie się żadne lepsze dopasowanie i jest w tablicy
 - wpisy można **[[Routing#Agregacja wpisów|agregować]]**, łącząc wiele podobnych w jeden (np. jeśli wiele wpisów ma ten sam adres następnego skoku) i zaoszczędzić miejsce w tablicy routingu (pozwala na to zasada najdłuższego dopasowania)
 # Routing statyczny
-
 - wpisy w tablicy routingu są zarządzane ręcznie przez administratora
 ## Zalety
-
 - łatwa konfiguracja (dla małych sieci)
 - nie wymaga dodatkowych danych na łączu ani ich przetwarzania (w przeciwieństwie do [[Routing#Routing dynamiczny|dynamicznego]])
 - przewidywalność – trasa pakietu jest znana i może być kontrolowana
 ## Wady
-
 - nie skaluje się
 - zmiany konfiguracji są trudne (zmiana może wymagać przekonfigurowania całej sieci)
 - brak dostosowania do zmieniających się warunków w sieci
 # Agregacja wpisów
-
 - idea: niektóre wpisy są redundantne i można je zredukować
 - trasy biegnące przez ten sam router można zgrupować, bo i tak ważny jest tylko **next hop** (następny router na trasie)
 - dla każdego pakietu routery wybierają z tablicy routingu wpis o **najdłuższej pasującej [[Podsieci#Maska podsieci|masce]]**, więc wpisy można rozróżniać
 ## Trasa domyślna
-
 - wpis 0.0.0.0/0
 - hosty wysyłają tam pakiety, jeżeli nie było “lepszego” wpisu (pasującego, z dłuższą maską)
 ## Przykład
@@ -156,33 +151,40 @@ skorzystaliśmy powyżej - ma maskę /0, a więc najmniej ważną, bo jest tras�
 Ten router i wpis zostaną użyte tylko, jeżeli żaden inny wpis nie będzie pasował, więc
 chociaż teoretycznie zawiera pozostałe grupy, to w praktyce to bez znaczenia. Możemy
 więc pozostawić tablicę routingu tak, jak jest.
-
 # System autonomiczny
-
 - Fragment sieci nadzorowany przez spójną władzę administracyjną.
 - Zbiór routerów korzystających z tego samego protokołu routingu dynamicznego.
 - Identyfikowane przez numery nadawane przez **RIR** (Regional Internet Registries).
 ### Zalety
-
 - Hierarchiczna struktura.
 - Skalowalność.
 - Zmniejsza wielkość [[Routing#Tablica routingu|tablic routingu]].
 - Przyspiesza wyznaczanie tablic routingu.
+# Dystans administracyjny
+- miara zaufania (wiarygodności) wobec źródła o trasie
+- liczba naturalna od 0 do 255
+- mając wybór między kilkoma trasami do tego samego celu, wybiera się tą z niższym dystansem administracyjnym (a więc bardziej godną zaufania)
+- wybrane dystanse administracyjne:
+	- directly connected - 0
+	- wpis statyczny - 1
+	- EIGRP, agregowana - 5
+	- EIGRP, wewnętrzna - 90
+	- IGRP - 100
+	- OSPF - 110
+	- IS-IS - 115
+	- RIP - 120
+	- EGP - 140
 # Routing dynamiczny
-
 - informacje routingu są utrzymywane przez protokół
 ## Zalety
-
 - zawartość tablic routingu jest na bieżąco dostosowywana do warunków w sieci
 - dobrze skalowalny
 - łatwość konfiguracji (w stosunku do wielkości sieci)
 ## Wady
-
 - obciąża sieć informacjami potrzebnymi protokołowi routingu
 - bezpieczeństwo - informacje można podsłuchać
 - ciężko skonfigurować pracę między różnymi protokołami
 - większa złożoność działania sieci, protokoły są skomplikowane
-
 ## Podział routingu dynamicznego
 
 - Obszar zastosowania
@@ -192,23 +194,18 @@ więc pozostawić tablicę routingu tak, jak jest.
 	- wektor odległości, np. [[Protokół RIP|RIP]], IGRP, EIGRP
 	- stan łącza, np. OSPF, IS-IS
 ### Obsługa [[Adresacja bezklasowa#Classless InterDomain Routing (CIDR)|CIDR]]
-
 - klasowe - np. [[Protokół RIP#RIPv1|RIPv1]], IGRP
 - bezklasowe - np. [[Protokół RIP#RIPv2|RIPv2]], EIGRP, OSPF, IS-IS
 ### Aktywność
-
 - proaktywne - szukają drogi do celu jeszcze zanim będzie potrzebna
 - reaktywne - szukają drogi do celu dopiero w chwili, kiedy będzie potrzebna
 ## Protokoły wewnętrzne vs zewnętrzne
-
 ### Wewnętrzne
-
 - stosowane wewnątrz jednej domeny administracyjnej
 - proste, mało obciążają routery
 - mało skalowalne
 - np. [[Protokół RIP|RIP]], IGRP, OSPF
 ### Zewnętrzne
-
 - wymiana informacji między niezależnymi administracyjnie sieciami
 - dobrze skalowalne, łatwo obsługują duże sieci
 - skomplikowane, wymagają przesyłu dużej ilości dodatkowych informacji
@@ -220,7 +217,6 @@ więc pozostawić tablicę routingu tak, jak jest.
 - bezpieczeństwo
 - ilość wymaganego dodatkowego ruchu
 - klasowość
-
 ## Protokoły stanu łącza (link state):
 - router wysyła wszystkim routerom informacje o stanie swoich łączy (a więc zna swoich sąsiadów, bo są na końcach tych łączy)
 - router ma dynamicznie uaktualnianą “mapę sieci”, czyli LSD (Link State Database)
@@ -232,7 +228,6 @@ więc pozostawić tablicę routingu tak, jak jest.
 - możliwość stosowania wielu metryk
 - stosunkowo skomplikowane
 ## Protokoły dystans-wektor
-
 - routery wysyłają sąsiadom informacje o wszystkich znanych sobie sieciach
 - dystans - jak daleko jest do tych sieci (w sensie metryki)
 - wektor - jak można się do niej dostać (do jakiego routera się kierować)
@@ -266,7 +261,6 @@ $$
 	2. Routery otrzymują informacje od swoich sąsiadów
 	3. Porównują odległość do określonego odbiorcy z dotychczas znaną; jeżeli jest mniejsza, to aktualizują odległość oraz router, od którego otrzymano lepszą ścieżkę
 ### Przykład:
-
 ![[Pasted image 20250120201148.png|center]]
 
 Mamy daną taką sieć. Routery na początku znają tylko swoich bezpośrednich sąsiadów.
