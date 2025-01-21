@@ -5,9 +5,9 @@
 - wykorzystywany w EIGRP (Enhanced IGRP)
 - zaletą jest, że robi zamieszanie tylko w pobliżu zmiany sieci - reszta nie musi wiedzieć o tym, że gdzieś nastąpiła zmiana
 - używa 3 tablic
-	- [[Protokół IGRP#Neighbour table|neighbour table]]
-	- [[Protokół IGRP#Topology table|topology table]]
-	- [[Protokół IGRP#Topology table|routing table]]
+	- [[#Neighbour table|neighbour table]]
+	- [[#Topology table|topology table]]
+	- [[#Topology table|routing table]]
 - definiuje funkcje
 	- $d(k, j)$ - odległość między routerami $k$ i $j$
 	- $l(i, k)$ - koszt łącza między routerem $i$ oraz jego sąsiadem $k$
@@ -23,8 +23,8 @@
 - sieci docelowe rozgłaszane przez sąsiednie routery
 - rekordy zawierają:
 	- adres celu
-	- [[Protokół IGRP#Feasible distance|feasible distance]] do celu
-	- listę [[Protokół IGRP#Reported distance (advertised distance)|reported distance]] dla sąsiadów
+	- [[#Feasible distance|feasible distance]] do celu
+	- listę [[#Reported distance (advertised distance)|reported distance]] dla sąsiadów
 	- stan trasy
 		- pasywna - stabilna i gotowa do użycia
 		- aktywna - DUAL jeszcze ją oblicza
