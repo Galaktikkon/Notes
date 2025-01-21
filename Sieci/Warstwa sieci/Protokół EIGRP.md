@@ -13,6 +13,10 @@
 	- $d(k, j)$ - odległość między routerami $k$ i $j$
 	- $l(i, k)$ - koszt łącza między routerem $i$ oraz jego sąsiadem $k$
 - będąc routerem $i$ chcemy dostać najlepszą ścieżkę do $j$, więc pytamy sąsiada $k$ o nią
+	- używamy do tego wcześniej obliczonych tablic poprzez zapytania do sąsiadów
+		- to czy ktoś może być sąsiadem jest ustalane na początku poprzez wymianę komunikatów z parametrami ($K$, autoryzacji, itd.)
+	- na zasadzie
+		- $k$ wie jak najlepiej dostać się do $j$, więc wezmę od niego tę informację dodam koszt trasy do $k$ i zobaczę czy to jest najlepsza trasa
 
 ![[Pasted image 20250120223808.png|center]]
 
@@ -39,7 +43,7 @@
 ## Successor 
 - sąsiad, przez którego biegnie obecna najlepsza ścieżka, a więc ten, od którego otrzymaliśmy wiadomość, z której zrobiliśmy feasible distance.
 ## Feasible successor
-- sąsiad, którego reported distance jest krótsze niż obecne feasible distance. Wystarczy więc, że jego odległość do docelowej sieci jest mniejsza, nie bierzemy pod uwagę kabla od naszego routera do tego sąsiada, jak w przypadku feasible distance!
+- sąsiad, którego reported distance jest krótsze niż obecne feasible distance (bez kabla do niego!)-  tzw. **Feasibility Condition** - to zapobiega pętlom, zapasowa trasa **nie prowadzi z powrotem** do tego samego routera, z którego pochodzi. Gdyby trasa prowadziła do routera, który już zna tę trasę jako główną, mogłoby to stworzyć cykl, czyli pętlę. Warunek **FC** skutecznie eliminuje taki scenariusz, ponieważ zapasowa trasa zawsze jest bezpieczna i nie tworzy cyklu.
 # Metryka EIGRP
 - domyślny wzór podobny, jak w IGRP:
 $$M = (B + D) \cdot 256$$
@@ -160,7 +164,6 @@ także zapisać feasible successora na wypadek, jakby C padł. Co charakterystyc
 ma pojęcia o tym, że bez C w ogóle nie dostałby się do sieci “a”.
 To już ostateczny stan sieci. Dopóki nie nastąpi kolejna zmiana topologii i kolejny Update,
 nic się nie zmieni.
-
 # Wady i zalety EIGRP
 
 - zalety:

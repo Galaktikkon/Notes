@@ -27,3 +27,18 @@
 	- stopień pewności dotarcia pakietu do celu
 	- maksymalna przepustowość ścieżki
 	- minimalne opóźnienie
+# Designated router
+- problem: liczba wpisów w tablicach połączeń może rosnąć nawet kwadratowo w stosunku do liczby routerów
+- idea: wyznaczyć specjalne designated routery i ich sąsiedzi będą widzieć tylko designated router jako sąsiada, więc będzie np. tylko 1 wpis zamiast 5
+- designated router widzi wszystkie sąsiednie routery jako sąsiadów
+- wybór następuje przy wymianie pakietów Hello (patrz niżej)
+- wybiera się też backup designated router
+- metryka:
+	- od designated do normalnego - 0
+	- od normalnego do designated - wynika z sieci
+
+# Wykrywanie sąsiadów:
+● każdy router wysyła ze wszystkich swoich interfejsów do swoich sąsiadów komunikaty
+Hello
+● po otrzymaniu informacji odsyła się z powrotem potwierdzenie
+● dzięki powyższemu routery mają pełne informacje o stanach łączy
