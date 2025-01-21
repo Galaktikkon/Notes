@@ -1,5 +1,4 @@
 # Reflektometr:
-
 - przyrząd pomiarowy, mierzy długość i [[Problemy w transmisji danych#Tłumienność|tłumienność]] przewodów
 - dzielą się na:
 	- do przewodów miedzianych, **TDR** (Time-Domain Reflectometer)

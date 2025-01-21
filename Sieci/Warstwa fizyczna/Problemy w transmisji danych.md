@@ -49,4 +49,3 @@ Zniekształcenia sygnału:
 - bezprzewodowo - nawet aż $10^{-3}$
 	- na 1000 bitów 1 ulega przekłamaniu
 	- musi być to uwzględniane przez protokoły
-

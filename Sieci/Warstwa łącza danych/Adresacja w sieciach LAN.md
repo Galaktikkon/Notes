@@ -1,5 +1,4 @@
 # Network Interface Card (NIC)
-
 **Karta sieciowa**:
 - Urządzenie pracujące w warstwie (pierwszej i) drugiej modelu [[Modele warstwowe#Warstwy modelu OSI/ISO]]
 	- (zapewnia dostęp do medium w określonym standardzie)
@@ -7,11 +6,9 @@
 	- posiada (najczęściej niezmienny) adres **MAC**
 - Połączone z urządzeniem sieciowym poprzez jego magistralę
 # Rodzaje transmisji:
-
 - w żadnym przypadku nie ma gwarancji, że informacja trafi tylko do zaadresowanego urządzenia! Adres mówi tylko o tym, czy urządzenie powinno się zainteresować informacją
 - na współczesnym sprzęcie [[Urządzenia warstwy łącza danych#Switch|switche]] interpretują [[Ramka|ramki]], żeby powyższe nie zachodziło, ale sam [[Ethernet]] niczego nie gwarantuje
 ## Broadcast
-
 - wysyłany do wszystkich urządzeń w danej sieci
 - otrzymają go wszystkie urządzenia, czy tego chcą, czy nie
 - granice: [[Routing#Router|routery,]] ew. [[Urządzenia warstwy łącza danych#Switch|switche]] z [[Wirtualne sieci lokalne (VLAN)|VLANami]]

@@ -3,7 +3,6 @@
 	- fazę - Phase Modulation, PM
 	- częstotliwość, Frequency Modulation, FM
 # Modulacja AM
-
 - używana, gdy mamy sygnał szerokopasmowy o małej częstotliwości (informacyjny)
 - realizuje kodowanie jako chwilowe zmiany amplitudy sygnału nośnego
 - idea: mamy sygnał bazowy (carrier) i modulujący (message), dodajemy je do siebie i to transmitujemy; zmieniamy amplitudę (bo dodawaliśmy fale), ale nie częstotliwość (fale są tak samo gęste)
@@ -14,7 +13,6 @@
 
 ![[Pasted image 20241028003029.png|center]]
 # Modulacja FM
-
 - realizuje kodowanie jako chwilowe zmiany częstotliwości sygnału nośnego
 - idea: tam, gdzie message ma niską częstotliwość sygnał jest rzadszy, tam gdzie wysoka, jest gęstszy
 - pozwala odbiornikowi na odfiltrowanie znacznie więcej zakłóceń niż przy [[#Modulacja AM|AM]]
@@ -24,7 +22,6 @@
 ![[Pasted image 20241028003041.png|center]]
 
 # Modulacja PM
-
 - realizuje kodowanie jako chwilowe zmiany fazy sygnału nośnego
 - demodulacja: zamiana na modulację FM, a potem normalna demodulacja
 - szeroko stosowana w transmisji cyfrowej, np. bezprzewodowy LAN, RFID, Bluetooth
