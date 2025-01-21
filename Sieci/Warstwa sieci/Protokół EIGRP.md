@@ -46,8 +46,7 @@ $$M = (B + D) \cdot 256$$
 - mnożenie przez 256 wynika z tego, że IGRP i EIGRP mają różną liczbę bitów na wielkość metryki (24 vs 32 bity); pomnożenie przez 256 zapewnia kompatybilność tych protokołów
 ## Przykład działania
 
-
-
+Tutaj pokazana jest sama metryka i jej obliczanie, pełnia EIGRP połączona z algorytmem DUAL jest w [[#Pełny przykład działania algorytmu DUAL|przykładzie]] poniżej.
 
 ![[Pasted image 20250121000941.png|center]]
 
