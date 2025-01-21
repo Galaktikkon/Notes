@@ -1,18 +1,29 @@
 **NAT** (Network Address Translation) - sposób mapowania adresów IP z różnych przestrzeni
-adresowych na siebie poprzez podmianę informacji w nagłówku IP, np. adresu źródłowego
+adresowych na siebie poprzez podmianę informacji w [[Protokół IP#Długość nagłówka|nagłówku IP]], np. adresu źródłowego
 czy docelowego.
 # Zalety NAT
+
 - pozwala sieciom z adresami prywatnymi IP na komunikację z internetem
 - pozwala na komunikację sieciom z nakładającymi się adresami IP
 - eliminuje potrzebę readresacji hostów przy zmianie ISP lub sposobów adresacji
 - ułatwia administrację adresami IP
-- w wersji PAT oszczędza przestrzeń adresową IPv4
+- w wersji PAT oszczędza [[Adres IPv4#Klasy adresowe (adresacja klasowa - *Classful Addressing*)|przestrzeń adresową IPv4]]
 - zwiększa bezpieczeństwo, ukrywając “prawdziwe” adresy IP
-# Rodzaje adresów w NAT:
-- Inside Local (IL) - prawdziwy adres hosta wewnątrz sieci (zwykle prywatny adres IP)
-- Inside Global (IG) - adres hosta wewnętrznego tak, jak jest widoczny na zewnątrz (zwykle pojedynczy adres przydzielony przez ISP)
-- Outside Local (OL) - adres hosta zewnętrznego tak, jak jest widoczny wewnątrz
-- Outside Global (OG) - prawdziwy adres hosta zewnętrznego
+# Rodzaje adresów w NAT
+
+## Inside Local (IL) 
+
+- prawdziwy adres hosta wewnątrz sieci (zwykle prywatny adres IP)
+## Inside Global (IG) 
+
+- adres hosta wewnętrznego tak, jak jest widoczny na zewnątrz (zwykle pojedynczy adres przydzielony przez ISP)
+## Outside Local (OL)
+
+- adres hosta zewnętrznego tak, jak jest widoczny wewnątrz
+## Outside Global (OG)
+
+- prawdziwy adres hosta zewnętrznego
+## Perspektywa hosta
 
 Patrząc z perspektywy hosta wewnątrz sieci z NAT:
 - on wie, że ma naprawdę adres IL
@@ -27,9 +38,11 @@ Ważne, że te adresy mogą być takie same! Przykładowo IL może być takie sa
 prostu wtedy nie ukrywamy tego prawdziwego adresu (ale musi być wtedy globalnie
 unikatowy).
 # Rodzaje translacji
+
 - statyczna - wpisane ręcznie
 - dynamiczna - dynamicznie zarządzane przez mechanizm
 # NAT vs PAT
+
 - Simple NAT (Network Address Translation):
 	- jak jest napisane NAT, to zwykle ma się na myśli to
 	- mapowanie 1-do-1 adresów IP
@@ -43,14 +56,15 @@ unikatowy).
 	- nazywany też Extended NAT
 
 # Rodzaje tłumaczenia w NAT
+
 - inside source address:
-	- Inside Local -> Inside Global (IL -> IG)
+	- [[#Inside Local (IL)|Inside Local]] -> [[#Inside Global (IG)|Inside Global]] (IL -> IG)
 	- hosty wewnętrzne używają wtedy różnych adresów publicznie widocznych
 
 ![[Pasted image 20250121041403.png|center]]
 
 - outside source address:
-	- Outside Global -> Outside Local (OG -> OL)
+	- [[#Outside Global (OG)|Outside Global]] -> [[#Outside Local (OL)|Outside Local]] (OG -> OL)
 	- to właśnie to pozwala współpracować sieciom z pokrywającymi się adresami, bo nawet jak przyjdzie to samo z zewnątrz (Outside Global), to możemy to przetłumaczyć na unikatowe wewnątrz (Outside Local)
 
 ![[Pasted image 20250121041440.png|center]]
