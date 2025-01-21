@@ -1,3 +1,4 @@
+- [Film](https://www.youtube.com/watch?v=QyymlFWDEgM) wyjaśniający krok po kroku mechanizm EIGRP i algorytm DUAL
 # Algorytm DUAL
 - **D**iffusing **U**pdate **AL**gorithm
 - usuwa pętle
@@ -11,6 +12,7 @@
 - definiuje funkcje
 	- $d(k, j)$ - odległość między routerami $k$ i $j$
 	- $l(i, k)$ - koszt łącza między routerem $i$ oraz jego sąsiadem $k$
+- będąc routerem $i$ chcemy dostać najlepszą ścieżkę do $j$, więc pytamy sąsiada $k$ o nią
 
 ![[Pasted image 20250120223808.png|center]]
 
@@ -30,10 +32,10 @@
 		- aktywna - DUAL jeszcze ją oblicza
 ## Routing table
 - najlepsze adresy docelowe wybierane z topology table.
-## Feasible distance
-- najlepsza [[Metryka|metryka]] (najmniejszy koszt) na drodze od routera do docelowej sieci (włącznie z odległością do sąsiada, który rozgłasza tę ścieżkę, przez którą ona biegnie).
-## Reported distance (advertised distance)
-- feasible distance, ale bez drogi od routera do sąsiada, czyli nie uwzględnia pierwszego kabla na drodze. To właśnie to rozgłaszają routery - odbiorcy muszą sami dodać kabel do sąsiada, od którego dostali wiadomość (i zrobić z tego feasible distance). Każdy sąsiad ma takie.
+## Reported distance (advertised distance, RP)
+- Ścieżka która jest reklamowana przez sąsiedni router. Odbiorcy muszą sami dodać kabel do sąsiada, od którego dostali wiadomość (i zrobić z tego feasible distance). Każdy sąsiad ma takie. 
+## Feasible distance (FD)
+- najlepsza [[Metryka|metryka]] (najmniejszy koszt) na drodze od routera do docelowej sieci (włącznie z odległością do sąsiada, który rozgłasza tę ścieżkę, przez którą ona biegnie). Czyli RP + koszt kabla do niej.
 ## Successor 
 - sąsiad, przez którego biegnie obecna najlepsza ścieżka, a więc ten, od którego otrzymaliśmy wiadomość, z której zrobiliśmy feasible distance.
 ## Feasible successor
@@ -43,6 +45,9 @@
 $$M = (B + D) \cdot 256$$
 - mnożenie przez 256 wynika z tego, że IGRP i EIGRP mają różną liczbę bitów na wielkość metryki (24 vs 32 bity); pomnożenie przez 256 zapewnia kompatybilność tych protokołów
 ## Przykład działania
+
+
+
 
 ![[Pasted image 20250121000941.png|center]]
 
