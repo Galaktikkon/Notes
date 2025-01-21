@@ -30,21 +30,23 @@
 - proces = port
 - może być albo (adres + port) lokalny, albo (adres + port) obcy
 
-## Sockety TCP (połączeniowe)
-
-![[Pasted image 20250108014527.png|center]]
-
-## Sockety UDP (bezpołączeniowe)
-
-![[Pasted image 20250108014553.png|center]]
-
 # Porty a połączenia
 
-- problem: serwer nie chce zmieniać portu dla każdego połączenia z nim
-- idea: wiele połączeń na jeden port
-- rozwiązanie: połączenie (dialog) = para endpoints (dwie asocjacje)
-- pozwala na na niezależne, jednoczesne TCP i UDP na ten sam adres i port (bo pierwsze pole krotki się różni, nawet jeżeli pozostałe 4 są identyczne)
-- pozwala na wielu klientów na tym samym porcie (bo różnią się pola 4-5 krotki)
+- **Problem**:
+    - Serwer działa na określonym porcie, ale nie zmienia go dla każdego nowego połączenia.
+    - Może się wydawać, że jeśli wiele klientów próbuje połączyć się z tym samym portem serwera, dojdzie do konfliktu, ponieważ port jest jeden.
+- **Idea**:
+    - Można obsługiwać wiele połączeń na tym samym porcie, dzięki mechanizmowi odróżniania ich za pomocą kombinacji adresów i portów.
+- **Rozwiązanie**:
+    - **Krotka identyfikująca połączenie**: W protokole TCP i UDP każde połączenie jest identyfikowane przez **parę endpointów**, czyli zestaw pięciu elementów:  
+        `(protokoł, adres źródłowy, port źródłowy, adres docelowy, port docelowy)`.  
+        Nawet jeśli port serwera (np. 80 dla HTTP) jest wspólny, inne elementy krotki (np. adresy i porty klientów) będą różne, co pozwala rozróżniać połączenia.
+    - **Przykład dla TCP**:  
+        Serwer nasłuchuje na porcie 80 (np. HTTP). Klient nawiązuje połączenie z portu `12345`. Para endpointów wygląda tak:  
+        `(TCP, klient_IP, 12345, serwer_IP, 80)`  
+        Gdy inny klient połączy się z tego samego portu serwera (80), ale z innego portu źródłowego (np. `23456`), połączenie będzie wyglądać tak:  
+        `(TCP, inny_klient_IP, 23456, serwer_IP, 80)`  
+        Dzięki temu system wie, które dane należą do którego połączenia.
 # Gniazda BSD
 
 - implementacja socketów na Unixie
@@ -68,6 +70,15 @@
 	- łączy się z socketem na podanym adresie
 	- klient łączy się w ten sposób z serwerem
 	- int connect(int sockfd, struct sockaddr* server_addr, int addrlen)
+
+# Sockety TCP (połączeniowe)
+
+![[Pasted image 20250108014527.png|center]]
+
+# Sockety UDP (bezpołączeniowe)
+
+![[Pasted image 20250108014553.png|center]]
+
 # Send vs sendto, recv vs recvfrom
 
 - send/recv używają TCP, bo wymagają wcześniej połączenia się z kimś konkretnym; nie
@@ -82,9 +93,9 @@
 	- tylko transmisja
 	- szybsze
 	- mniejsze narzuty na informacje kontrolne
-	- np. **UDP**
+	- np. **[[UDP]]**
 - połączeniowe
 	- nawiązywanie połączenie, transmisja, zamykanie połączenia
 	- większe możliwości
 	- QoS, np. zapewnienie, że dane dotrą do celu, potwierdzenia
-	- np. **TCP**
+	- np. **[[TCP]]**

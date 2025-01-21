@@ -1,9 +1,9 @@
 
 - połączeniowy
 - każde połączenie ma dokładnie 2 końce (komunikacja zawsze point-to-point, np. brak multicastu)
-- transmisja full duplex (jedna strona inicjuje transmisję, ale potem oba mogą się naraz komunikować)
+- transmisja [[Przesyłanie informacji#Tryby Transmisji Danych|full duplex]] (jedna strona inicjuje transmisję, ale potem oba mogą się naraz komunikować)
 - buforowanie w sposób niewidoczny dla aplikacji
-- z perspektywy API wykorzystuje strumień danych (w przeciwieństwie do np. UDP czy IP, które wymagają otrzymania konkretnych datagramów)
+- z perspektywy API wykorzystuje strumień danych (w przeciwieństwie do np. [[UDP]] czy [[Protokół IP|IP]], które wymagają otrzymania konkretnych datagramów)
 - możliwości (zapewniają niezawodność):
 	- nawiązywanie i zamykanie połączenia
 	- potwierdzenia odbioru (positive acknowledgement)
