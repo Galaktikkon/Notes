@@ -1,0 +1,89 @@
+{
+  "userAdmonitions": {
+    "przypomnienie": {
+      "type": "przypomnienie",
+      "color": "111, 73, 182",
+      "icon": {
+        "name": "book-open",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "injectColor": true,
+      "noTitle": false,
+      "copy": false
+    },
+    "wlasnosc": {
+      "type": "wlasnosc",
+      "color": "34, 129, 93",
+      "icon": {
+        "name": "asterisk",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Własność",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": false
+    },
+    "dowod": {
+      "type": "dowod",
+      "color": "38, 66, 151",
+      "icon": {
+        "name": "atom",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Dowód",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": false
+    },
+    "przyklady": {
+      "type": "przyklady",
+      "color": "195, 19, 139",
+      "icon": {
+        "name": "book",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Przykład",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": false
+    },
+    "muzyczny": {
+      "type": "muzyczny",
+      "color": "198, 36, 85",
+      "icon": {
+        "name": "itunes-note",
+        "type": "font-awesome"
+      },
+      "command": false,
+      "title": "Przykłady muzyczne",
+      "injectColor": true,
+      "noTitle": false,
+      "copy": false
+    }
+  },
+  "syntaxHighlight": false,
+  "copyButton": false,
+  "version": "10.3.2",
+  "autoCollapse": false,
+  "defaultCollapseType": "open",
+  "injectColor": true,
+  "parseTitles": true,
+  "dropShadow": true,
+  "hideEmpty": false,
+  "open": {
+    "admonitions": true,
+    "icons": true,
+    "other": true,
+    "advanced": false
+  },
+  "icons": [],
+  "useFontAwesome": true,
+  "rpgDownloadedOnce": false,
+  "msDocConverted": false,
+  "useSnippet": false,
+  "snippetPath": "custom-admonitions.3104f5"
+}

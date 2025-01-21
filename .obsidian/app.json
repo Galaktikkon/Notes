@@ -1,0 +1,14 @@
+{
+  "alwaysUpdateLinks": true,
+  "pdfExportSettings": {
+    "includeName": false,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "showRibbon": true,
+  "newFileLocation": "root",
+  "attachmentFolderPath": "Shared/Sieci/media",
+  "showUnsupportedFiles": false
+}

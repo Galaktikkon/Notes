@@ -1,0 +1,13 @@
+{
+  "accentColor": "",
+  "theme": "obsidian",
+  "enabledCssSnippets": [
+    "footer-watermark",
+    "disable-highlighting",
+    "img",
+    "table"
+  ],
+  "cssTheme": "",
+  "nativeMenus": false,
+  "baseFontSizeAction": false
+}
