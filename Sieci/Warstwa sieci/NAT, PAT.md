@@ -90,8 +90,8 @@ Jak widać, adresy się nakładają i to prywatne adresy IP, więc trzeba NATa d
 
 ![[Pasted image 20250121041749.png|center]]
 
-Żeby spełnić powyższe wymagania, NAT musi zrobić pełne tłumaczenie IL -> IG (żeby ci na
-zewnątrz mogli komunikować się z wewnętrzną siecią) oraz OG -> OL (żeby ci wewnątrz
+Żeby spełnić powyższe wymagania, NAT musi zrobić pełne tłumaczenie [[#Inside Local (IL)|IL]] -> [[#Inside Global (IG)|IG]] (żeby ci na
+zewnątrz mogli komunikować się z wewnętrzną siecią) oraz [[#Outside Global (OG)|OG]] -> [[#Outside Local (OL)|OL]] (żeby ci wewnątrz
 mogli komunikować się z zewnętrzną siecią).
 
 Tłumaczymy więc, używając pul adresów z rysunku. Adresy po tłumaczeniu są dowolnymi
