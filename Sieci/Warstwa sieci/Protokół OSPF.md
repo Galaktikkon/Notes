@@ -211,8 +211,7 @@ router, to kończymy budowę drzewa.
 - idea: podzielić obszar autonomiczny na mniejsze obszary i wprowadzić dwupoziomową strukturę hierarchiczną, czyli tzw. hierarchiczny OSPF
 
 # Hierarchiczny OSPF
-● poziom pierwszy to same pojedyncze obszary, a drugi to tzw. backbone (obszar 0),
-czyli struktura sieci ogarniająca połączenie tych obszarów
+- poziom pierwszy to same pojedyncze obszary, a drugi to tzw. backbone (obszar 0), czyli struktura sieci ogarniająca połączenie tych obszarów
 
 ![[Pasted image 20250121033312.png|center]]
 
