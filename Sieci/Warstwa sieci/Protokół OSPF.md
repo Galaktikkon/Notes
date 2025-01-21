@@ -1,4 +1,4 @@
-# Cechy protokołu OSPF (Open Shortest Path First)
+ # Cechy protokołu OSPF (Open Shortest Path First)
 - protokół [[Routing#Protokoły stanu łącza (link state)|link state]]
 - [[#Zalewanie z potwierdzeniami|zalewanie z potwierdzeniami]]
 - zabezpieczanie pakietów z opisami sieci
