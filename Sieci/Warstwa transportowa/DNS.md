@@ -45,8 +45,6 @@ nazwa_hosta <-> IP. Jest rozproszona na wiele serwerów (każdy posiada część
 - NS - autorytatywny serwer DNS dla danej domeny
 - CNAME - canonical name, alias
 - HINFO - informacje na temat komputera
-
-
 ## Zapytania rekurencyjne DNS
 
 ![[Pasted image 20250122023647.png|center]]
@@ -78,7 +76,6 @@ nazwa_hosta <-> IP. Jest rozproszona na wiele serwerów (każdy posiada część
 - połączenie powyższych dwóch, w zależności od konfiguracji serwerów
 - serwer główny nigdy nie jest rekurencyjny
 - rzeczywiście stosowane rozwiązanie
-
 # Pamięć podręczna serwerów DNS
 
 - cache’owane wpisy dla zmniejszenia wymiany komunikatów DNS i zwiększenia wydajności
@@ -87,7 +84,6 @@ nazwa_hosta <-> IP. Jest rozproszona na wiele serwerów (każdy posiada część
 	- pochodząca bezpośrednio od serwera z odpowiedniej domeny
 - odpowiedzi z pamięci podręcznej **nie** są autorytatywne, ale zawierają informacje na temat serwera, od którego taką odpowiedź można uzyskać
 - odpowiedzi autorytatywne dla serwera zawierają Time To Live (TTL) wpisu do pamięci podręcznej
-
 # Sposób przesyłania komunikatów DNS
 
 - UDP lub TCP
