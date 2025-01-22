@@ -82,6 +82,7 @@
 
 - realizuje kontrolę przepływu (zmienna wielkość okna) i potwierdzenia z retransmisją (potwierdzenia, numery sekwencyjne i potwierdzeń)
 - cumulative acknowledgement - uwzględniamy tylko potwierdzenia danych po kolei, np. jeżeli wysyłaliśmy bajty 32-51 w kilku częściach, a potwierdzenia przyszły dla 32-36 oraz 40-45, to “uznajemy” tylko 32-36, nie możemy mieć nieciągłości w potwierdzonych bajtach
+
 ![[Pasted image 20250108025800.png|center]]
 - przesuwanie okna:
 	- dane zostały wysłane, [[#Kategoria 2|kategoria 2]] wzrosła, [[#Kategoria 3|kategoria 3]] zmalała
@@ -153,6 +154,44 @@ Będzie się to tak kontynuować, aż wysłana zostanie całość. Jeżeli potwi
 fragmentu nie zostałoby otrzymane w czasie wyznaczonym przez timer (“pod spodem”
 każdego wysłanego przez nadawcę segmentu siedzi zegar!), to nastąpiłaby retransmisja od
 ostatniego miejsca, gdzie było potwierdzenie (żeby była ciągłość).
+
+## Implementacja okna przesuwnego u nadawcy
+
+![[Pasted image 20250122012058.png|center]]
+
+- dzielimy bajty na [[#Podział danych|4 kategorie]], tak jak opisano wcześniej
+- obchodzą nas w praktyce tylko kategorie 2-4
+- używa się zmiennych (SND od sender):
+	- SND.UNA - “not acknowledged yet”, numer sekwencyjny pierwszego bajtu danych czekających na potwierdzenie, [[#Kategoria 1|kategoria 1]], działa jak wskaźnik
+	- SND.WND - “window size”, liczba całkowita
+	- SND.NXT - “next byte to send”, numer sekwencyjny pierwszego bajtu danych gotowych do wysłania, [[#Kategoria 3|kategoria 3]], działa jak wskaźnik
+- długość [[#Kategoria 2|kategorii 2]] = SND.NXT - SND.UNA
+- długość kategorii 3 = SND.UNA + SND.WND - SND.NXT
+- usable window to wielkość kategorii 3
+- na początku, przed komunikacją (ale po inicjalizacji) SND.UNA = SND.NXT
+## Implementacja okna przesuwnego u odbiorcy
+
+![[Pasted image 20250122012240.png|center]]
+
+- kategorie [[#Kategoria 1|1]] i [[#Kategoria 2|2]] są połączone, bo odbiorca niczego nie musi potwierdzać - to są po prostu dane, które już otrzymał
+- [[#Kategoria 3|kategoria 3]] to wielkość usable window u nadawcy - na tyle danych pozwolił odbiorca
+- używa się zmiennych (RCV od receiver):
+	- RCV.NXT - “next byte to receive”, numer sekwencyjny następnego bajtu, który odbiorca spodziewa się otrzymać, kategoria 3, działa jak wskaźnik
+	- RCV.WND - “window size”, liczba całkowita
+- początek [[#Kategoria 4|kategorii 4]] = RCV.NXT + RCV.WND
+
+## Wartości wysyłane w wiadomościach a wartości wskaźników
+
+- numer sekwencyjny nadawcy = SND.UNA (znany, bo wie, co wysyła)
+- numer potwierdzenia odbiorcy RCV.NXT (znany, bo są synchronizowane podczas [[#Three-way handshake|three-way handshake]])
+- rozmiar okna - nadawca otrzymał wcześniej od odbiorcy, a odbiorca wysyła to, co sam arbitralnie narzuca
+
+## Optymalizacja liczby potwierdzeń
+
+- problem: 
+	- liczbę komunikatów w sieci trzeba oszczędzać, a przy potwierdzaniu każdego pakietu generowałoby to sporo ruchu
+- idea: 
+	- potwierdzać wiele segmentów naraz, bo numer potwierdzenia to i tak ostatni bajt w ciągłej serii (więc można połączyć segmenty i potwierdzić ostatni bajt)
 
 # Transmission Control Block (TCB)
 
@@ -392,7 +431,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 ### ACK
 
 - pakiet stanowi potwierdzenie, pole numeru potwierdzenia zawiera następny numer sekwencji oczekiwany przez źródło
-### PSH
+### [[#Funkcja push|PSH]]
 
 - push, nadawca żąda usługi pushowania danych, czyli natychmiastowego wysłania do aplikacji u odbiorcy
 ### RST
@@ -426,7 +465,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - składają się z rodzaju opcji, długości opcji (w bajtach) i danych opcji (zmienna długość)
 - **koniec listy opcji** - nie musi być używana, jeżeli koniec opcji jest jednocześnie końcem nagłówka TCP
 - **brak opcji** - 1-bajtowa “spacja” pomiędzy opcjami, używana, jeżeli poprzednia opcja nie kończyła się na wielokrotności 32 bitów (4 bajtów)
-- **MSS (Maximum Segment Size)** - wielkość w bajtach największego segmentu, który wysyłające urządzenie może otrzymać; tylko w wiadomościach SYN
+- **[[#Maximum Segment Size (MSS)|MSS (Maximum Segment Size)]]** - wielkość w bajtach największego segmentu, który wysyłające urządzenie może otrzymać; tylko w wiadomościach SYN
 - **window scale** - zawiera jakąś liczbę x zapisaną binarnie; realna wielkość okna powinna wynosić: size = 2x * (wielkość z nagłówka); pozwala na wykorzystanie bardzo dużych okien (o ile oba urządzenia się na takie zgodzą), używane np. w łączach wysokiej wydajności
 - **selective acknowledgement permitted** - pozwala na używanie SACK (selective acknowledgement)
 - **SACK** - selective acknowledgement, wybiera (bez wymagania ciągłości!) bajty, które są potwierdzane i nie muszą być retransmitowane (więc mogą być “luki” danych do retransmisji)
@@ -455,7 +494,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - wady:
 	- TCP w dzisiejszych sieciach ma bardzo dużą niezawodność i zysk z tych dodatkowych elementów jest dość niewielki
 	- suma kontrolna dalej jest liczona w dość prymitywny sposób i jak na standardy algorytmów obliczania sum kontrolnych jest dość kiepska
-	- narusza [[Modele warstwowe|architekturę warstwową modelu]] (używa [[Zadania warstwy sieci|warstwy 3]] w warstwie 4)
+	- narusza [[Modele warstwowe|architekturę warstwową modelu]] (używa [[Zadania warstwy sieci|warstwy 3]] w [[Zadania warstwy transportowej|warstwie 4]])
 
 ## Maximum Segment Size (MSS)
 
@@ -478,3 +517,84 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 	- informuje się inne urządzenia “jak chcesz coś do mnie wysyłać, to maksymalnie tyle naraz”
 	- inne urządzenia zapisują MSS drugiej strony w swoim TCB
 - można wyznaczyć optymalne używając **MTU path discovery**
+
+## Funkcja push
+
+- problem: 
+	- przy TCP nie ma kontroli nad tym, kiedy dokładnie wyśle dane - optymalizuje ono przesył, kumulując je i wysyłając całe segmenty (zgodnie z mechanizmem przesuwnego okna), podczas gdy często przydałoby się wysyłać dane natychmiast, np. przy protokole telnet, zdalnym terminalu - głupio byłoby przesyłać wciśnięcia klawiszy serią, ale pojedyncze wciśnięcia przesyłane jak najszybciej już mają sens
+- rozwiązanie: 
+	- funkcja push (flaga PSH), która mówi TCP “wyślij te dane, które masz najszybciej, jak tylko się da”
+- wykorzystanie: 
+	- wrzucamy dane do wysłania do TCP i każemy mu zrobić push, wtedy nasze właśnie wrzucone dane zostaną szybko wysłane
+- dane po dotarciu powinny być od razu przekazywane aplikacji (pushowane wyżej), ale nie zawsze jest to implementowane
+- nie rozwiązuje to kwestii rozróżniania danych
+	- w szczególności jeżeli jakieś dane siedziały w buforze do wysłania przed naszymi “natychmiastowymi” danymi, to one też zostaną zpushowane, a aplikacja-odbiorca sama musi sobie z tym radzić
+- nie gwarantuje niczego co do segmentacji
+	- dane pushowane mogą wylądować wszystkie w jednym segmencie, mogą podzielić się na wiele, pomieszać w jednym segmencie z tymi, na których nam nie zależało (patrz wyżej) - nie mamy żadnej gwarancji
+
+## Urgent Function
+
+- problem: 
+	- skoro TCP widzi strumień, to nie rozróżnia priorytetów danych (traktuje je jednakowo), widzi tylko ich kolejność; nie zawsze można też użyć pushowania, żeby wysłać szybko dane, bo pushowane są wtedy wszystkie dane, które już są w buforze
+- typowy use case: 
+	- wysyłamy duży plik, orientujemy się, że wybraliśmy zły plik i chcemy anulować - anulowanie to wiadomość do wysłania przez TCP, push nic nie da (bo będzie chciał pushować bufor, w którym jest dużo danych); trzeba tylko wysłać szybko małą, priorytetową wiadomość “anuluj wysyłanie”
+- rozwiązanie: 
+	- flaga URG oraz Urgent Pointer; dzięki zastosowaniu wskaźnika na ostatni bajt priorytetowych danych można wrzucić pilną wiadomość do bufora, wskazać na jej koniec i zostanie ona wrzucona do pierwszego wysyłanego segmentu (choćby była na końcu kolejki) - poza nią oczywiście mogą być wysłane inne bajty
+- dane urgent są poniekąd wysyłane “drugim kanałem”, poza głównym strumieniem transmisyjnym
+- można połączyć flagi URG i PSH - wtedy pilne dane zostaną dodatkowo zpushowane (ale także reszta bufora!)
+
+# Mechanizm retransmisji
+
+- trzeba ogarniać, co dokładnie retransmitować i kiedy
+- używa się kolejki retransmisji - kolejki zawierającej pary (kopia segmentu, pozostały czas w timerze), sortowanej rosnąco po pozostałym w timerze czasie
+- kiedy czas się skończy, to TCP ściąga segment z kolejki (po to właśnie są tam ich kopie), wysyła go jeszcze raz i wrzuca znowu z odświeżonym timerem
+- algorytm:
+	1. Wysłanie segmentu - segment jest kopiowany i wrzucany do kolejki wraz z pełnym timerem
+	2. Otrzymanie potwierdzenia - po otrzymaniu pełnego potwierdzenia (patrz niżej) dla segmentu jest on od razu usuwany z kolejki retransmisji
+	3. Timeout - jeżeli ACK nie przyszedł i minął timer, to segment jest retransmitowany i wracamy do punktu 1
+- ustawia się limit retransmisji, żeby nie retransmitować tego samego fragmentu w nieskończoność (domyślnie 5 dla Windowsów)
+- problem: 
+	- trzeba dobrać sensowną wartość timera retransmisji - co więcej, żeby była optymalna, musi być wyznaczana dynamicznie
+
+# Pełne potwierdzenia
+
+- problem: 
+	- potwierdzenia muszą być ciągłe - co z tego, jak odbiorca nam potwierdzi odbiór bardzo wielu segmentów, jeżeli przed nimi wszystkimi jest jeden, którego nie potwierdził?
+- idea: 
+	- zdefiniować “fully acknowledged” - segment, który jest potwierdzony oraz znajduje się w ciągłej serii potwierdzonych pakietów
+- rozumowanie:
+	- mamy urządzenia A i B
+	- A wysyła do B segment
+	- B patrzy na numer potwierdzenia w otrzymanym segmencie - wszystkie bajty z numerem sekwencyjnym niższym niż ten numer potwierdzenia zostały otrzymane i potwierdzone przez A
+- segment wysłany przez A do B będzie zatem uznany za potwierdzony, gdy wszystkie bajty tego segmentu będą miały niższe numery sekwencyjne niż ostatni numer potwierdzenia z B do A
+- powyższe można sprawdzić, patrząc na ostatni numer sekwencji oraz długość pola danych (bo numer sekwencji to numer pierwszego bajtu! Po dodaniu długości otrzymujemy numer kolejnego bajtu, którego się spodziewamy - jak odejmiemy 1, to dostaniemy po prostu numer sekwencyjny ostatniego bajtu)
+
+# Radzenie sobie z niepotwierdzonymi pakietami
+
+- problem:
+	- rozwiązanie z ciągłą serią potwierdzonych bajtów jest eleganckie (proste i działa), ale niewydajne - brak zaledwie jednego małego segmentu może potencjalnie powodować retransmisję bardzo wielu bardzo dużych segmentów, które są po nim, bo powoduje nieciągłość (a im dłuższy timer retransmisji u nadawcy, tym gorszy jest ten problem); można nawet w ten sposób zapełnić okno odbiorcy, a potem trzeba znowu wszystko wysyłać jeszcze raz
+- inny problem: 
+	- **nigdy nie wiadomo, co się dzieje z pakietami, dla których nie otrzymano z powrotem potwierdzenia** - mogły się zagubić, potwierdzenie mogło jeszcze nie dotrzeć, a może dotarły i przez jakiś błąd potwierdzenia nie wysłano - tego wysyłający nie wie i musi sobie radzić na ślepo
+- możliwe podejścia:
+	- **retransmisja tylko segmentów z timeoutem** - “optymistyczne”, liczymy na to, że dalsze segmenty doszły i tylko ten jest problematyczny (sytuacja opisana powyżej); jeżeli nie doszło dużo segmentów, to jest problem, bo będziemy czekać na timeout każdego po kolei i wtedy retransmitować
+	- **retransmisja wszystkich dalszych segmentów po timeoucie** - “pesymistyczne”, zakładamy, że jak jeden segment zaliczył timeout, to też wszystkie wysłane po nim trzeba retransmitować; dobre, jeżeli faktycznie dużo segmentów nie dociera, bo zajmujemy się tym od razu, ale często można powodować w ten sposób niepotrzebne retransmisje
+- wykorzystuje to też fakt, że segmenty niepotwierdzone (z “luką” w potwierdzeniach) nie są tak po prostu chamsko odrzucane od razu przez odbiorcę, tylko siedzą sobie trochę w buforze, bo nadawca może “dosłać” (szczególnie w wersji optymistycznej) brakujące segmenty
+
+# Selective Acknowledgement (SACK)
+
+- problem: opisany powyżej problem braku wiedzy wysyłającego i brak możliwości doboru optymalnego rozwiązania są po prostu niewydajne
+- idea: potwierdzać konkretne zakresy bajtów (numerów sekwencyjnych), a nie potwierdzać “wszystkie bajty ciągle do numeru sekwencyjnego X”, czyli właśnie selective acknowledgement (SACK)
+- na początek obydwa urządzenia muszą uzgodnić ze sobą używanie SACKa poprzez zaznaczenie flagi SACK-Permitted w wiadomościach SYN podczas inicjalizacji połączenia
+- w praktyce SACK polega na tym, że w wiadomościach ACK wysyła się opcję SACK, która zawiera listę zakresów numerów sekwencyjnych, które się potwierdza - całą istotą i ulepszeniem tego rozwiązania jest to, że te zakresy z listy mogą być nieciągłe
+● modyfikuje kolejkę retransmisji - teraz trzyma się tam trójki (kopia segmentu, timer,
+flaga SACK); jeżeli flaga jest ustawiona, to dany segment był wysłany z opcją SACK
+● używa się agresywnej (“pesymistycznej”) retransmisji wobec tych segmentów, które
+nie używają SACKa (nie mają ustawionej flagi), a przy segmentach SACK retransmituje
+się tylko je
+● dzięki temu rozwiązaniu odbiorca może trzymać nieciągłe potwierdzone segmenty, bo
+te nieciągłe używają SACKa, a jednocześnie może trzymać spójny ciąg potwierdzonych
+bajtów (numerów sekwencyjnych) bez użycia SACK
+● pozwala łatwo oddzielić tylko “potwierdzone” i “w pełni potwierdzone” bajty - SACK w
+gruncie rzeczy tyczy się tych “potwierdzonych”, czyli nieciągłych bajtów
+● numer potwierdzenia w wiadomościach SACK to ostatni numer sekwencyjny w spójnym
+ciągu potwierdzonych bajtów, więc każdy SACK to jednocześnie ACK
