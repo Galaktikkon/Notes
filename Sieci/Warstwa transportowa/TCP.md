@@ -94,7 +94,7 @@
 	- odbiorca nie wysyła potwierdzenia dla jakiegokolwiek segmentu po 37-41, choćby otrzymał ich dużo (a pewnie dostanie, bo okno się przesunie na prawo, kategoria 3 u nadawcy wzrośnie i wyśle on kolejne dane) - musi dostać dane po kolei
 	- jakakolwiek przerwa w prawidłowym potwierdzaniu = blokujemy potwierdzanie (musi być synchronicznie i po kolei)
 	- segment bez potwierdzenia w końcu będzie miał timeout i nadawca zretransmituje te bajty, ale będzie musiał też retransmitować wszystkie późniejsze
-- wykorzystywane są pola z nagłówka TCP:
+- wykorzystywane są pola z [[#Budowa nagłówka TCP|nagłówka TCP]]:
 	- SYN - flaga 0/1; dla pierwszych pakietów 1, bo synchronizuje się wtedy numery sekwencyjne, potem 0 (bo już są zsynchronizowane)
 	- ACK - flaga 0/1; jeżeli jest ustawiona, to wiadomość stanowi potwierdzenie, potwierdza się otrzymanie bajtów aż do bajtu o numerze: numer potwierdzenia - 1
 	- numer potwierdzenia - nadawca mówi “ok, to jest numer sekwencyjny następnego bajtu, którego się od ciebie spodziewam; wszystkie wcześniejsze otrzymałem”
@@ -230,8 +230,8 @@ ostatniego miejsca, gdzie było potwierdzenie (żeby była ciągłość).
 - przyczyny istnienia:
 	- zapewnia, że ACK dotrze do drugiego urządzenia, a nawet w razie potrzeby zdąży się to zretransmitować i dotrzeć
 	- segmenty z różnych połączeń nie pomieszają się (to taki bufor czasowy)
-- standardowo wynosi $2 \cdot \text{maximum segment lifetime (MSL)}$ = 4 minuty
-- $\text{MSL}$ = 120 sekund (2 minuty)
+- standardowo wynosi 2 $\cdot$ maximum segment lifetime (MSL) = 4 minuty
+- **MSL = 120 sekund (2 minuty)**
 - często obniża się MSL, bo jest strasznie długie jak na dzisiejsze standardy
 
 ## Three-way handshake
@@ -281,7 +281,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 ### Inne parametry
 
 - TCP może ustawiać całkiem sporo parametrów przy okazji three-way handshake poza synchronizacją numerów sekwencyjnych
-- używają pola Options o zmiennej długości w nagłówku TCP
+- używają pola [[#Opcje|Options]] o zmiennej długości w [[#Budowa nagłówka TCP|nagłówku TCP]]
 - przenoszone we wiadomościach SYN (więc 2 razy przy inicjalizacji)
 - przykładowo:
 	- **MSS (maximum segment size)** - odbiorca zapisuje sobie ten rozmiar w swoim [[#Transmission Control Block (TCB)|TCB]] i nigdy nie wyśle drugiej stronie segmentów większych niż ta wartość; jest to asymetryczne - klient i serwer mogą mieć różne MSS, bo np. klient przyjmuje tylko małe segmenty, a serwer nawet bardzo duże
@@ -294,7 +294,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - problem: 
 	- całkiem prawdopodobna jest sytuacja, kiedy jedno urządzenie podczas sesji TCP jest [[#ESTABLISHED|ESTABLISHED]] cały czas (np. serwer, który pracuje cały czas), a drugie chwilowo stanie się [[#CLOSED|CLOSED]] (np. bluescreen w Windowsie u klienta, ale klient po chwili znowu się połączy)
 - połączenie półotwarte (half-open) / półzamknięte (half-close) - taki stan połączenia TCP, gdzie strony się rozsynchronizowały, np. przez zcrashowanie się jednej ze stron; jedna ze stron zamknęła swój socket bez powiadamiania drugiej strony, przez co z jednej strony połączenie jest otwarte (ta strona, która jest nieświadoma), a z drugiej zamknięte
-- do obsługi takich sytuacji używa się funkcji resetu, czyli wiadomości z ustawioną flagą RST
+- do obsługi takich sytuacji używa się funkcji resetu, czyli wiadomości z ustawioną [[#RST|flagą RST]]
 - wiadomość resetująca generowana jest przy napotkaniu nietypowej sytuacji, przykładowo:
 	- otrzymanie segmentu TCP od urządzenia, z którym odbiorca nie ma połączenia (innego niż SYN do nawiązania połączenia)
 	- otrzymanie wiadomości z błędnym numerem sekwencyjnym lub numerem potwierdzenia
@@ -333,6 +333,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 	- jedna strona chce zamknąć połączenie - trzeba poinformować drugą stronę i najpierw ta druga strona kończy połączenie i o tym informuje, a dopiero potem samemu można zakończyć
 	- jednoczesne zakończenie - coś jak jednoczesne włączanie, ale w drugą stronę
 ## Normalne zamykanie
+
 - mamy 2 strony: nadawcę (on chce zakończyć połączenie) i odbiorcę (to jest ta bierna strona, która się dowiaduje o chęci zakończenia)
 - przykładowo dla klienta-nadawcy i serwera-odbiorcy:
 
@@ -340,10 +341,140 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 
 - 2 two-way handshake po kolei
 - algorytm:
-	1. FIN od klienta do serwera - klient chce zamknąć u siebie aplikację, wysyła informację serwerowi o chęci zakończenia; klient czeka w stanie FIN-WAIT-1
-	2. ACK od serwera do klienta - serwer zaczyna zamykać aplikację, potwierdza klientowi; klient po otrzymaniu czeka w stanie FIN-WAIT-2
-	3. Serwer czeka w stanie CLOSE-WAIT, aż aplikacja raczy się zamknąć; w tym czasie serwer może jeszcze coś wysyłać do klienta i on to otrzyma, ale klient nic sam nie wyśle
-	4. FIN od serwera do klienta - kiedy serwer w końcu zamknie aplikację, to wysyła klientowi wiadomość FIN i czeka w stanie LAST-ACK
+	1. FIN od klienta do serwera - klient chce zamknąć u siebie aplikację, wysyła informację serwerowi o chęci zakończenia; klient czeka w stanie [[#FIN-WAIT-1|FIN-WAIT-1]]
+	2. ACK od serwera do klienta - serwer zaczyna zamykać aplikację, potwierdza klientowi; klient po otrzymaniu czeka w stanie [[#FIN-WAIT-2|FIN-WAIT-2]]
+	3. Serwer czeka w stanie [[#CLOSE-WAIT|CLOSE-WAIT]], aż aplikacja raczy się zamknąć; w tym czasie serwer może jeszcze coś wysyłać do klienta i on to otrzyma, ale klient nic sam nie wyśle
+	4. FIN od serwera do klienta - kiedy serwer w końcu zamknie aplikację, to wysyła klientowi wiadomość FIN i czeka w stanie [[#LAST-ACK|LAST-ACK]]
 	5. ACK od klienta do serwera - to jest właśnie ten ostatni ACK z nazwy stanu serwera; serwer w końcu może zamknąć połączenie, klient też
-	6. TIME-WAIT - klient czeka jeszcze trochę czasu, a potem przechodzi w CLOSED
+	6. TIME-WAIT - klient czeka jeszcze trochę czasu, a potem przechodzi w [[#CLOSED|CLOSED]]
+## Jednoczesne zamknięcie
 
+- następuje, gdy urządzenie wyśle do drugiego FIN, a w międzyczasie to drugie wyśle FIN do pierwszego (żaden ACK nie zostanie wysłany ani nie zdąży dotrzeć w międzyczasie)
+
+![[Pasted image 20250122004922.png|center]]
+
+- proces jest de facto prostszy niż zwykłe zamykanie
+- każdy wysyła FIN, każdy dostaje FIN drugiej strony i odsyła ACK
+
+# Budowa nagłówka TCP
+
+![[Pasted image 20250122005241.png|center]]
+
+- 20-60 B (w zależności od użycia opcji)
+## Numery portów
+
+- źródłowy i docelowy - znane, bo to protokół połączeniowy
+- port klienta - zwykle efemeryczny (duże numery)
+- port serwera - dobrze znany (< 1024) lub zarezerwowany
+- po 2 B każdy (bo jest 216 - 1 możliwości)
+## Numer sekwencyjny
+
+- numer sekwencyjny pierwszego bajtu danych w przesyłanym segmencie; w przypadku pierwszej wiadomości SYN jest to ISN źródła (a pierwszy bajt danych dostanie numer ISN + 1)
+## Numer potwierdzenia
+
+- następny spodziewany numer sekwencyjny, tzn. numer sekwencyjny pierwszego nieotrzymanego przez odbiorcę bajtu; to dzięki temu odbiorca wie, jakie dane właściwie otrzymał
+## Długość nagłówka (data offset)
+
+- 4 bity
+- długość samego nagłówka TCP
+- liczba 32-bitowych (4-bajtowych) słów w nagłówku
+- ze względu na powyższe długość nagłówka TCP w bajtach musi być zawsze podzielna przez 4
+- data offset, bo jednocześnie mówi, jak daleko od początku nagłówka przesunięty jest początek danych TCP
+## Pole zarezerwowane
+
+- 6 bitów
+## Flagi
+
+- 6 bitów (po 1 bit każda)
+### URG
+
+- dane są priorytetowe, używa się mechanizmu priorytetowego przesyłu danych i Urgent Pointera (patrz niżej)
+### ACK
+
+- pakiet stanowi potwierdzenie, pole numeru potwierdzenia zawiera następny numer sekwencji oczekiwany przez źródło
+### PSH
+
+- push, nadawca żąda usługi pushowania danych, czyli natychmiastowego wysłania do aplikacji u odbiorcy
+### RST
+
+- reset, nadawca chce zresetować połączenie, bo wykrył problem
+### SYN
+
+- wiadomość ma zsynchronizować numery sekwencyjne i nawiązać połączenie, pole numeru sekwencyjnego zawiera ISN nadawcy
+### FIN
+- finish, nadawca chce zakończyć połączenie
+
+## Rozmiar okna
+
+- 2 B
+- wielkość okna w bajtach
+- nadawca jest gotów otrzymać tyle danych od odbiorcy
+- tej samej wielkości, co wolne miejsce w buforze odbiorcy dla danego połączenia
+- maksymalny rozmiar okna:
+	- bez skalowania: 216 - 1 B
+	- ze skalowaniem: (216 - 1 ) * (216 - 1 B) ~ 232 B
+## Suma kontrolna
+
+- 2 B
+- obliczana z nagłówka TCP oraz pseudonagłówka
+- jeżeli nie zgadza się po przeliczeniu u celu, to segment jest odrzucany
+## Urgent Pointer (wskaźnik ważności)
+
+- 2 B, numer sekwencyjny ostatniego bajtu z pilnych danych
+## Opcje
+
+- składają się z rodzaju opcji, długości opcji (w bajtach) i danych opcji (zmienna długość)
+- **koniec listy opcji** - nie musi być używana, jeżeli koniec opcji jest jednocześnie końcem nagłówka TCP
+- **brak opcji** - 1-bajtowa “spacja” pomiędzy opcjami, używana, jeżeli poprzednia opcja nie kończyła się na wielokrotności 32 bitów (4 bajtów)
+- **MSS (Maximum Segment Size)** - wielkość w bajtach największego segmentu, który wysyłające urządzenie może otrzymać; tylko w wiadomościach SYN
+- **window scale** - zawiera jakąś liczbę x zapisaną binarnie; realna wielkość okna powinna wynosić: size = 2x * (wielkość z nagłówka); pozwala na wykorzystanie bardzo dużych okien (o ile oba urządzenia się na takie zgodzą), używane np. w łączach wysokiej wydajności
+- **selective acknowledgement permitted** - pozwala na używanie SACK (selective acknowledgement)
+- **SACK** - selective acknowledgement, wybiera (bez wymagania ciągłości!) bajty, które są potwierdzane i nie muszą być retransmitowane (więc mogą być “luki” danych do retransmisji)
+- **alternatywny algorytm sumy kontrolnej, alternatywna suma kontrolna**
+
+## Pseudonagłówek w TCP
+
+![[Pasted image 20250122010124.png]]
+
+- elementy:
+	- adresy IP - normalnie
+	- reserved - zerowy bajt
+	- protocol - TCP, czyli zapisane binarnie 6
+	- TCP length - długość segmentu TCP, nagłówek + dane (jest obliczane na potrzeby sumy kontrolnej)
+- obliczany z powyższych elementów oraz samego nagłówka TCP
+- przechowuje się go w buforze na czas obliczania sumy kontrolnej tuż przed nagłówkiem TCP, a potem usuwa
+- podczas obliczania sumy kontrolnej pole “suma kontrolna” w nagłówku TCP ma długość 0 (żeby uniknąć nieskończonej rekurencji, gdzie sumę kontrolną liczymy z sumy kontrolnej)
+### Powody używania pseudonagłówka
+
+- chroni dodatkowo przed pewnymi problemami (w stosunku do sumy z samego nagłówka TCP), a przy tym nie wymaga przesyłania dodatkowych danych (wszystko dodatkowe i tak jest w nagłówku IP)
+- **bierze informacje z warstwy IP**
+- zalety - chroni przed:
+	- **niepoprawna adresacja segmentu** - wykrywa różne adresy źródłowe i adresy docelowe
+	- **niepoprawny protokół** - sam TCP zakłada, że to segment skierowany do niego; pseudonagłówek pozwala wykryć, że to np. jest skierowane do [[UDP]]
+	- **niepoprawna długość segmentu** - pozwala wykryć zgubienie po drodze części segmentu TCP (sam TCP trzyma w nagłówku tylko długość nagłówka, nie całego segmentu)
+- wady:
+	- TCP w dzisiejszych sieciach ma bardzo dużą niezawodność i zysk z tych dodatkowych elementów jest dość niewielki
+	- suma kontrolna dalej jest liczona w dość prymitywny sposób i jak na standardy algorytmów obliczania sum kontrolnych jest dość kiepska
+	- narusza [[Modele warstwowe|architekturę warstwową modelu]] (używa [[Zadania warstwy sieci|warstwy 3]] w warstwie 4)
+
+## Maximum Segment Size (MSS)
+
+- zaletą strumienia bajtowego TCP jest to, że można wygodnie dostosowywać wielkość segmentów do połączenia
+- aktualne górne ograniczenie na wielkość segmentu nakłada głównie wielkość okna
+- **absolutne górne ograniczenie** (w bajtach), które nigdy nie może zostać przekroczone, wyznacza Maximum Segment Size (MSS)
+- MSS wyznacza **maksymalną ilość danych**, która jest [[Komunikacja w modelu warstwowym#Przesyłanie danych|enkapsulowana]] w segmencie, nie uwzględnia nagłówka, więc de facto maksymalny segment to MSS + nagłówek TCP (20-60 B)
+- asymetryczne - końce połączenia mogą mieć różne MSS
+- wyznaczanie MSS jest problematyczne i stanowi kompromis między:
+	- narzutem nagłówków - lepiej jest przesyłać więcej danych naraz, bo TCP narzuca 20-60 B nagłówkiem, [[Protokół IP|IP]] też 20-60 B, więc duże MSS jest wydajniejsze
+	- potrzebą [[Protokół IP#Fragmentacja pakietów IP|fragmentacji]] IP - mniejsze MSS oznacza, że rzadziej trzeba fragmentować, bo łatwiej jest mieścić się w MTU łączy; fragmentacja = wolniej i więcej błędów
+- minimalna wartość:
+	- narzucono **minimalne MTU dla IP = 576 B**; wszystkie sieci IP mają obowiązkowo wspierać datagramy tej wielkości bez fragmentacji (wyznaczono to doświadczalnie)
+	- od 576 B trzeba odjąć nagłówki TCP i IP (po 20 B)
+	- **minimalne MSS: teoretycznie 1 B, praktycznie 536 B** (dla [[Adres IPv4|IPv4]])
+	- **maksymalne MSS: teoretycznie $2^{16} - 1$ B, praktycznie tyle, ile udźwigną niższe warstwy** (dla [[Ethernet|Ethernetu]] 1460 B, bo do tego 20 B na TCP, 20 na IP i wychodzi pełne ethernetowe 1500)
+	- **domyślne MSS: 536 B**
+- zmiana MSS:
+	- jeżeli chce się używać innego MSS niż domyślne, to używa się opcji MSS w nagłówku wiadomości SYN przy inicjalizacji połączenia
+	- informuje się inne urządzenia “jak chcesz coś do mnie wysyłać, to maksymalnie tyle naraz”
+	- inne urządzenia zapisują MSS drugiej strony w swoim TCB
+- można wyznaczyć optymalne używając **MTU path discovery**
