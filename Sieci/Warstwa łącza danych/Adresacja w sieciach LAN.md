@@ -42,7 +42,7 @@ ifconfig <karta_sieciowa> promisc
 
 ## Analizator ramek ([sniffer](https://minecraft.fandom.com/wiki/Sniffer))
 
-To narzędzie służące do przechwytywania i analizowania ruchu sieciowego. Działa w połączeniu z kartą sieciową pracującą w [[#Tryb Promiscuous|trybie promiscuous]]. Popularne narzędzia tego typu to Wireshark. Sniffery pozwalają analizować szczegółowe informacje o ramkach, takie jak [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adresy MAC]], [[Adres IPv4|IP]], protokoły transportowe (**TCP/UDP**), a nawet zawartość przesyłanych danych. Są używane do diagnostyki sieci, wykrywania problemów i bezpieczeństwa.
+To narzędzie służące do przechwytywania i analizowania ruchu sieciowego. Działa w połączeniu z kartą sieciową pracującą w [[#Tryb Promiscuous|trybie promiscuous]]. Popularne narzędzia tego typu to Wireshark. Sniffery pozwalają analizować szczegółowe informacje o ramkach, takie jak [[Adresacja w sieciach LAN#Adres MAC (Media Access Control)|adresy MAC]], [[Adres IPv4|IP]], protokoły transportowe (**[[TCP]]/[[UDP]]**), a nawet zawartość przesyłanych danych. Są używane do diagnostyki sieci, wykrywania problemów i bezpieczeństwa.
 
 
 # Adres MAC (Media Access Control):
