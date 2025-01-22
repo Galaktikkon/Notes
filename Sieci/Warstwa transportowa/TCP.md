@@ -627,6 +627,16 @@ $$\text{new\_RTT} = \alpha \cdot \text{old\_RTT} + (1 - \alpha) \cdot (\text{naj
 	- jeżeli nastąpi retransmisja, to formalnie jest to ten sam segment - nie wiadomo, czy ACK przychodzi dla oryginalnego segmentu, czy dla retransmitowanego, więc nie wiemy, jaki czas początkowy wybrać
 - problem jest nietrywialny - jeżeli wybierzemy zawsze wcześniejszy czas, to możemy mieć zbyt długi RTT (bo retransmisja może być dość późno), a jeżeli zawsze późniejszy, to zbyt krótki RTT
 
+### Opóźnione potwierdzenie
+
+- problem: 
+	- można otrzymać wiele pakietów w prawie tym samym czasie, a potem trzeba by na nie wszystkie odpowiadać ACK
+- idea: 
+	- poczekać chwilę, a potem odpowiedzieć jednym ACK - w końcu i tak wiemy, gdzie kończy się ciągły strumień potwierdzonych bajtów
+- zgodnie z RFC 1122 host może poczekać do 500ms z wysyłaniem ACK
+- szczególnie przydatne dla danych interaktywnych, np. w protokole Telnet, gdzie ciągle wysyła się małe segmenty - ilość ACK może spaść 3x
+- przy okazji wysyłania potwierdzenia można też samemu wysłać dane
+
 ### Algorytm Karna
 
 - ulepszenie sposobu mierzenia RTT
@@ -709,6 +719,7 @@ $$\text{new\_RTT} = \alpha \cdot \text{old\_RTT} + (1 - \alpha) \cdot (\text{naj
 - dane z [[#URG|flagą URG]] są wysyłane nawet przy zamkniętym oknie
 
 #### Syndrom głupiego okna
+
 - przypomnienie: 
 	- chcemy mieć kompromis w kwestii wielkości segmentów - większe są wydajniejsze, bo mniej rzeczy musi iść przez sieć, a mniejszych nie trzeba dzielić na poziomie [[Protokół IP|IP]]
 - [[#Maximum Segment Size (MSS)|MSS]] załatwia górną granicę wielkości pakietu
@@ -728,3 +739,77 @@ $$\text{new\_RTT} = \alpha \cdot \text{old\_RTT} + (1 - \alpha) \cdot (\text{naj
 	- rozwiązanie Clarka
 - nadawca: 
 	- opóźnione potwierdzenie, algorytm Nagle’a
+
+##### Rozwiązanie Clarka
+
+- błąd po stronie odbiorcy jest taki, że ciągle zmniejsza swoje okno, chcąc od nadawcy wysyłania coraz mniejszych pakietów
+- rozwiązanie Clarka: 
+	- zabrania się ogłaszania zbyt małego okna - narzucamy, o ile minimalnie ma się przesunąć prawy koniec okna
+- zwykle bierze się: $$\text{min(MSS odbiorcy}, 0.5 \cdot \text{rozmiar bufora odbiorcy})$$
+- w praktyce: 
+	- jak nadawca przyśle nam tyle, że mamy mało miejsca, to nie zmniejszamy naszego okna w odpowiedzi, tylko całkiem je zamykamy, przetwarzamy dane i wysyłamy okno dopiero, jak będziemy w stanie przyjąć wartość minimalną
+- przykładowo:
+	1. Serwer ma okno 360 B, dostaje 360 B od klienta, może przetworzyć tylko 120 B
+	2. Serwer nie ogłasza okna 120 B! Zamiast tego wysyła okno 0 B, zamykając je
+	3. Klient siedzi cicho, co najwyżej próbkując serwer (i dostaje odpowiedzi “okno dalej jest 0 B, siedź cicho”)
+	4. Serwer przetwarza dane, aż będzie mógł przetworzyć 180 B (połowę bufora, zakładamy, że to jest minimum); kiedy to się stanie, to ogłasza okno 180 B klientowi
+
+##### Algorytm Nagle’a
+
+- agreguje dane w większe segmenty, jeżeli tylko jest taka możliwość
+- algorytm:
+```
+if (są nowe dane do wysłania):
+	if (są dane czekające na wysłanie && danych jest >= MSS):
+		wyślij segment MSS danych
+		resztę danych wrzuć do bufora
+	else:
+		if (są dane wysłane i czekające na potwierdzenie):
+			wrzuć nowe dane do bufora
+		else:
+			wyślij natychmiast
+```
+- jeżeli aplikacja generuje dużo małych danych, to raczej nie będzie danych czekających na potwierdzenie i wykona się szybko
+- jeżeli aplikacja generuje duże dane, to pewnie i tak uzbiera segmenty wielkości MSS
+- uwaga: 
+	- push nie zadziała tak, jakbyśmy się tego spodziewali - dane pushowane są w algorytmie Nagle’a traktowane tak samo, muszą poczekać na potwierdzenie danych lub pełny segment
+- najlepiej działa w przypadku sieci WAN, z długim RTT - wtedy czeka się dość długo na potwierdzenie i przez ten czas algorytm zdąży sporo nagromadzić danych i je efektywnie wysłać jako jeden segment
+
+##### Rozwiązanie Clarka + algorytm Nagle’a - nadawca transmituje dane w 3 sytuacjach
+
+- segment wielkości MSS
+- segment wielkości co najmniej 0.5 * rozmiar bufora odbiorcy
+- dowolną ilość danych, o ile nie ma niczego niepotwierdzonego
+
+## Kwestia obciążenia sieci
+
+- TCP nie może być całkiem ślepe na to, jak niższe warstwy (w szczególności 3) są obciążone - w końcu jeżeli routery są przeciążone i zaczynają odrzucać pakiety (bo mają pełne bufory), to będą timeouty i TCP będzie musiało retransmitować
+- TCP ma mechanizmy, które realizują obsługę przeciążenia (congestion handling)
+- mechanizmy:
+	- powolny start (slow start)
+	- unikanie przeciążenia (congestion avoidance)
+
+### Powolny start
+
+- problem: 
+	- tuż po inicjalizacji połączenia bufory odbiorcze są puste, okna duże - można wysyłać szybko i ile wlezie… co może łatwo zapchać sieć, bufory routerów i odrzucić te segmenty
+- idea: 
+	- okno przeciążenia (congestion window, cnwd), które po stronie nadawcy określa, ile segmentów będzie wysyłał; jedno cnwd jest równe MSS (więc np. cnwd=3 to 3 * MSS)
+- analogia:
+	- wielkość okna - kontrola przepływu u odbiorcy, “chcę dostawać max tyle danych”
+	- powolny start - kontrola przepływu u nadawcy, “będę wysyłał max tyle danych”
+- algorytm:
+	1. Inicjalizuj cwnd, zwykle cwnd = 1, ale też 4 czy 10
+	2. Otrzymanie ACK -> zwiększ cwnd o 1
+	3. Powtarzaj w pętli 1-2, aż wykryjesz timeout (= przeciążenie)
+	4. Przy timeoucie lub osiągnięciu ssthresh:
+		- wartość cwnd, która spowodowała przeciążenie, jest zapisywana w [[#Transmission Control Block (TCB)|TCB]] jako **ssthresh (Slow Start Threshold)** - tylko dla timeoutu (dla ssthresh punkt 7)
+		- zmniejsz cwnd 2 razy (do min. 1) - tylko dla timeoutu
+	5. Otrzymanie ACK -> zwiększ cwnd o 1
+	6. Powtarzaj 5, aż dojdziesz do ssthresh
+	7. Zwiększ cwnd o 1 dopiero wtedy, gdy potwierdzisz wszystkie segmenty w oknie
+- mamy teraz 2 okna:
+	- sending window - otrzymane od drugiej strony, okno przesuwne
+	- congestion window - obliczone powyższym algorytmem
+- liczba przesyłanych bajtów: $$\text{min(sending\_window, congestion\_window)}$$
+- powolny start jest uaktywniany po każdym timeoutcie
