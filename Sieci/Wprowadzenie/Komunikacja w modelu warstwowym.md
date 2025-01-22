@@ -27,8 +27,8 @@ Poszczególne koperty protokołów warstw odpowiednio zagnieżdżają się ze so
 Nazewnictwo PDU w zależności od warstwy:
 1. Warstwa fizyczna - sygnały elektryczne
 2. Warstwa łącza danych - [[Ramka|ramki]] [[Ethernet]]
-3. Warstwa sieciowa - pakiet IP
-4. Warstwa transportowa - datagram UDP / segment TCP
+3. Warstwa sieciowa - pakiet [[Protokół IP|IP]]
+4. Warstwa transportowa - datagram [[UDP]] / segment [[TCP]]
 
 **Enkapsulacja** - zawieranie się PDU warstwy wyższej (SDU) w polach danych PDU warstwy niższej. W drugą stronę (u odbiorcy), rozpakowywanie, to **dekapsulacja**.
 
