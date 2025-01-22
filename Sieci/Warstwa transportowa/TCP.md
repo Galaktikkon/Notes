@@ -543,7 +543,8 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - dane urgent są poniekąd wysyłane “drugim kanałem”, poza głównym strumieniem transmisyjnym
 - można połączyć flagi URG i PSH - wtedy pilne dane zostaną dodatkowo zpushowane (ale także reszta bufora!)
 
-# Mechanizm retransmisji
+# Radzenie sobie z kłopotami w transmisji TCP
+## Mechanizm retransmisji
 
 - trzeba ogarniać, co dokładnie retransmitować i kiedy
 - używa się kolejki retransmisji - kolejki zawierającej pary (kopia segmentu, pozostały czas w timerze), sortowanej rosnąco po pozostałym w timerze czasie
@@ -556,7 +557,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - problem: 
 	- trzeba dobrać sensowną wartość timera retransmisji - co więcej, żeby była optymalna, musi być wyznaczana dynamicznie
 
-# Pełne potwierdzenia
+## Pełne potwierdzenia
 
 - problem: 
 	- potwierdzenia muszą być ciągłe - co z tego, jak odbiorca nam potwierdzi odbiór bardzo wielu segmentów, jeżeli przed nimi wszystkimi jest jeden, którego nie potwierdził?
@@ -569,7 +570,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - segment wysłany przez A do B będzie zatem uznany za potwierdzony, gdy wszystkie bajty tego segmentu będą miały niższe numery sekwencyjne niż ostatni numer potwierdzenia z B do A
 - powyższe można sprawdzić, patrząc na ostatni numer sekwencji oraz długość pola danych (bo numer sekwencji to numer pierwszego bajtu! Po dodaniu długości otrzymujemy numer kolejnego bajtu, którego się spodziewamy - jak odejmiemy 1, to dostaniemy po prostu numer sekwencyjny ostatniego bajtu)
 
-# Radzenie sobie z niepotwierdzonymi pakietami
+## Radzenie sobie z niepotwierdzonymi pakietami
 
 - problem:
 	- rozwiązanie z ciągłą serią potwierdzonych bajtów jest eleganckie (proste i działa), ale niewydajne - brak zaledwie jednego małego segmentu może potencjalnie powodować retransmisję bardzo wielu bardzo dużych segmentów, które są po nim, bo powoduje nieciągłość (a im dłuższy timer retransmisji u nadawcy, tym gorszy jest ten problem); można nawet w ten sposób zapełnić okno odbiorcy, a potem trzeba znowu wszystko wysyłać jeszcze raz
@@ -580,21 +581,150 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 	- **retransmisja wszystkich dalszych segmentów po timeoucie** - “pesymistyczne”, zakładamy, że jak jeden segment zaliczył timeout, to też wszystkie wysłane po nim trzeba retransmitować; dobre, jeżeli faktycznie dużo segmentów nie dociera, bo zajmujemy się tym od razu, ale często można powodować w ten sposób niepotrzebne retransmisje
 - wykorzystuje to też fakt, że segmenty niepotwierdzone (z “luką” w potwierdzeniach) nie są tak po prostu chamsko odrzucane od razu przez odbiorcę, tylko siedzą sobie trochę w buforze, bo nadawca może “dosłać” (szczególnie w wersji optymistycznej) brakujące segmenty
 
-# Selective Acknowledgement (SACK)
+## Selective Acknowledgement (SACK)
 
-- problem: opisany powyżej problem braku wiedzy wysyłającego i brak możliwości doboru optymalnego rozwiązania są po prostu niewydajne
-- idea: potwierdzać konkretne zakresy bajtów (numerów sekwencyjnych), a nie potwierdzać “wszystkie bajty ciągle do numeru sekwencyjnego X”, czyli właśnie selective acknowledgement (SACK)
-- na początek obydwa urządzenia muszą uzgodnić ze sobą używanie SACKa poprzez zaznaczenie flagi SACK-Permitted w wiadomościach SYN podczas inicjalizacji połączenia
-- w praktyce SACK polega na tym, że w wiadomościach ACK wysyła się opcję SACK, która zawiera listę zakresów numerów sekwencyjnych, które się potwierdza - całą istotą i ulepszeniem tego rozwiązania jest to, że te zakresy z listy mogą być nieciągłe
-● modyfikuje kolejkę retransmisji - teraz trzyma się tam trójki (kopia segmentu, timer,
-flaga SACK); jeżeli flaga jest ustawiona, to dany segment był wysłany z opcją SACK
-● używa się agresywnej (“pesymistycznej”) retransmisji wobec tych segmentów, które
-nie używają SACKa (nie mają ustawionej flagi), a przy segmentach SACK retransmituje
-się tylko je
-● dzięki temu rozwiązaniu odbiorca może trzymać nieciągłe potwierdzone segmenty, bo
-te nieciągłe używają SACKa, a jednocześnie może trzymać spójny ciąg potwierdzonych
-bajtów (numerów sekwencyjnych) bez użycia SACK
-● pozwala łatwo oddzielić tylko “potwierdzone” i “w pełni potwierdzone” bajty - SACK w
-gruncie rzeczy tyczy się tych “potwierdzonych”, czyli nieciągłych bajtów
-● numer potwierdzenia w wiadomościach SACK to ostatni numer sekwencyjny w spójnym
-ciągu potwierdzonych bajtów, więc każdy SACK to jednocześnie ACK
+- problem: 
+	- opisany powyżej problem braku wiedzy wysyłającego i brak możliwości doboru optymalnego rozwiązania są po prostu niewydajne
+- idea: 
+	- potwierdzać konkretne zakresy bajtów (numerów sekwencyjnych), a nie potwierdzać “wszystkie bajty ciągle do numeru sekwencyjnego X”, czyli właśnie **selective acknowledgement (SACK)**
+- na początek obydwa urządzenia muszą uzgodnić ze sobą używanie SACKa poprzez zaznaczenie flagi **SACK-Permitted** w wiadomościach SYN podczas inicjalizacji połączenia
+- w praktyce SACK polega na tym, że w wiadomościach ACK wysyła się opcję SACK, która zawiera listę zakresów numerów sekwencyjnych, które się potwierdza
+	- całą istotą i ulepszeniem tego rozwiązania jest to, że te zakresy z listy mogą być nieciągłe
+- modyfikuje [[#Mechanizm retransmisji|kolejkę retransmisji]]
+	- teraz trzyma się tam trójki (kopia segmentu, timer, flaga SACK); jeżeli flaga jest ustawiona, to dany segment był wysłany z opcją SACK
+- używa się agresywnej (“pesymistycznej”) retransmisji wobec tych segmentów, które **nie używają SACKa** (nie mają ustawionej flagi), a przy segmentach SACK retransmituje się tylko je
+- dzięki temu rozwiązaniu odbiorca może trzymać nieciągłe potwierdzone segmenty, bo te nieciągłe używają SACKa, a jednocześnie może trzymać spójny ciąg potwierdzonych bajtów (numerów sekwencyjnych) bez użycia SACK
+- pozwala łatwo oddzielić tylko “potwierdzone” i “w pełni potwierdzone” bajty - SACK w gruncie rzeczy tyczy się tych “potwierdzonych”, czyli nieciągłych bajtów
+- numer potwierdzenia w wiadomościach SACK to ostatni numer sekwencyjny w spójnym ciągu potwierdzonych bajtów, więc każdy **SACK to jednocześnie [[#ACK|ACK]]**
+
+## Adaptacyjny timer retransmisji
+
+- problem: 
+	- trzeba dobrać odpowiednią wartość timera dla retransmisji segmentów, bo zbyt mały timer może doprowadzić nawet do retransmisji odebranych pakietów (ACK nie zdąży wrócić, a my już retransmitujemy), a zbyt duży oznacza marnowanie czasu, czekając na potwierdzenie, które nie dojdzie
+- idea: 
+	- ustawić retransmission timer na wartość trochę większą niż typowy RTT (Round- Trip Time), bo to czas, żeby wysłać wiadomość i żeby wróciła (trochę więcej, żeby odbiorca zdążył zrobić wiadomość ACK i ją wysłać)
+- dlaczego to nie działa: 
+	- nie istnieje typowy RTT - nie dość, że jest inny dla każdego połączenia, to jeszcze zmienia się w czasie w związku ze zmiennym obciążeniem sieci
+- lepszy pomysł: 
+	- dynamiczny/adaptacyjny schemat retransmisji, w którym TCP przybliża RTT między urządzeniami i zmienia go w czasie, opierając się na średnim delay’u
+- staramy się jak najlepiej przybliżyć “przeciętny” RTT, odpowiednio zmniejszając lub zwiększając poprzedni obliczony RTT (oczywiście trzeba wybrać jakiś początkowy)
+- matematycznie - wzór wygładzający (wygładzanie - zabezpiecza przed nadmiernymi wahaniami wartości):
+$$\text{new\_RTT} = \alpha \cdot \text{old\_RTT} + (1 - \alpha) \cdot (\text{najnowsze zmierzone RTT)}$$
+- $\alpha$ - współczynnik wygładzenia, między 0 a 1 - wyższe to mniejsze zmiany RTT, niższe to pozwolenie na większe wahania RTT; typowo $\alpha$ = 7/8 = 0.875
+- wielkość timeoutu:
+	- klasyczna: $$\text{timeout} = 2 \cdot \text{RTT}$$
+	- algorytm Jacobsona $$\text{sample} = \text{najnowsze zmierzone RTT}$$$$D = \alpha \cdot \text{old\_D} + (1 - \alpha) \cdot |\text{RTT} - \text{sample}|$$$$\text{timeout} = \text{RTT} + 4 \cdot D$$
+- algorytm Jacobsona jest lepszy, bo:
+	- uwzględnia wariancję RTT
+	- dla małych zmian RTT będzie małe D, więc old_RTT zdominuje liczenie nowego
+	- dla dużych zmian RTT będzie większe D, a dodatkowo jest mnożone (zwykle przez 4 jak wyżej, można ustawić inaczej), więc to ono zdominuje liczenie nowego RTT
+
+### Niepewność potwierdzenia
+
+- idea: 
+	- mierzymy RTT jako różnicę między wysłaniem segmentu a otrzymaniem ACK
+- problem: 
+	- jeżeli nastąpi retransmisja, to formalnie jest to ten sam segment - nie wiadomo, czy ACK przychodzi dla oryginalnego segmentu, czy dla retransmitowanego, więc nie wiemy, jaki czas początkowy wybrać
+- problem jest nietrywialny - jeżeli wybierzemy zawsze wcześniejszy czas, to możemy mieć zbyt długi RTT (bo retransmisja może być dość późno), a jeżeli zawsze późniejszy, to zbyt krótki RTT
+
+### Algorytm Karna
+
+- ulepszenie sposobu mierzenia RTT
+- idea: 
+	- oddzielić od siebie liczenie średniego RTT i liczenie wartości dla retransmission timerów
+- algorytm dotyczy zatem nie RTT, a liczenia timerów retransmisji
+- łączy się z algorytmami obliczania RTT - algorytm Karna wybiera segmenty, z których liczy się RTT, ale nie dotyczy samego sposobu liczenia średniego RTT
+- ważna zmiana: 
+	- nie używamy RTT retransmitowanych fragmentów w obliczaniu średniego RTT (w ogóle olewamy wszystkie segmenty, które mogłyby powodować niepewność potwierdzenia)
+- używa timer backoff
+	- przy retransmisji nie ustawiamy tego samego timera co wcześniej, tylko robimy backoff - mnożymy go przez β (zwykle β=2); ustala się też wartość maksymalną, żeby nie zwiększać w nieskończoność
+- algorytm:
+	1. Wysyłamy segment, timer = aktualny średni RTT (albo minimalnie więcej)
+	2. Zakładamy, że segment nie dotarł, timer retransmisji spadł do 0.
+	3. Retransmitujemy segment i ustawiamy:$$\text{new\_timer} = β * \text{old\_timer}$$
+	4. Powtarzamy punkt 3 do skutku (lub przekroczenia maksymalnego czasu przez timer)
+	5. Kiedy retransmisja się uda, to RTT pozostaje ustawione na tej powiększonej przez backoff wartości - zostanie przywrócone do poprzedniego, “normalnego” RTT, kiedy uda się wysłać segment bez potrzeby retransmisji
+- konsekwencje:
+	- retransmisje mają więcej czasu, żeby dotrzeć, więc mniejsza szansa na serie niepotrzebnych retransmisji
+	- zmniejsza potencjalne zalewanie sieci niepotrzebnymi wiadomościami (związane z tym powyżej)
+	- dostosowanie do zmiennych warunków w sieci - jeżeli akurat przez jakiś czas sieć ma niższą wydajność (np. godziny szczytu) i jest dużo retransmisji, to przez ten czas segmenty będą miały ustawiony wysoki RTT, bo nic nie “wyzeruje” backoffu i RTT pozostanie na wysokiej wartości; wróci natomiast do normalnego stanu, kiedy obciążenie spadnie do normalnych wartości i segmenty będą docierały bez retransmisji
+
+## Okna a kontrola przepływu
+
+- mechanizm zmiennej wielkości okna realizuje kontrolę przepływu, bo reguluje, ile danych można w danej chwili wysłać
+- klient i serwer mają po 2 okna każdy
+	1. receive window - tyle danych host jest gotów przyjąć; tę wielkość przesyła drugiemu i może ją sobie zmieniać, jak chce
+	2. send window - tyle danych host może wysłać; tę wielkość otrzymał od drugiego i jest ona mu narzucona
+- okno to mniej więcej wielkość bufora, którą ma dana strona komunikacji
+- kiedy np. serwer otrzymuje dane od klienta, musi zrobić 3 rzeczy:
+	1. wrzucić dane do bufora - a więc zmniejszyć wolne miejsce w receive window
+	2. potwierdzić - żeby druga strona wiedziała, że dane dotarły i są w buforze
+	3. przetworzyć - przesłać dane z bufora do warstwy wyższej
+- w oknie przesuwnym dane są potwierdzane szybko (często jak tylko dotrą), ale niekoniecznie są od razu przetwarzane - a więc bufor może się zapełnić
+- kiedy bufor się zapełnia, to musimy powiadomić drugą stronę, żeby wysyłała wolniej - robi się to przez zmniejszenie okna, bo wtedy szybciej zapcha się drugiemu bufor wyjściowy
+- zmniejszanie okna:
+	1. Załóżmy sytuację: klient wysyła dane do serwera, ale serwer ma mnóstwo połączeń od klientów i wolno przetwarza dane
+	2. Klient ma do wysłania sporo danych, na dobry początek wysyła 140 B; serwer ma okno 360 B, dostaje te 140 B, stwierdza że ten klient musi zwolnić i odsyła mu potwierdzenie z numerem potwierdzenia np. 141 (zakładając, że liczyliśmy od 1) i wielkością okna 260 B - jednocześnie zmniejsza własne okno odbierania do 260
+	3. Klient przesuwa lewy koniec okna o 140 bajtów (bo tyle danych wysłał i mu potwierdzono), ale prawy koniec tylko o 260 (a nie 360), efektywnie zmniejszając okno wysyłania
+	4. Klient wysyła 180 B; serwer znowu uznaje, że to za dużo i zmniejsza okno do do 80; zmniejsza własne okno odbierania oraz wysyła takie okno klientowi (wraz z numerem potwierdzenia 321, bo 140 + 180 + 1 = 321)
+	5. Klient przesuwa lewy koniec okna o 180 B, ale prawy tylko o 80 (teraz okno = 80 B)
+	6. Klient wysyła serwerowi 80 B danych; serwer ma dość i zmniejsza okno do 0 B i wysyła do klientowi
+	7. Klient nie ma opcji, tylko musi przestać wysyłać dane do serwera, bo teraz jego SND.WND = 0; przy okazji SND.UNA = SND.NXT, bo oba są na początku tego zerowego okna
+### Zamykanie okna
+
+- zmniejszanie rozmiaru okna do 0 B (czyli nadawca ma się zamknąć i przestać wysyłać).
+
+### Problemy związane z mechanizmem przesuwanego okna
+
+- kurczenie się bufora okna (shrinking the window)
+- otwieranie zamkniętego okna
+- syndrom głupiego okna
+
+#### Kurczenie się bufora okna
+
+- uwaga: 
+	- zmniejszanie okna to **nie jest to samo** co kurczenie się (bufora) okna! (reducing window (size) vs shrinking the window)
+- zmniejszanie okna jest normalnym elementem kontroli przepływu - używa się go wtedy, kiedy chcemy, żeby druga strona wolniej wysyłała informacje
+- problem: 
+	- gdy jednej stronie, np. serwerowi krytycznie brakuje pamięci, może chcieć zmniejszyć sam bufor, na którym operuje okno
+- działałoby to tak, że serwer mówiłby klientowi “zmniejsz swoje okno wysyłania, przesuwając jego prawy koniec w tej chwili na lewo” - jest to absolutnie inna sytuacja niż zmniejszanie okna, gdzie serwer mówi “przesuń okno na prawo, ale jego prawy koniec trochę mniej”
+- problem: 
+	- klient może wysyłać dane, korzystając z poprzedniego znanego rozmiaru bufora, podczas gdy w tej chwili serwerowi każe się zmniejszyć jego rozmiar bufora; te dane więc dojdą, ale nie zmieszczą się w buforze - byłyby stracone (albo trzeba by je jakoś dzielić)
+- rozwiązanie: 
+	- nigdy nie wolno zmniejszać rozmiaru bufora (kurczyć okna)
+- zmniejszanie bufora można zrobić, ale wolniej i w kilku krokach:
+	1. Serwer otrzymuje od aplikacji żądanie zmniejszenia bufora
+	2. Serwer “zamraża” klienta, zmniejszając mu okno do zera (zamyka okno), ale jeszcze nic nie robi ze swoim buforem
+	3. Serwer czeka, aż zwolni mu się miejsce w buforze, a wszystkie ewentualne wysłane wcześniej przez klienta segmenty dotarły
+	4. Serwer zmniejsza bufor do żądanej wielkości
+	5. W końcu okno się otworzy (patrz niżej), wtedy powraca komunikacja
+#### Zarządzanie zamkniętym oknem
+
+- kiedy okno jest zamknięte, a serwer w końcu może je otworzyć, to wyśle segment (typowo bez danych) z niezerowym rozmiarem okna do klienta (“otwierając” okno)
+- problem: 
+	- segment może zaginąć, nawet wiele segmentów, połączenie może się w końcu skończyć (bo klient uzna, że serwer padł)
+- idea: 
+	- próbkowanie, klient regularnie wysyła pakiety bez danych z zapytaniem o okno
+- używa persistence timer’a (kiedy spadnie do 0, to wysyła zapytanie)
+- dane z [[#URG|flagą URG]] są wysyłane nawet przy zamkniętym oknie
+
+#### Syndrom głupiego okna
+- przypomnienie: 
+	- chcemy mieć kompromis w kwestii wielkości segmentów - większe są wydajniejsze, bo mniej rzeczy musi iść przez sieć, a mniejszych nie trzeba dzielić na poziomie [[Protokół IP|IP]]
+- [[#Maximum Segment Size (MSS)|MSS]] załatwia górną granicę wielkości pakietu
+- problem: 
+	- okno przesuwne nigdzie nie ma minimalnej wielkości segmentu - co więcej, przy dużym obciążeniu właśnie działa tak, że mamy małe okno i przesyłane dużo małych segmentów
+- “głupie okno” to takie, które ciągle otwiera się troszkę, wysyłany jest mały (niewydajny) segment i znowu się zamyka i tak w kółko - niewydajny, duży narzut, nie chcemy tego
+- przykład:
+	1. Serwer jest mocno obciążony i powoli przetwarza dane, zamknął okno klientowi. Jest tak obciążony, że był w stanie wziąć z bufora tylko 40 B do przetworzenia.
+	2. Klient wysyła probe’a do serwera z zapytaniem o otwarcie okna; serwer ma wolne miejsce w buforze, więc robi małe okno 40 B
+	3. Klient wysyła mały segment 40 B do serwera
+	4. Serwer ma pełny bufor i zamyka okno… i tak w kółko
+- w najgorszym wypadku będą 1-bajtowe okna - nie jest to per se “błąd” przesuwnego okna, ale jest potwornie niewydajne (narzut samego [[#Budowa nagłówka TCP|nagłówka TCP]] to wtedy co najmniej 20x więcej niż dane!)
+- przyczyna: 
+	- ogłaszanie dowolnie małych rozmiarów okien oraz wysyłanie w odpowiedzi dowolnie małych segmentów
+- stosuje się metody unikania syndromu głupiego okna (nie eliminacji, tylko unikania!), zarówno po stronie odbiorcy, jak i wysyłającego
+- odbiorca: 
+	- rozwiązanie Clarka
+- nadawca: 
+	- opóźnione potwierdzenie, algorytm Nagle’a
