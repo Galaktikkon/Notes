@@ -111,7 +111,7 @@ nieskończoności”.
 - jeśli dostanie wiadomość **od innego routera z lepszą trasą**, to wyłącza licznik
 - jeśli dostanie wiadomość **od innego routera z gorsza trasą**, to ignoruje ją
 - po upłynięciu licznika wpis dla danej sieci jest usuwany
-### Odświeżanie wymuszone
+### Odświeżanie wymuszone (triggered update)
 
 - de facto nie przeciwdziała zliczaniu do nieskończoności, ale przyspiesza zbieżność
 - pakiet RIP jest wysyłany natychmiast po zmianie, a nie w ramach zwyczajnych wiadomości co 30 sekund

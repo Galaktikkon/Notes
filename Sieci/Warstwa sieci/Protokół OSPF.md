@@ -59,6 +59,7 @@
 	- liczba wpisów w tablicach połączeń może rosnąć nawet kwadratowo w stosunku do liczby routerów
 - idea: 
 	- wyznaczyć specjalne designated routery i ich sąsiedzi będą widzieć tylko designated router jako sąsiada, więc będzie np. tylko 1 wpis zamiast 5
+	- dla każdej domeny rozgłoszeniowej wybieramy **DR**, więc router może mieć kilka interfejsów **designated** (i podinterfejsów, jeżeli wchodzą w grę VLANy)
 - designated router widzi wszystkie sąsiednie routery jako sąsiadów
 - wybór następuje przy wymianie pakietów Hello
 - wybiera się też backup designated router

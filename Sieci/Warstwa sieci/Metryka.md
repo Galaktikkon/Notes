@@ -51,7 +51,7 @@ Wyróżniamy:
 - liczba routerów na ścieżce
 #### [[Protokół IP#Fragmentacja pakietów IP|MTU ścieżki]]
 
-## Zbieżność metryki
+# Zbieżność metryki
 
 - gwarancja, że po pewnym czasie t (czasie zbieżności) wszystkie routery będą “widziały” taką samą sieć. Ważne np. przy zmianie [[Sieci lokalne#Topologie|topologii]].
 - Protokół jest szybciej zbieżny od innego, jeżeli jego czas zbieżności jest krótszy. Szybciej zbieżny = lepiej. 
