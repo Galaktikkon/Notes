@@ -88,7 +88,7 @@ nieskończoności”.
 - narzuca się maksymalną liczbę hopów, np. 15 dla RIPa
 - kiedy router dostanie wiadomość z odległością 15, to odrzuca
 - wada - wykrycie anomalii zajmuje pesymistycznie aż 16 * 30 s = 8 minut!
-### Dzielony horyzont (split horizon):
+### Dzielony horyzont (split horizon)
 
 - nie wysyła się informacji o dostępności danej sieci w kierunku tego routera, przez który prowadzi najlepsza trasa do tej sieci (czyli nie odsyłamy informacji do tego, od kogo ją dostaliśmy)
 - zmniejsza prawdopodobieństwo zliczania do nieskończoności, ale go nie eliminuje
@@ -126,7 +126,7 @@ nieskończoności”.
 	- adres następnego routera (next hop)
 - kompatybilny z RIPv1
 - protokół bezklasowy, używa [[Adresacja bezklasowa#Classless InterDomain Routing (CIDR)|CIDR]] i [[Adresacja bezklasowa]]
-- do rozgłaszania używa adresu [[Adres IPv4#Klasy adresowe|multicastowego 224.0.0.9]], co zmniejsza obciążenie sieci; nie trzeba ich też [[Routing|routować]], bo dotyczą tylko sieci lokalnej
+- do rozgłaszania używa adresu [[Adres IPv4#Klasy adresowe (adresacja klasowa - *Classful Addressing*)|multicastowego 224.0.0.9]], co zmniejsza obciążenie sieci; nie trzeba ich też [[Routing|routować]], bo dotyczą tylko sieci lokalnej
 - pozwala na użycie 20-bajtowego hasła używającego MD5
 - **nie** eliminuje wszystkich wad RIPv1:
 	- ryzyko [[Protokół RIP#Zliczanie do nieskończoności|zliczania do nieskończoności]]

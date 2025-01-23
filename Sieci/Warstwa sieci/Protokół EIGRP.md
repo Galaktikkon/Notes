@@ -169,7 +169,7 @@ nic się nie zmieni.
 - zalety:
 	- złożona metryka uwzględniająca wiele parametrów
 	- aktualizacja tylko przy zmianach w topologii
-	- komunikaty HELLO wysyłane domyślnie co 5 sekund na standardowych łączach na multicast 224.0.0.10, a więc poznawanie sąsiadów i funkcja keepalive
+	- komunikaty HELLO wysyłane domyślnie co 5 sekund na standardowych łączach na multicast `224.0.0.10`, a więc poznawanie sąsiadów i funkcja keepalive
 	- algorytm usuwania pętli DUAL
 	- jest bezklasowy (IGRP jest klasowy)
 	- lepiej skalowany, szybsza zbieżność
