@@ -11,14 +11,14 @@
 - kiedy nowy router podłącza się do sieci, wysyła broadcastem RIP request i w ten sposób dostaje od sąsiadów ich [[Routing#Tablica routingu|tablice routingu]]
 ## Wady
 
-- wolna [[Routing#Zbieżność metryki|zbieżność]]
+- wolna [[Metryka#Zbieżność metryki|zbieżność]]
 - [[Protokół RIP#Zliczanie do nieskończoności|zliczanie do nieskończoności]]
-- protokół [[Routing#Obsługa CIDR|klasowy]]
-- nie obsługuje [[Adresacja bezklasowa]] ani podsieci o zmiennej długości (stałej długości - w ograniczonym zakresie)
+- protokół [[Routing#Obsługa Adresacja bezklasowa Classless InterDomain Routing (CIDR) CIDR|klasowy]]
+- nie obsługuje [[Adresacja bezklasowa|adresacji bezklasowej]] ani podsieci o zmiennej długości (stałej długości - w ograniczonym zakresie)
 - generowanie dużo ruchu w sieci, używanie [[Adresacja w sieciach LAN#Broadcast|broadcastu]]
 - brak autoryzacji i zabezpieczeń (cokolwiek na [[Port|porcie]] [[UDP]] 520 to [[Routing#Router|router]]; można ustawić ręcznie listę autoryzowanych sąsiadów dla routera, ale eliminuje to przewagę routingu dynamicznego)
 - limit maksymalnej rozległości sieci - 15 skoków (żadna ścieżka nie może mieć więcej routerów po drodze)
-- jedyna [[Routing#Metryka|metryka]] to liczba przeskoków, więc mając wybór: wolniejsza droga przez 1 router, szybsza droga przez 2 routery, RIPv1 wybierze to pierwsze
+- jedyna [[Metryka|metryka]] to liczba przeskoków, więc mając wybór: wolniejsza droga przez 1 router, szybsza droga przez 2 routery, RIPv1 wybierze to pierwsze
 - co 30 sekund spada wydajność sieci przez wymianę informację przez routery:
 - zmniejsza przepustowość lub gubi [[Protokół IP#Budowa Pakietu IP (Datagramu IP)|pakiety]]
 - można inicjować routery w różnych momentach lub zmodyfikować interwał, np. losować między 15 a 45 sekund

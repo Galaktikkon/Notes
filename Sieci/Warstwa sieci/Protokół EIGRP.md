@@ -16,7 +16,7 @@
 	- używamy do tego wcześniej obliczonych tablic poprzez zapytania do sąsiadów
 		- to czy ktoś może być sąsiadem jest ustalane na początku poprzez wymianę komunikatów z parametrami ($K$, autoryzacji, itd.)
 	- na zasadzie
-		- $k$ wie jak najlepiej dostać się do $j$, więc wezmę od niego tę informację dodam koszt trasy do $k$ i zobaczę czy to jest najlepsza trasa
+		- $k$ wie jak najlepiej dostać się do $j$ (przechodząc przez niego), więc wezmę od niego tę informację dodam koszt trasy do $k$ i zobaczę czy to jest najlepsza trasa
 
 ![[Pasted image 20250120223808.png|center]]
 
