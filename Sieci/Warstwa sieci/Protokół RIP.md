@@ -9,12 +9,37 @@
 - pakiety wysyłane z portu i na [[Port|port]] 520 [[UDP]], broadcastem (adres 255.255.255.255), zawierają dane o wszystkich sieciach znanych routerowi
 - pakiety po 24 B, ale mają dużą część pustą (marnują to miejsce)
 - kiedy nowy router podłącza się do sieci, wysyła broadcastem RIP request i w ten sposób dostaje od sąsiadów ich [[Routing#Tablica routingu|tablice routingu]]
+
+# Wymagania RIPv1
+
+- **Klasowe adresowanie (Classful Addressing):**
+    
+    - RIPv1 wymaga użycia tradycyjnego podziału adresów IP na klasy A, B i C.
+    - Nie obsługuje niestandardowych masek podsieci (**subnet mask**) ani bezklasowego routingu (**CIDR**).
+- **Wszystkie interfejsy w jednej klasie sieci:**
+    
+    - Wszystkie adresy IP w trasach propagowanych przez RIPv1 muszą należeć do tej samej klasy sieci.
+    - Jeśli podsieci są używane, maska podsieci musi być jednakowa w całej sieci (tzw. **subnet uniformity**).
+- **Broadcast dla aktualizacji:**
+    
+    - RIPv1 wysyła aktualizacje routingu za pomocą **broadcastów** (adres IP: `255.255.255.255`).
+    - Wymaga, aby urządzenia w sieci obsługiwały i akceptowały broadcasty.
+- **Limit hopów (maksymalna liczba przeskoków):**
+    
+    - RIPv1 obsługuje maksymalnie **15 przeskoków (hops)**. Trasy o większej liczbie przeskoków są uznawane za niedostępne.
+- **Statyczna długość tablic routingu:**
+    
+    - Każde urządzenie musi przechowywać pełną tablicę routingu, która jest wymieniana między routerami co 30 sekund.
+    - Wymaga, aby urządzenia sieciowe miały wystarczającą ilość pamięci na obsługę takich tablic.
+- **Obsługa IPv4:**
+    
+    - RIPv1 działa wyłącznie z adresami IPv4 (nie obsługuje IPv6).
 ## Wady
 
 - wolna [[Metryka#Zbieżność metryki|zbieżność]]
 - [[Protokół RIP#Zliczanie do nieskończoności|zliczanie do nieskończoności]]
 - protokół [[Routing#Obsługa Adresacja bezklasowa Classless InterDomain Routing (CIDR) CIDR|klasowy]]
-- nie obsługuje [[Adresacja bezklasowa|adresacji bezklasowej]] ani podsieci o zmiennej długości (stałej długości - w ograniczonym zakresie)
+- nie obsługuje [[Adresacja bezklasowa#|adresacji bezklasowej]] ani podsieci o zmiennej długości (stałej długości - w ograniczonym zakresie)
 - generowanie dużo ruchu w sieci, używanie [[Adresacja w sieciach LAN#Broadcast|broadcastu]]
 - brak autoryzacji i zabezpieczeń (cokolwiek na [[Port|porcie]] [[UDP]] 520 to [[Routing#Router|router]]; można ustawić ręcznie listę autoryzowanych sąsiadów dla routera, ale eliminuje to przewagę routingu dynamicznego)
 - limit maksymalnej rozległości sieci - 15 skoków (żadna ścieżka nie może mieć więcej routerów po drodze)
