@@ -134,7 +134,7 @@ Przypomnijmy, że w sieciach wielodostępowych, takich jak tradycyjny VLAN Ether
 ![[Pasted image 20250124033441.png|center]]
 
 - występuje tylko przy użyciu [[#Hierarchiczny OSPF|hierarchicznego OSPF]]
-- **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje, że routery z jednej strony muszą przez przez ABR, aby dotrzeć do celu - tzw. *summary*
+- **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje, że routery z jednej strony muszą przejść przez ABR, aby dotrzeć do celu - tzw. *summary*
 
 
 # Tablica Link State Database (LSD)
