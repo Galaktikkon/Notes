@@ -76,14 +76,67 @@
 
 - każdy router wysyła takie do swoich sąsiadów
 - są to tablice topologii każdego routera, wysyłane do sąsiadów, a potem z ich pomocą do reszty routerów w systemie autonomicznym
-- pozwalają routerom zbudować LSD (Link State Database), bo informują o stanie sieci (w tym możliwe, że odległych jej fragmentów względem danego routera)
-- wpisy postaci:
-	**(ID sąsiada (destination), sieć, metryka)**
-- pakiety mają też numer identyfikujący ich wiek (więc można porównać pakiety nowszy vs starszy)
-- odebranie nowego pakietu: 
-	- router zapamiętuje jego informacje (aktualizuje swój LSD), a potem rozsyła pakiet na wszystkie interfejsy poza tym, z którego przyszedł (zalewanie sieci)
-- odebranie starego pakietu:
-	- router odrzuca pakiet
+- pozwalają routerom zbudować LSD (**Link State Database**), bo informują o stanie sieci (w tym możliwe, że odległych jej fragmentów względem danego routera)
+## LSA Type 1 (Route LSA)
+
+![[Pasted image 20250124032042.png|center]]
+
+- identyfikowane przez **RID** routera
+- zawiera
+	- **RID**
+	- informacje o interfejsach
+	- adres IP, maskę
+	- status interfejsu
+- używane do rekonstrukcji topologii
+- ogłasza stan łącza
+- wysyłane są w odpowiedzi na zmiany stanu łącza lub podczas początkowego nawiązywania sąsiedztwa
+## LSA Type 2 (Network LSA)
+
+Załóżmy, że na podstawie informacji z ogłoszeń Router LSA dowiedzieliśmy się, że routery **R1**, **R2** i **R3** są podłączone do „sieci tranzytowej”, jak pokazano na diagramie poniżej. Jednak jak możemy mieć **100% pewności**, że te trzy routery rzeczywiście łączą się z tym samym segmentem wielodostępowym – na przykład z tą samą siecią VLAN?  
+
+Na podstawie dostępnych informacji w Router LSA **nie możemy mieć pewności**.
+
+![[Pasted image 20250124032643.png]]
+
+### Przykład problemu
+
+Zakładamy, że wszystkie trzy routery mają adresy IP z tej samej sieci, np.:
+
+- R1: **10.10.1.1**
+- R2: **10.10.1.2**
+- R3: **10.10.1.3**
+
+Jednak same adresy IP nie są dowodem, że routery są podłączone do tej samej sieci VLAN. W rzeczywistości topologia może wyglądać inaczej, jak na diagramie poniżej:
+
+![[Pasted image 20250124032630.png|center]]
+
+### Jak Network LSA rozwiązuje ten problem?
+
+Przypomnijmy, że w sieciach wielodostępowych, takich jak tradycyjny VLAN Ethernet:
+
+- Routery OSPF wybierają **DR (Designated Router)** i **BDR (Backup Designated Router)**.
+- Ustalają pełną sąsiedztwo OSPF tylko z DR i BDR.
+
+**Tylko DR na wielodostępowym segmencie sieci może jednoznacznie określić, które routery są podłączone do tego segmentu**, ponieważ tworzy pełne sąsiedztwo OSPF z każdym z tych routerów (co oznacza, że istnieje między nimi łączność i wymieniają pakiety). Korzystając z tej logiki, DR tworzy ogłoszenie **LSA Typu 2**, które zawiera listę wszystkich routerów podłączonych do segmentu.
+
+![[Pasted image 20250124032909.png|center]]
+
+#### Podsumowanie procesu
+
+![[Pasted image 20250124033102.png|center]]
+
+- Jeśli wielodostępowy interfejs nie ma sąsiadów, jest uznawany za „**Stub Network**” w LSA Typu 1 i **nie wymaga LSA Typu 2**.  
+- Jeśli wielodostępowy interfejs ma co najmniej jednego sąsiada, jest uznawany za „**Transit Network**” w LSA Typu 1, co oznacza, że istnieje LSA Typu 2 opisujące tę sieć.
+- **Tylko DR rozgłasza Network LSA dla danej sieci**, ponieważ ma pełne sąsiedztwo z wszystkimi routerami w tym segmencie.
+
+## LSA Type 3 (Summary LSA)
+
+![[Pasted image 20250124033441.png|center]]
+
+- występuje tylko przy użyciu [[#Hierarchiczny OSPF|hierarchicznego OSPF]]
+- **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje, że routery z jednej strony muszą przez przez ABR, aby dotrzeć do celu - tzw. *summary*
+
+
 # Tablica Link State Database (LSD)
 
 - zawiera mapę sieci
@@ -244,7 +297,7 @@ router, to kończymy budowę drzewa.
 ![[Pasted image 20250121033312.png|center]]
 
 - LSA są wysyłane tylko w obrębie danego obszaru, tam OSPF działa normalnie (każde area ma własną instancję OSPFa)
-- area border routers znają dystanse wewnątrz własnego obszaru i ogłaszają “podsumowanie” swojego obszaru innym area border routers, tzw. summary LSA
+- area border routers znają dystanse wewnątrz własnego obszaru i ogłaszają “podsumowanie” swojego obszaru innym area border routers, tzw. summary LSA (**LSA Type 3**)
 - backbone routers to area border routers + te powyżej, utrzymują hierarchię, mają własną instancję OSPFa
 - nie ma automatycznego tworzenia backupowego połączenia na wypadek padnięcia czegoś w backbone’ie
 
