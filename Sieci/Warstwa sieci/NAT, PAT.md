@@ -55,7 +55,7 @@ unikatowy).
 	- działa jednokierunkowo
 	- nazywany też Extended NAT
 - analogia: 
-	- PAT to wykup **jednej** kamienicy dla całej sieci prywatnej, gdzie adres IP to adres kamienicy, a numer mieszkania to numer portu
+	- PAT to wykup **jednej** kamienicy dla całej sieci prywatnej, gdzie adres IP to adres kamienicy, a numer mieszkania to numer portu, urządzenia w tej sieci są mieszkaniami
 	- NAT **osobna** kamienica dla każdego urządzenia w sieci prywatnej
 
 # Rodzaje tłumaczenia w NAT
