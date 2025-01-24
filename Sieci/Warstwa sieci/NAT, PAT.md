@@ -50,10 +50,13 @@ unikatowy).
 - PAT (Port Address Translation):
 	- mapuje pary (adres IP, port)
 	- porty jednoznacznie identyfikują hostów - wiele portów dla tego samego adresu IP
-	- mapowanie 1-do-N
-	- oszczędza przestrzeń adresową, bo od ISP wykupuje się 1 publiczny adres, a router będzie ogarniał hosty wewnątrz po portach
+	- mapowanie N-do-1
+		- oszczędza przestrzeń adresową, bo od ISP wykupuje się 1 publiczny adres, a router będzie ogarniał hosty wewnątrz po portach
 	- działa jednokierunkowo
 	- nazywany też Extended NAT
+- analogia: 
+	- PAT to wykup jednej kamienicy dla całej sieci prywatnej, gdzie adres IP to adres kamienicy, a numer mieszkania to numer portu
+	- NAT **osobna** kamienica dla każdego urządzenia w sieci prywatnej
 
 # Rodzaje tłumaczenia w NAT
 
