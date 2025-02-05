@@ -149,7 +149,7 @@ Router z obszaru 34 dowiaduje się, że może dotrzec do zewnętrznej sieci prze
 
 ![[Pasted image 20250206001909.png|center]]
 
-W ten sposób routery niżej w hierarchii dowiadują się o możliwości komunikacji do innej sieci, ale mogą nie wiedzieć jak
+W ten sposób routery niżej w hierarchii dowiadują się o możliwości komunikacji do innej sieci, ale mogą nie wiedzieć jak dotrzeć do ASBR!
 # Tablica Link State Database (LSD)
 
 - zawiera mapę sieci
