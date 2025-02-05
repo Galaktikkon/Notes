@@ -136,7 +136,20 @@ Przypomnijmy, że w sieciach wielodostępowych, takich jak tradycyjny VLAN Ether
 - występuje tylko przy użyciu [[#Hierarchiczny OSPF|hierarchicznego OSPF]]
 - **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje, że routery z jednej strony muszą przejść przez ABR, aby dotrzeć do celu - tzw. *summary*
 
+## LSA Type 5 (External LSA)
 
+- Co w przypadku, gdy łączymy OSPF z innym protokołem routingu?
+	- definiujemy **Area System Border Router** (ASBR), który rozprowadza informacje od zewnętrznego protokołu routingu do obszaru autonomicznego OSPF
+	- de facto łączy dwa systemy autonomiczne
+	- generuje w tym celu LSA Type 5
+
+![[Pasted image 20250206001432.png|center]]
+
+Router z obszaru 34 dowiaduje się, że może dotrzec do zewnętrznej sieci przez ASBR.
+
+![[Pasted image 20250206001909.png|center]]
+
+W ten sposób routery niżej w hierarchii dowiadują się o możliwości doj
 # Tablica Link State Database (LSD)
 
 - zawiera mapę sieci
@@ -278,20 +291,38 @@ router, to kończymy budowę drzewa.
 - problem: trzeba dokonać analizy grafu i rozwiązać problem maksymalnego przepływu, żeby zoptymalizować części ruchu na poszczególne ścieżki
 
 # OSPF nie nadaje się do całego internetu naraz
-- każdy router wymieniałby informacje z każdym
-- obciążenie sieci
-- olbrzymie tablice LSD
-- długie obliczanie algorytmu Dijkstry
-# Działanie OSPF z użyciem systemów autonomicznych
-- instancja OSPF działa w obrębie danego systemu autonomicznego
-- AS boundary router (ASBR):
-	- router brzegowy komunikujący się z innymi AS
-	- uzyskują informacje spoza AS
-	- ogłasza rzeczy spoza AS wewnątrz AS pakietami external LSA
-- problem: w bardzo dużym systemie autonomicznym zaczynają się pojawiać takie same problemy, co przy całym internecie
-- idea: podzielić obszar autonomiczny na mniejsze obszary i wprowadzić dwupoziomową strukturę hierarchiczną, czyli tzw. hierarchiczny OSPF
+- Jakie są główne problemy?
+	- każdy router wymieniałby informacje z każdym
+	- obciążenie sieci
+	- olbrzymie tablice LSD
+	- długie obliczanie algorytmu Dijkstry
+- Jak to można rozwiązać?
+	- podzielić OSPF na mniejsze segmenty (systemy autonomiczne), tzw. Hierarchiczny OSPF
 
 # Hierarchiczny OSPF
+
+## ABR
+-  izolacja routerów od zmian zewnętrznych
+	- definiujemy **Area Border Router**, który dzieli dwa obszary hierarchicznego OSPFa
+	- tego typu router nie rozgłasza LSA 1 i LSA 2, więc jakiekolwiek lokalne zmiany dla obszaru nie będą widoczne dla innych obszarów
+	- sieć staje się bardziej efektywna, stabilna i skalowalna
+
+![[Pasted image 20250206000539.png|center]]
+
+## Typy obszarów (OSPF Area Types)
+
+Są 4
+- Stub
+- Totally Stubby
+- Not-So-Stubby-Area (NSSA)
+- Totally NSSA
+
+ Każdy z nich redukuje rozmiar LSDB routerów poprzez redukcję zakresu dopuszczanych do nich typów LSA
+
+### Stub
+
+-  obszar typu stub nie otrzymuje zewnętrznych informacji o routingu, zamiast routingu zewnętrznego ustalony jest domyślny, żeby dotrzeć do 
+
 - poziom pierwszy to same pojedyncze obszary, a drugi to tzw. backbone (obszar 0), czyli struktura sieci ogarniająca połączenie tych obszarów
 
 ![[Pasted image 20250121033312.png|center]]
