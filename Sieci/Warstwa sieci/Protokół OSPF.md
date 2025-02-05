@@ -150,6 +150,20 @@ Router z obszaru 34 dowiaduje się, że może dotrzec do zewnętrznej sieci prze
 ![[Pasted image 20250206001909.png|center]]
 
 W ten sposób routery niżej w hierarchii dowiadują się o możliwości komunikacji do innej sieci, ale mogą nie wiedzieć jak dotrzeć do ASBR!
+
+![[Pasted image 20250206002007.png|center]]
+
+Rozwiązanie: LSA Type 4
+
+## LSA Type 4 (ASBR Summary LSA)
+
+Jeżeli Area Border Router jest połaczony do obszaru, w którym znajduje się ASBR, to  generuje on dodatkowe ogłoszenie stanu łącza (LSA) zwane ASBR Summary do innych obszarów, z którymi się łączy - czyli chce przekazać informację jak dotrzeć do ASBR.
+
+Na przykładzie: ASBR zalewa swoją najbliższą sieć LSA Type 1, co sygnalizuje ABR (3.3.3.3), żeby przesłać informacje dalej do sieci, z którymi graniczy. Czyli ABR dostaje rozkaz wygenerowania LSA Type 4.
+
+![[Pasted image 20250206002515.png|center]]
+
+
 # Tablica Link State Database (LSD)
 
 - zawiera mapę sieci
@@ -312,16 +326,43 @@ router, to kończymy budowę drzewa.
 ## Typy obszarów (OSPF Area Types)
 
 Są 4
-- Stub
-- Totally Stubby
+- [[#Stub|Stub]]
+- [[#Totally Stubby Area (TSA)|Totally Stubby]]
 - Not-So-Stubby-Area (NSSA)
 - Totally NSSA
 
- Każdy z nich redukuje rozmiar LSDB routerów poprzez redukcję zakresu dopuszczanych do nich typów LSA
+ Każdy z nich redukuje rozmiar [[#Tablica Link State Database (LSD)|LSDB]] routerów poprzez redukcję zakresu dopuszczanych do nich typów [[#Pakiety Link State Advertisement (LSA)|LSA]]
 
 ### Stub
+- obszar typu stub nie otrzymuje zewnętrznych informacji o routingu, zamiast routingu zewnętrznego ustalony jest domyślny, żeby dotrzeć do
 
--  obszar typu stub nie otrzymuje zewnętrznych informacji o routingu, zamiast routingu zewnętrznego ustalony jest domyślny, żeby dotrzeć do 
+Po co? Rozważmy przykład:
+- mamy sieć którą ASBR zalewa 50000 trasami z zewnętrznego protokołu routingu (np. EIGRP). 
+- LSA Type 5 są przekazywane w dół hierarchii (każdy router ma się dowiedzieć o możliwościach jakie daje routing zewnętrzny)
+- Co jeżeli jakiś obszar ma za słaby sprzęt, aby przeliczyć Dijkstrę z bonusowymi trasami od LSA Type 5?
+
+![[Pasted image 20250206003709.png|center]]
+
+Rozwiązanie:
+- **filtracja** [[#LSA Type 4 (ASBR Summary LSA)|LSA Type 4]] i [[#LSA Type 5 (External LSA)|LSA Type 5]] - ABR **nie przekazuje** do tego obszaru tych komunikatów o stanie łącza
+- dodaje za to **trasę domyślną** (0.0.0.0/0), która wyprowadza ruch poza nią
+
+![[Pasted image 20250206003723.png|center]]
+
+### Totally Stubby Area (TSA)
+
+- bardziej rygorystyczna filtracja
+- razem z blokowaniem [[#LSA Type 4 (ASBR Summary LSA)|LSA Type 4]] i [[#LSA Type 5 (External LSA)|LSA Type 5]] blokujemy [[#LSA Type 3 (Summary LSA)|LSA Type 3]] jeszcze bardziej zmniejszając rozmiar [[#Tablica Link State Database (LSD)|LSDB]] 
+- przydatne jeżeli rozmiar całego systemu autonomicznego OSPF jest spory (ma dużo obszarów i dużo tras w obszarach), wtedy sam system grozi zalaniem słabo osprzętowanego obszaru LSA Type 3
+
+![[Pasted image 20250206004302.png|center]]
+
+## Not-So-Stubby-Area (NSSA)
+
+Co jeżeli z przyczyn niezależnych od nas **musimy** dołączyć ASBR do systemu poprzez przeprowadzanie ruchu przez obszar Stub? (np. bo tak kable idą, ogranicznia techniczne itp.)
+- problem jest taki, że Stub filtruje LSA Type 5, więc 
+
+
 
 - poziom pierwszy to same pojedyncze obszary, a drugi to tzw. backbone (obszar 0), czyli struktura sieci ogarniająca połączenie tych obszarów
 
