@@ -339,7 +339,7 @@ OSPF nie nadaje się do całego internetu naraz
 
 ### Backbone router
 
- - taki, którego wszystkie interfejsy są przypisane do obszaru back
+ - taki, którego wszystkie interfejsy są przypisane do obszaru backbone (o)
 
 
 ![[Pasted image 20250206011546.png|center]]
