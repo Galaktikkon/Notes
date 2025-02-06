@@ -93,9 +93,9 @@
 - wysyłane są w odpowiedzi na zmiany stanu łącza lub podczas początkowego nawiązywania sąsiedztwa
 ## LSA Type 2 (Network LSA)
 
-Załóżmy, że na podstawie informacji z ogłoszeń Router LSA dowiedzieliśmy się, że routery **R1**, **R2** i **R3** są podłączone do „sieci tranzytowej”, jak pokazano na diagramie poniżej. Jednak jak możemy mieć **100% pewności**, że te trzy routery rzeczywiście łączą się z tym samym segmentem wielodostępowym – na przykład z tą samą siecią VLAN?  
+Załóżmy, że na podstawie informacji z ogłoszeń Router LSA dowiedzieliśmy się, że routery **R1**, **R2** i **R3** są podłączone do „sieci tranzytowej”, jak pokazano na diagramie poniżej. Jednak skąd możemy mieć **100% pewności**, że te trzy routery rzeczywiście łączą się z tym samym segmentem wielodostępowym – na przykład z tą samą siecią VLAN?  
 
-Na podstawie dostępnych informacji w Router LSA **nie możemy mieć pewności**.
+Na podstawie dostępnych informacji w [[#LSA Type 1 (Route LSA)|Route LSA]] **nie możemy mieć pewności**.
 
 ![[Pasted image 20250124032643.png]]
 
@@ -116,7 +116,7 @@ Jednak same adresy IP nie są dowodem, że routery są podłączone do tej samej
 Przypomnijmy, że w sieciach wielodostępowych, takich jak tradycyjny VLAN Ethernet:
 
 - Routery OSPF wybierają **DR (Designated Router)** i **BDR (Backup Designated Router)**.
-- Ustalają pełną sąsiedztwo OSPF tylko z DR i BDR.
+- Ustalają pełne sąsiedztwo OSPF tylko z DR i BDR.
 
 **Tylko DR na wielodostępowym segmencie sieci może jednoznacznie określić, które routery są podłączone do tego segmentu**, ponieważ tworzy pełne sąsiedztwo OSPF z każdym z tych routerów (co oznacza, że istnieje między nimi łączność i wymieniają pakiety). Korzystając z tej logiki, DR tworzy ogłoszenie **LSA Typu 2**, które zawiera listę wszystkich routerów podłączonych do segmentu.
 
