@@ -77,6 +77,7 @@
 - każdy router wysyła takie do swoich sąsiadów
 - są to tablice topologii każdego routera, wysyłane do sąsiadów, a potem z ich pomocą do reszty routerów w systemie autonomicznym
 - pozwalają routerom zbudować LSD (**Link State Database**), bo informują o stanie sieci (w tym możliwe, że odległych jej fragmentów względem danego routera)
+- LSA Type 6 jest outdated i nie używane
 ## LSA Type 1 (Route LSA)
 
 ![[Pasted image 20250124032042.png|center]]
@@ -161,7 +162,7 @@ Rozwiązanie: LSA Type 4
 
 ## LSA Type 4 (ASBR Summary LSA)
 
-Jeżeli Area Border Router jest połaczony do obszaru, w którym znajduje się ASBR, to  generuje on dodatkowe ogłoszenie stanu łącza (LSA) zwane ASBR Summary do innych obszarów, z którymi się łączy - czyli chce przekazać informację jak dotrzeć do ASBR.
+Jeżeli Area Border Router jest połaczony do obszaru, w którym znajduje się ASBR, to generuje on dodatkowe ogłoszenie stanu łącza (LSA) zwane ASBR Summary do innych obszarów, z którymi się łączy - czyli chce przekazać informację jak dotrzeć do ASBR.
 
 Na przykładzie: ASBR zalewa swoją najbliższą sieć LSA Type 1, co sygnalizuje ABR (3.3.3.3), żeby przesłać informacje dalej do sieci, z którymi graniczy. Czyli ABR dostaje rozkaz wygenerowania LSA Type 4.
 
@@ -388,6 +389,7 @@ OSPF nie nadaje się do całego internetu naraz
 -  specjalny obszar hierarchicznego OSPFa
 - odpowiedzialny za połączenie wszystkich innych i rozprowadzanie informacji o routing między nimi
 - **musi być spójny**
+- nie może być siecią stub-like
 
 ![[Pasted image 20250206013121.png|center]]
 
