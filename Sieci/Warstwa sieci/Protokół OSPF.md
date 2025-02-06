@@ -163,6 +163,10 @@ Na przykładzie: ASBR zalewa swoją najbliższą sieć LSA Type 1, co sygnalizuj
 
 ![[Pasted image 20250206002515.png|center]]
 
+## LSA Type 7 (External LSA)
+
+- używane tylko w obszarze [[#Not-So-Stubby-Area (NSSA)|NSSA]]
+- pozwala na przesył [[#LSA Type 5 (External LSA)|LSA Type 5]] przez sieć [[#Stub|Stub]] (staje się ona wtedy NSSA)
 
 # Tablica Link State Database (LSD)
 
@@ -303,8 +307,9 @@ router, to kończymy budowę drzewa.
 - nie gwarantuje dotarcia pakietów w kolejności wysyłania
 - przyspiesza transfer
 - problem: trzeba dokonać analizy grafu i rozwiązać problem maksymalnego przepływu, żeby zoptymalizować części ruchu na poszczególne ścieżki
+# Hierarchiczny OSPF
 
-# OSPF nie nadaje się do całego internetu naraz
+OSPF nie nadaje się do całego internetu naraz
 - Jakie są główne problemy?
 	- każdy router wymieniałby informacje z każdym
 	- obciążenie sieci
@@ -312,26 +317,55 @@ router, to kończymy budowę drzewa.
 	- długie obliczanie algorytmu Dijkstry
 - Jak to można rozwiązać?
 	- podzielić OSPF na mniejsze segmenty (systemy autonomiczne), tzw. Hierarchiczny OSPF
+## Terminologia routerów
 
-# Hierarchiczny OSPF
+### Internal Router
 
-## ABR
--  izolacja routerów od zmian zewnętrznych
-	- definiujemy **Area Border Router**, który dzieli dwa obszary hierarchicznego OSPFa
-	- tego typu router nie rozgłasza LSA 1 i LSA 2, więc jakiekolwiek lokalne zmiany dla obszaru nie będą widoczne dla innych obszarów
-	- sieć staje się bardziej efektywna, stabilna i skalowalna
+- Internal router (router wewnętrzny) to taki, którego bezpośrednio połączone interfejsy są przypisane do tego samego obszaru, który nie jest backbone
+- na przykładzie
+	- R1 jest wewnętrznym routerem obszaru 34
+	- R2 i R3 obszaru 25
+	- R4 i R5 obszaru 5
+
+![[Pasted image 20250206011114.png|center]]
+
+
+### ABR
+
+- Area Border Router to taki, ma interfejsy przypisane do jednego lub więcej obszary i **co najmniej jeden interfejs przypisany do obszaru backbone**
+- ABRy mają kilka instancji LSDB (przykład poniżej):
+	- ASBR2 ma trzy instancje LSDB  - odpowiednio dla obszarów 0, 25 i 34.
+	- ASBR2 ma dwie instancje LSDB  - odpowiednio dla obszarów 0 i 5.
+
+### Backbone router
+
+ - taki, którego wszystkie interfejsy są przypisane do obszaru 0
+
+
+![[Pasted image 20250206011546.png|center]]
+
 
 ![[Pasted image 20250206000539.png|center]]
 
 ## Typy obszarów (OSPF Area Types)
 
-Są 4
+Są 5
+- [[#Normal Area|Normal Area]]
 - [[#Stub|Stub]]
 - [[#Totally Stubby Area (TSA)|Totally Stubby]]
-- Not-So-Stubby-Area (NSSA)
-- Totally NSSA
+- [[#Not-So-Stubby-Area (NSSA)|Not-So-Stubby-Area (NSSA)]]
+- [[#Totally Not-So-Stubby-Area|Totally NSSA]]
 
- Każdy z nich redukuje rozmiar [[#Tablica Link State Database (LSD)|LSDB]] routerów poprzez redukcję zakresu dopuszczanych do nich typów [[#Pakiety Link State Advertisement (LSA)|LSA]]
+ Każdy z nich reguluje rozmiar [[#Tablica Link State Database (LSD)|LSDB]] routerów poprzez redukcję zakresu dopuszczanych do nich typów [[#Pakiety Link State Advertisement (LSA)|LSA]]
+
+![[Pasted image 20250206010044.png]]
+
+### Normal Area
+
+- domyślna konfiguracja obszaru
+- obszar backbone jest **zawsze** tego typu
+- pozwala na wszystkie od LSA Type 1 do LSA Type 5
+- ważne: dzielenie systemu na mniejsze obszary normalne (czyli bez filtracji LSA) zmniejsza tylko ilość wywołań algorytmu SPF (budowania tablicy routingu), ale nie zmniejsza rozmiaru LSDB routerów
 
 ### Stub
 - obszar typu stub nie otrzymuje zewnętrznych informacji o routingu, zamiast routingu zewnętrznego ustalony jest domyślny, żeby dotrzeć do
@@ -357,16 +391,27 @@ Rozwiązanie:
 
 ![[Pasted image 20250206004302.png|center]]
 
-## Not-So-Stubby-Area (NSSA)
+### Not-So-Stubby-Area (NSSA)
 
-Co jeżeli z przyczyn niezależnych od nas **musimy** dołączyć ASBR do systemu poprzez przeprowadzanie ruchu przez obszar Stub? (np. bo tak kable idą, ogranicznia techniczne itp.)
-- problem jest taki, że Stub filtruje LSA Type 5, więc 
+Co jeżeli z przyczyn niezależnych od nas **musimy** dołączyć ASBR do systemu poprzez przeprowadzanie ruchu przez obszar Stub? (np. bo tak kable idą, ograniczenia techniczne itp.)
+- problem jest taki, że Stub filtruje LSA Type 5
 
+![[Pasted image 20250206005114.png|center]]
 
+Wprowadzamy tzw. Not-So-Stubby-Area (NSSA) oraz **LSA Type 7** do przesyłu tras.
+- trasy są opakowywane w [[#LSA Type 7 (External LSA)|LSA Type 7]], a gdy docierają do ABR są konwertowane do LSA Type 5 i dalej już normalnie
+
+![[Pasted image 20250206005807.png|center]]
+
+### Totally Not-So-Stubby-Area (Totally NSSA)
+
+- działa tak samo [[#Not-So-Stubby-Area (NSSA)|NSSA]], ale dodatkowo blokuje [[#LSA Type 3 (Summary LSA)|LSA Type 3]]
+- podąża tą samą logiką jak [[#Totally Stubby Area (TSA)|Totally Stubby Area]], dodaje trasę domyślną (0.0.0.0/0)
 
 - poziom pierwszy to same pojedyncze obszary, a drugi to tzw. backbone (obszar 0), czyli struktura sieci ogarniająca połączenie tych obszarów
 
-![[Pasted image 20250121033312.png|center]]
+
+
 
 - LSA są wysyłane tylko w obrębie danego obszaru, tam OSPF działa normalnie (każde area ma własną instancję OSPFa)
 - area border routers znają dystanse wewnątrz własnego obszaru i ogłaszają “podsumowanie” swojego obszaru innym area border routers, tzw. summary LSA (**LSA Type 3**)
