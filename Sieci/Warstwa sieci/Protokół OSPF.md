@@ -321,9 +321,9 @@ OSPF nie nadaje się do całego internetu naraz
 	- olbrzymie tablice LSDB
 	- długie obliczanie algorytmu Dijkstry
 - Jak to można rozwiązać?
-	- podzielić OSPF na mniejsze segmenty (systemy autonomiczne), tzw. Hierarchiczny OSPF
+	- podzielić OSPF na mniejsze segmenty, tzw. Hierarchiczny OSPF
 - Co zyskujemy?
-	- izolację części systemu, co pozwala na zmniejszenie liczby wywołań algorytmy Dijkstry
+	- izolację części systemu, co pozwala na zmniejszenie liczby wywołań algorytmu Dijkstry
 	![[Pasted image 20250206000539.png|center]]
 	- możliwość zmniejszenia rozmiarów LSDB dla poszczególnych obszarów (zobacz [[#Typy obszarów (OSPF Area Types)|typy obszarów]]) poprzez filtrację LSA
 	- składa się to wszystko na większą efektywność, stabilność i skalowalność 
@@ -347,7 +347,7 @@ OSPF nie nadaje się do całego internetu naraz
 
 ### Area Border Router (ABR)
 
-- Area Border Router to taki, ma interfejsy przypisane do jednego lub więcej obszary i **co najmniej jeden interfejs przypisany do obszaru [[#Backbone Area 0|backbone]]**
+- Area Border Router to taki, który ma interfejsy przypisane do jednego lub więcej obszarów i **co najmniej jeden interfejs przypisany do obszaru [[#Backbone Area 0|backbone]]**
 	- jeżeli padnie mu połączenie z backbone, to nie zapewnia komunikacji między innymi obszarami, nawet jeśli odpowiadające im interfejsy działają poprawnie
 - ABRy mają kilka instancji LSDB (przykład poniżej):
 	- ABR1 ma trzy instancje LSDB  - odpowiednio dla obszarów 0, 25 i 34.

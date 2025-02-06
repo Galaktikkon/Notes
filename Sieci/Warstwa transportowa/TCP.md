@@ -602,7 +602,7 @@ Załóżmy, że klient i serwer chcą nawiązać połączenie:
 - problem: 
 	- trzeba dobrać odpowiednią wartość timera dla retransmisji segmentów, bo zbyt mały timer może doprowadzić nawet do retransmisji odebranych pakietów (ACK nie zdąży wrócić, a my już retransmitujemy), a zbyt duży oznacza marnowanie czasu, czekając na potwierdzenie, które nie dojdzie
 - idea: 
-	- ustawić retransmission timer na wartość trochę większą niż typowy RTT (Round- Trip Time), bo to czas, żeby wysłać wiadomość i żeby wróciła (trochę więcej, żeby odbiorca zdążył zrobić wiadomość ACK i ją wysłać)
+	- ustawić retransmission timer na wartość trochę większą niż typowy [[Problemy w transmisji danych|RTT (Round-Trip Time)]], bo to czas, żeby wysłać wiadomość i żeby wróciła (trochę więcej, żeby odbiorca zdążył zrobić wiadomość ACK i ją wysłać)
 - dlaczego to nie działa: 
 	- nie istnieje typowy RTT - nie dość, że jest inny dla każdego połączenia, to jeszcze zmienia się w czasie w związku ze zmiennym obciążeniem sieci
 - lepszy pomysł: 
