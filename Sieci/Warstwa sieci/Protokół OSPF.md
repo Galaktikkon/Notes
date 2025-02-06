@@ -135,6 +135,8 @@ Przypomnijmy, że w sieciach wielodostępowych, takich jak tradycyjny VLAN Ether
 
 - występuje tylko przy użyciu [[#Hierarchiczny OSPF|hierarchicznego OSPF]]
 - **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje o dostępności podsieci z drugiej strony - routery z jednej strony muszą przejść przez ABR, aby dotrzeć do celu - tzw. *summary*
+- przekazywane do innych sieci przez ABR
+- w pewnym sensie **wypełniają luki w innych LSDB po lokalnych LSA Type 1**
 
 ![[Pasted image 20250206014206.png|center]]
 
@@ -345,10 +347,11 @@ OSPF nie nadaje się do całego internetu naraz
 ### Area Border Router (ABR)
 
 - Area Border Router to taki, ma interfejsy przypisane do jednego lub więcej obszary i **co najmniej jeden interfejs przypisany do obszaru [[#Backbone Area 0|backbone]]**
-	- jeżeli padnie mu połączenie z backbone, to nie zapewnia komunikacji między innymi obszarami, mimo że odpowiadające im interfejsy działają poprawnie
+	- jeżeli padnie mu połączenie z backbone, to nie zapewnia komunikacji między innymi obszarami, nawet jeśli odpowiadające im interfejsy działają poprawnie
 - ABRy mają kilka instancji LSDB (przykład poniżej):
-	- ABR2 ma trzy instancje LSDB  - odpowiednio dla obszarów 0, 25 i 34.
+	- ABR1 ma trzy instancje LSDB  - odpowiednio dla obszarów 0, 25 i 34.
 	- ABR2 ma dwie instancje LSDB  - odpowiednio dla obszarów 0 i 5.
+- generuje [[#LSA Type 3 (Summary LSA)|LSA Type 3]] i zalewa nimi sąsiednie obszary
 
 ![[Pasted image 20250206013826.png|center]]
 ### Backbone Router
