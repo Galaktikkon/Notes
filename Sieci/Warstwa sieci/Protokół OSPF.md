@@ -134,7 +134,9 @@ Przypomnijmy, że w sieciach wielodostępowych, takich jak tradycyjny VLAN Ether
 ![[Pasted image 20250124033441.png|center]]
 
 - występuje tylko przy użyciu [[#Hierarchiczny OSPF|hierarchicznego OSPF]]
-- **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje, że routery z jednej strony muszą przejść przez ABR, aby dotrzeć do celu - tzw. *summary*
+- **nie przekazuje żadnych dokładnych informacji o topologii** (np. koszt czy łącza), tylko informuje o dostępności podsieci z drugiej strony - routery z jednej strony muszą przejść przez ABR, aby dotrzeć do celu - tzw. *summary*
+
+![[Pasted image 20250206014206.png|center]]
 
 ## LSA Type 5 (External LSA)
 
@@ -313,15 +315,25 @@ OSPF nie nadaje się do całego internetu naraz
 - Jakie są główne problemy?
 	- każdy router wymieniałby informacje z każdym
 	- obciążenie sieci
-	- olbrzymie tablice LSD
+	- olbrzymie tablice LSDB
 	- długie obliczanie algorytmu Dijkstry
 - Jak to można rozwiązać?
 	- podzielić OSPF na mniejsze segmenty (systemy autonomiczne), tzw. Hierarchiczny OSPF
-## Terminologia routerów
+- Co zyskujemy?
+	- izolację części systemu, co pozwala na zmniejszenie liczby wywołań algorytmy Dijkstry
+	![[Pasted image 20250206000539.png|center]]
+	- możliwość zmniejszenia rozmiarów LSDB dla poszczególnych obszarów (zobacz [[#Typy obszarów (OSPF Area Types)|typy obszarów]]) poprzez filtrację LSA
+	- składa się to wszystko na większą efektywność, stabilność i skalowalność 
+## Typy routerów
+
+- [[#Internal Router|Internal Router]]
+- [[#Area Border Router (ABR)|Area Border Router (ABR)]] 
+- [[#Autonomous System Border Router (ASBR)|Autonomous System Border Router (ASBR)]]
+- [[#Backbone Router|Backbone Router]]
 
 ### Internal Router
 
-- Internal router (router wewnętrzny) to taki, którego bezpośrednio połączone interfejsy są przypisane do tego samego obszaru, który nie jest backbone
+- Internal router (router wewnętrzny) to taki, którego bezpośrednio połączone interfejsy są przypisane do tego samego obszaru, który nie jest [[#Backbone Area 0|backbone]]
 - na przykładzie
 	- R1 jest wewnętrznym routerem obszaru 34
 	- R2 i R3 obszaru 25
@@ -330,27 +342,33 @@ OSPF nie nadaje się do całego internetu naraz
 ![[Pasted image 20250206011114.png|center]]
 
 
-### ABR
+### Area Border Router (ABR)
 
-- Area Border Router to taki, ma interfejsy przypisane do jednego lub więcej obszary i **co najmniej jeden interfejs przypisany do obszaru backbone**
+- Area Border Router to taki, ma interfejsy przypisane do jednego lub więcej obszary i **co najmniej jeden interfejs przypisany do obszaru [[#Backbone Area 0|backbone]]**
+	- jeżeli padnie mu połączenie z backbone, to nie zapewnia komunikacji między innymi obszarami, mimo że odpowiadające im interfejsy działają poprawnie
 - ABRy mają kilka instancji LSDB (przykład poniżej):
-	- ASBR2 ma trzy instancje LSDB  - odpowiednio dla obszarów 0, 25 i 34.
-	- ASBR2 ma dwie instancje LSDB  - odpowiednio dla obszarów 0 i 5.
+	- ABR2 ma trzy instancje LSDB  - odpowiednio dla obszarów 0, 25 i 34.
+	- ABR2 ma dwie instancje LSDB  - odpowiednio dla obszarów 0 i 5.
 
-### Backbone router
+![[Pasted image 20250206013826.png|center]]
+### Backbone Router
 
- - taki, którego wszystkie interfejsy są przypisane do obszaru backbone (obszaru 0)
+ - Backbone Router to taki, którego wszystkie interfejsy są przypisane do obszaru [[#Backbone Area 0|backbone]]
+	 - na rysunku poniżej to BB1 i BB2
 
+![[Pasted image 20250206011957.png|center]]
 
+### Autonomous System Border Router (ASBR)
 
-![[Pasted image 20250206011546.png|center]]
+- ASBR to taki, który przekazuje trasy od innego protokołu routingu do systemu OSPF
+- de facto łączy dwa systemy autonomiczne
+- generuje w tym celu [[#LSA Type 5 (External LSA)|LSA Type 5]]
 
-
-![[Pasted image 20250206000539.png|center]]
+![[Pasted image 20250206012215.png]]
 
 ## Typy obszarów (OSPF Area Types)
 
-Są 5
+- [[#Backbone Area 0|Backbone Area 0]]
 - [[#Normal Area|Normal Area]]
 - [[#Stub|Stub]]
 - [[#Totally Stubby Area (TSA)|Totally Stubby]]
@@ -358,8 +376,17 @@ Są 5
 - [[#Totally Not-So-Stubby-Area|Totally NSSA]]
 
  Każdy z nich reguluje rozmiar [[#Tablica Link State Database (LSD)|LSDB]] routerów poprzez redukcję zakresu dopuszczanych do nich typów [[#Pakiety Link State Advertisement (LSA)|LSA]]
+ - LSA są wysyłane tylko w obrębie danego obszaru, tam OSPF działa normalnie (każde area ma własną instancję OSPFa)
 
 ![[Pasted image 20250206010044.png]]
+
+### Backbone Area 0
+
+-  specjalny obszar hierarchicznego OSPFa
+- odpowiedzialny za połączenie wszystkich innych i rozprowadzanie informacji o routing między nimi
+- **musi być spójny**
+
+![[Pasted image 20250206013121.png|center]]
 
 ### Normal Area
 
@@ -367,6 +394,8 @@ Są 5
 - obszar backbone jest **zawsze** tego typu
 - pozwala na wszystkie od LSA Type 1 do LSA Type 5
 - ważne: dzielenie systemu na mniejsze obszary normalne (czyli bez filtracji LSA) zmniejsza tylko ilość wywołań algorytmu SPF (budowania tablicy routingu), ale nie zmniejsza rozmiaru LSDB routerów
+
+![[Pasted image 20250206013155.png|center]]
 
 ### Stub
 - obszar typu stub nie otrzymuje zewnętrznych informacji o routingu, zamiast routingu zewnętrznego ustalony jest domyślny, żeby dotrzeć do
@@ -408,16 +437,3 @@ Wprowadzamy tzw. Not-So-Stubby-Area (NSSA) oraz **LSA Type 7** do przesyłu tras
 
 - działa tak samo [[#Not-So-Stubby-Area (NSSA)|NSSA]], ale dodatkowo blokuje [[#LSA Type 3 (Summary LSA)|LSA Type 3]]
 - podąża tą samą logiką jak [[#Totally Stubby Area (TSA)|Totally Stubby Area]], dodaje trasę domyślną (0.0.0.0/0)
-
-- poziom pierwszy to same pojedyncze obszary, a drugi to tzw. backbone (obszar 0), czyli struktura sieci ogarniająca połączenie tych obszarów
-
-
-
-
-- LSA są wysyłane tylko w obrębie danego obszaru, tam OSPF działa normalnie (każde area ma własną instancję OSPFa)
-- area border routers znają dystanse wewnątrz własnego obszaru i ogłaszają “podsumowanie” swojego obszaru innym area border routers, tzw. summary LSA (**LSA Type 3**)
-- backbone routers to area border routers + te powyżej, utrzymują hierarchię, mają własną instancję OSPFa
-- nie ma automatycznego tworzenia backupowego połączenia na wypadek padnięcia czegoś w backbone’ie
-
-## Stub area
-- taki obszar końcowy, który składa się tylko z jednego area border routera. Nie wysyła on ani external LSA, ani summary LSA.
