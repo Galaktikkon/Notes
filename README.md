@@ -32,6 +32,11 @@ Most of the notes are an **obsidian adaptation** of [Morgul's](https://github.co
 
 These notes are shared under the **MIT License**, meaning you are free to use, modify, and distribute them, provided that credit is given to the original author.
 
+## ⚠️ Disclaimer
+
+Please keep in mind that I'm just a human, and while I strive to make these notes as accurate as possible, there may be mistakes or missing information. If you notice any errors, feel free to submit a **pull request** or open an **issue** - thanks in advance!
+
+
 ## 📬 Contact
 
 If you have any questions or suggestions, feel free to reach out via **GitHub**.
