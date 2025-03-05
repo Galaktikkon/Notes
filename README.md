@@ -24,7 +24,7 @@ Most of the notes are an **obsidian adaptation** of [Morgul's](https://github.co
 
 ## 📖 How to Use?
 
-- **Clone and open** the repository in **Obsidian** for an reading experience.
+- **Clone and open** the repository in **Obsidian** for an optimal reading experience.
 - Navigate through the directories and open files related to your area of interest.
 - Feel free to use or modify the notes for personal study or inspiration.
 
